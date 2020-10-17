@@ -1,0 +1,37 @@
+<mat-tab-group *ngIf="appUserId === authorId">
+  <mat-tab label="Article view"
+    ><app-article-view
+      title="{{ title }}"
+      description="{{ description }}"
+      text="{{ text }}"
+      authorFullName="{{ authorFullName }}"
+      createdOn="{{ createdOn }}"
+      updatedOn="{{ updatedOn }}"
+    ></app-article-view>
+    <button mat-button color="primary" (click)="deleteArticle()">
+      Delete this article
+    </button>
+  </mat-tab>
+  <mat-tab label="Article edit">
+    <app-create-article
+      initArticleId="{{ artId }} "
+      initTitle="{{ title }}"
+      initDescription="{{ description }}"
+      initText="{{ text }}"
+    ></app-create-article
+  ></mat-tab>
+</mat-tab-group>
+
+<div *ngIf="!(appUserId === authorId)">
+  <app-article-view
+    title="{{ title }}"
+    description="{{ description }}"
+    text="{{ text }}"
+    authorFullName="{{ authorFullName }}"
+    createdOn="{{ createdOn }}"
+    updatedOn="{{ updatedOn }}"
+  ></app-article-view>
+  <button mat-button color="primary" (click)="deleteArticle()" *ngIf="isAdmin">
+    Delete this article
+  </button>
+</div>
