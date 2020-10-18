@@ -89,6 +89,7 @@ export class AuthService {
     localStorage.removeItem(keyLocalStorToken);
     this._appUser$.next(null);
     this.adminUsersService.reset();
+    setTimeout(() => location.reload());
   }
 
   checkExpOfToken(): boolean {

@@ -17,7 +17,8 @@ export class InitTestDataService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
   initData(): StatusMessageDto {
-    this.usersGenerator(50);
+    this.clearTables();
+    this.usersGenerator(2);
     return { message: 'done', source: 'initData', ok: true };
   }
   async usersGenerator(quantity: number): Promise<void> {
@@ -69,6 +70,18 @@ export class InitTestDataService {
         login: 'admin1',
         login2: 'admin2',
       })
+      .execute();
+  }
+  async clearTables(): Promise<void> {
+    await getConnection()
+      .createQueryBuilder()
+      .delete()
+      .from('article_entity')
+      .execute();
+    await getConnection()
+      .createQueryBuilder()
+      .delete()
+      .from('user_entity')
       .execute();
   }
 }

@@ -7,9 +7,8 @@ import { Connection } from 'typeorm';
 import { ArticlesModule } from './articles/articles.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './auth/users/users.module';
-import { InitTestDataController } from './testing/init-test-data/init-test-data.controller';
 import { InitTestDataService } from './testing/init-test-data/init-test-data.service';
-import { TestRunController } from './testing/test-run/test-run.controller';
+import { TestController } from './testing/test.controller';
 
 @Module({
   imports: [
@@ -30,7 +29,6 @@ import { TestRunController } from './testing/test-run/test-run.controller';
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
       autoLoadEntities: true,
-      // entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
     AuthModule,
@@ -39,7 +37,7 @@ import { TestRunController } from './testing/test-run/test-run.controller';
     ArticlesModule,
   ],
   providers: [InitTestDataService],
-  controllers: [InitTestDataController, TestRunController],
+  controllers: [TestController],
 })
 export class AppModule {
   constructor(private connection: Connection) {}
