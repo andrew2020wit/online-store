@@ -1,8 +1,8 @@
-# OnlineStore-front, Angular application
+# OnlineStore, Angular/Nestjs application
 
-## [-] About Company
+## [+] About Company
 
-## [-] News
+## [+/-] News
 
 ## [-] CRM
 
@@ -33,7 +33,7 @@
 
 ## "author": "andrew2020wit"
 
-## "license": "proprietary, for reference only"
+## "license": "proprietary, only for view"
 
 ## Based on my "Blog"-project
 

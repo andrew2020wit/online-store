@@ -6,13 +6,11 @@ import { CreateUserDto } from 'src/auth/dto/create-user.dto';
 import { UserEntity } from 'src/auth/users/user.entity';
 import { StatusMessageDto } from 'src/shared/status-message.dto';
 import { getConnection, Repository } from 'typeorm';
-import { UsersService } from './../../auth/users/users.service';
 
 @Injectable()
 export class InitTestDataService {
   users: CreateUserDto[] = [];
   constructor(
-    private usersService: UsersService,
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
   ) {}
@@ -22,20 +20,20 @@ export class InitTestDataService {
     return { message: 'done', source: 'initData', ok: true };
   }
   async usersGenerator(quantity: number): Promise<void> {
+    const password2 = await bcrypt.hash('12', 10);
     for (let n = 1; n <= quantity; n++) {
-      const password2 = await bcrypt.hash('12', 10);
-
       const author = await this.userRepository.save({
-        login: 'user' + n,
-        fullName: 'User N' + n,
+        login: 'manager' + n,
+        fullName: 'Manager N' + n,
         password: password2,
+        role: 'manager',
       });
 
       const connection = getConnection();
       for (let m = 1; m <= 4; m++) {
         const newArt = new ArticleEntity();
         newArt.author = author;
-        newArt.title = 'title N' + m + ' from user: ' + author.fullName;
+        newArt.title = 'News N' + m + ' from: ' + author.fullName;
         newArt.description =
           'description N' +
           m +
@@ -48,29 +46,19 @@ export class InitTestDataService {
         await connection.manager.save(newArt);
       }
     }
-
     // admin section
-    await this.usersService.createUser({
+    await this.userRepository.save({
       login: 'admin1',
-      fullName: 'Admin N1 ',
-      password: '12',
+      fullName: 'Admin N1',
+      password: password2,
+      role: 'admin',
     });
-
-    await this.usersService.createUser({
+    await this.userRepository.save({
       login: 'admin2',
       fullName: 'Admin N2',
-      password: '12',
+      password: password2,
+      role: 'admin',
     });
-
-    await getConnection()
-      .createQueryBuilder()
-      .update(UserEntity)
-      .set({ role: 'admin' })
-      .where('login = :login OR login = :login2', {
-        login: 'admin1',
-        login2: 'admin2',
-      })
-      .execute();
   }
   async clearTables(): Promise<void> {
     await getConnection()
