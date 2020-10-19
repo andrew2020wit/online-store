@@ -16,7 +16,7 @@ export class InitTestDataService {
   ) {}
   initData(): StatusMessageDto {
     this.clearTables();
-    this.usersGenerator(2);
+    this.usersGenerator(50);
     return { message: 'done', source: 'initData', ok: true };
   }
   async usersGenerator(quantity: number): Promise<void> {
