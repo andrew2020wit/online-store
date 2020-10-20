@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { StatusMessageDto } from 'src/shared/status-message.dto';
+import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
 import { InitTestDataService } from './init-test-data/init-test-data.service';
 
 @Controller('api/test')

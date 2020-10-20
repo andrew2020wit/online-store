@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { StatusMessageDto } from '@app/global-interface/dto/status-message.dto';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { baseApiUrl } from 'environments/environment';
 import { BehaviorSubject } from 'rxjs';
-import { StatusMessageDto } from './../dto/status-message.dto';
 import { AdminUsersService } from './admin-users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
@@ -88,7 +88,6 @@ export class AuthService {
     this.router.navigate(['']);
     localStorage.removeItem(keyLocalStorToken);
     this._appUser$.next(null);
-    this.adminUsersService.reset();
     setTimeout(() => location.reload());
   }
 

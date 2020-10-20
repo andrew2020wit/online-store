@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from 'src/auth/users/user.entity';
-import { StatusMessageDto } from 'src/shared/status-message.dto';
+import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
 import { getConnection, Repository } from 'typeorm';
 import { ArticleEntity } from './article.entity';
 import { ArticleDTO } from './dto/article.dto';

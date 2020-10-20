@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
-import { StatusMessageDto } from 'src/shared/status-message.dto';
+import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UserAdminView } from '../dto/user-admin-view.dto';

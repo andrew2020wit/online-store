@@ -1,5 +1,5 @@
 import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
-import { StatusMessageDto } from 'src/shared/status-message.dto';
+import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { JWTokenDTO } from './dto/token-object.dto';

@@ -1,6 +1,8 @@
 import { AfterContentInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { fromEvent, Observable } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { AdminUsersService } from './../../admin-users.service';
 import { UserAdminView } from './../../dto/user-admin-view.dto';
 
@@ -24,20 +26,38 @@ export class AdminUsersListComponent implements OnInit, AfterContentInit {
 
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private adminUsersService: AdminUsersService) {
-    this.adminUsersService.httpLoadUsers();
-  }
+  serverPattern = '';
+  filterInput: Element;
+  filterInputKeyUp: Observable<Event>;
+
+  constructor(private adminUsersService: AdminUsersService) {}
 
   ngOnInit(): void {
-    this.adminUsersService.users$.subscribe((users) => {
-      this.dataSource.data = users;
-      if (!!users) {
-        this.dataSource.sort = this.sort;
-      }
-    });
+    setTimeout(() => this.getUsersList());
   }
 
   ngAfterContentInit(): void {}
+
+  ngAfterViewInit(): void {
+    this.filterInput = document.querySelector('#inputServerFilter');
+    this.filterInputKeyUp = fromEvent(this.filterInput, 'keyup') as Observable<
+      Event
+    >;
+    this.filterInputKeyUp
+      .pipe(debounceTime(1000))
+      .subscribe(() => this.getUsersList());
+  }
+
+  async getUsersList() {
+    this.adminUsersService
+      .getUsersList(this.serverPattern)
+      .subscribe((users) => {
+        this.dataSource.data = users;
+      });
+    if (!!this.dataSource.data) {
+      this.dataSource.sort = this.sort;
+    }
+  }
 
   applyLocalFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -45,6 +65,6 @@ export class AdminUsersListComponent implements OnInit, AfterContentInit {
   }
 
   activateUser(userId, isActive) {
-    this.adminUsersService.activateUser(userId, isActive);
+    //this.adminUsersService.activateUser(userId, isActive);
   }
 }

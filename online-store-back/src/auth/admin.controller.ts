@@ -1,19 +1,32 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
-import { StatusMessageDto } from 'src/shared/status-message.dto';
-import { getConnection } from 'typeorm';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
+import { getConnection, Like, Repository } from 'typeorm';
 import { UserAdminView } from './dto/user-admin-view.dto';
 import { AdminJwtAuthGuard } from './guards/admin-jwt-auth.guard';
 import { UserEntity } from './users/user.entity';
-import { UsersService } from './users/users.service';
 
-@Controller('api/auth/admin')
+@Controller('api/admin')
 export class AuthAdminController {
-  constructor(private usersService: UsersService) {}
+  constructor(
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
+  ) {}
 
   @Get('users')
   @UseGuards(AdminJwtAuthGuard)
-  async usersList(): Promise<UserAdminView[] | undefined> {
-    return await this.usersService.findAllUsers();
+  async usersList(@Query() { pattern }): Promise<UserAdminView[] | undefined> {
+    const pat = pattern.trim();
+    return await this.userRepository.find({
+      take: 200,
+      order: { createdOn: 'DESC' },
+      where: [
+        {
+          login: Like(`%${pat}%`),
+        },
+        { fullName: Like(`%${pat}%`) },
+      ],
+    });
   }
 
   @Post('activate-user')

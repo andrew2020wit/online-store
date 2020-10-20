@@ -4,7 +4,7 @@ import * as bcrypt from 'bcrypt';
 import { ArticleEntity } from 'src/articles/article.entity';
 import { CreateUserDto } from 'src/auth/dto/create-user.dto';
 import { UserEntity } from 'src/auth/users/user.entity';
-import { StatusMessageDto } from 'src/shared/status-message.dto';
+import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
 import { getConnection, Repository } from 'typeorm';
 
 @Injectable()

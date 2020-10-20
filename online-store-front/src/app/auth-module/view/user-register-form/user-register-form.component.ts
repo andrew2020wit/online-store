@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { StatusMessageDto } from '../../../dto/status-message.dto';
 import { AuthService } from '../../auth.service';
 import { CreateUserDto } from '../../dto/create-user.dto';
 import { MustMatch } from '../validators/must-match.validator';
+import { StatusMessageDto } from './../../../global-interface/dto/status-message.dto';
 
 @Component({
   selector: 'app-new-user',
