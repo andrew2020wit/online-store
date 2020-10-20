@@ -4,6 +4,8 @@ import { baseApiUrl } from 'environments/environment';
 import { BehaviorSubject } from 'rxjs';
 import { UserAdminView } from './dto/user-admin-view.dto';
 
+export interface IUsersListElement {}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -33,4 +35,6 @@ export class AdminUsersService {
   reset() {
     this._users$.next([]);
   }
+
+  getUsersList(pattern: string) {}
 }

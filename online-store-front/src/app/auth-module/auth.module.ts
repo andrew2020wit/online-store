@@ -21,6 +21,6 @@ import { UserWidgetComponent } from './view/user-widget/user-widget.component';
     ServerTestToolsComponent,
   ],
   imports: [CommonModule, ShareModule, MatDialogModule],
-  exports: [AuthComponent],
+  exports: [AuthComponent, AdminUsersListComponent, ServerTestToolsComponent],
 })
 export class AuthModule {}
