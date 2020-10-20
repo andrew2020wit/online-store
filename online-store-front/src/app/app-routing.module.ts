@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { ArticleViewEditComponent } from './articles/article-view-edit/article-view-edit.component';
 import { CreateArticleComponent } from './articles/create-article/create-article.component';
-import { AuthGuard } from './auth-module/auth.guard';
+import { AuthAdminGuard } from './auth-module/guards/auth-admin.guard';
+import { AuthGuard } from './auth-module/guards/auth.guard';
 import { AdminUsersListComponent } from './auth-module/view/admin-users-list/users-list.component';
 import { ServerTestToolsComponent } from './auth-module/view/server-test-tools/server-test-tools.component';
 import { UserProfileComponent } from './auth-module/view/user-profile/user-profile.component';
@@ -26,8 +27,16 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard],
   },
   { path: 'about', component: AboutComponent },
-  { path: 'admin/users', component: AdminUsersListComponent },
-  { path: 'admin/test-tools', component: ServerTestToolsComponent },
+  {
+    path: 'admin/users',
+    component: AdminUsersListComponent,
+    canActivate: [AuthGuard, AuthAdminGuard],
+  },
+  {
+    path: 'admin/test-tools',
+    component: ServerTestToolsComponent,
+    canActivate: [AuthGuard, AuthAdminGuard],
+  },
   { path: '**', component: NotFoundPageComponent },
 ];
 
