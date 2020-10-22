@@ -1,8 +1,9 @@
 import { NestFactory } from '@nestjs/core';
-// import 'dotenv/config';
+import 'dotenv/config';
 import { AppModule } from './app.module';
 
-// require('dotenv').config();
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require('dotenv').config();
 
 const PORT = process.env.PORT;
 

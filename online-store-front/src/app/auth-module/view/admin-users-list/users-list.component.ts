@@ -1,4 +1,10 @@
-import { AfterContentInit, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterContentInit,
+  AfterViewInit,
+  Component,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { fromEvent, Observable } from 'rxjs';
@@ -11,7 +17,8 @@ import { UserAdminView } from './../../dto/user-admin-view.dto';
   templateUrl: './users-list.component.html',
   styleUrls: ['./users-list.component.scss'],
 })
-export class AdminUsersListComponent implements OnInit, AfterContentInit {
+export class AdminUsersListComponent
+  implements OnInit, AfterContentInit, AfterViewInit {
   displayedColumns: string[] = [
     'id',
     'login',
