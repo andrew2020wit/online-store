@@ -1,0 +1,40 @@
+<h1>admin-user-edit</h1>
+<p *ngIf="isLoading" class="loading">Loading...</p>
+<table>
+  <tr>
+    <td>user.fullName:</td>
+    <td>{{ user?.fullName }}</td>
+  </tr>
+  <tr>
+    <td>user.login:</td>
+    <td>{{ user?.login }}</td>
+  </tr>
+  <tr>
+    <td>user.createdOn:</td>
+    <td>{{ user?.createdOn | utcToLocalTime | date: "short" }}</td>
+  </tr>
+  <tr>
+    <td>user.updatedOn:</td>
+    <td>{{ user?.updatedOn | utcToLocalTime | date: "short" }}</td>
+  </tr>
+  <tr>
+    <td>user.id:</td>
+    <td>{{ user?.id }}</td>
+  </tr>
+  <tr>
+    <td>user.role:</td>
+    <td>{{ user?.role }}</td>
+  </tr>
+  <tr>
+    <td>user.isActive:</td>
+    <td>
+      <button mat-button color="primary" (click)="changeIsActiveUser()">
+        {{ user?.isActive }}
+      </button>
+    </td>
+  </tr>
+</table>
+
+<button mat-button color="primary" routerLink="/admin/users">
+  to users list
+</button>

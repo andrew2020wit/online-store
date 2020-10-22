@@ -1,7 +1,6 @@
-import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
-import { getConnection, Like, Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { UserAdminView } from './dto/user-admin-view.dto';
 import { AdminJwtAuthGuard } from './guards/admin-jwt-auth.guard';
 import { UserEntity } from './users/user.entity';
@@ -15,8 +14,10 @@ export class AuthAdminController {
 
   @Get('users')
   @UseGuards(AdminJwtAuthGuard)
-  async usersList(@Query() { pattern }): Promise<UserAdminView[] | undefined> {
-    const pat = pattern.trim();
+  async usersList(
+    @Query() quer: { pattern: string },
+  ): Promise<UserAdminView[] | undefined> {
+    const pat = quer.pattern;
     return await this.userRepository.find({
       take: 200,
       order: { createdOn: 'DESC' },
@@ -29,22 +30,50 @@ export class AuthAdminController {
     });
   }
 
-  @Post('activate-user')
+  @Get('user')
   @UseGuards(AdminJwtAuthGuard)
-  async activateUser(
-    @Body() body: { userId: string; isActive: boolean },
-  ): Promise<StatusMessageDto> {
-    try {
-      console.log('activateUser');
-      await getConnection()
-        .createQueryBuilder()
-        .update(UserEntity)
-        .set({ isActive: body.isActive })
-        .where('id = :id and role != :role', { id: body.userId, role: 'admin' })
-        .execute();
-      return { message: body.userId, source: 'activateUser', ok: true };
-    } catch {
-      return { message: body.userId, source: 'activateUser', ok: false };
+  async getUser(
+    @Query() quer: { userId: string },
+  ): Promise<UserAdminView | undefined> {
+    return await this.userRepository.findOne(quer.userId);
+  }
+
+  @Get('change-user')
+  @UseGuards(AdminJwtAuthGuard)
+  async changeUser(
+    @Query() quer: { userId: string; property: string; value: string },
+  ): Promise<UserAdminView | undefined> {
+    const user = await this.userRepository.findOne(quer.userId);
+    let changed = false;
+    if (!user) {
+      return undefined;
     }
+    if (user.role == 'admin') {
+      console.log('admin cannot be changed');
+      return undefined;
+    }
+    if (quer.property == `isActive`) {
+      if (quer.value == 'true') {
+        user.isActive = true;
+        changed = true;
+      }
+      if (quer.value == 'false') {
+        user.isActive = false;
+        changed = true;
+      }
+    }
+    if (quer.property == `role`) {
+      if (quer.value == 'manager') {
+        user.role = 'manager';
+        changed = true;
+      }
+      if (quer.value == 'client') {
+        user.role = 'client';
+        changed = true;
+      }
+    }
+    if (changed) {
+      return await this.userRepository.save(user);
+    } else return undefined;
   }
 }

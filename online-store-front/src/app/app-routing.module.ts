@@ -4,6 +4,7 @@ import { ArticleViewEditComponent } from './articles/article-view-edit/article-v
 import { CreateArticleComponent } from './articles/create-article/create-article.component';
 import { AuthAdminGuard } from './auth-module/guards/auth-admin.guard';
 import { AuthGuard } from './auth-module/guards/auth.guard';
+import { AdminUserEditComponent } from './auth-module/view/admin-user-edit/admin-user-edit.component';
 import { AdminUsersListComponent } from './auth-module/view/admin-users-list/users-list.component';
 import { ServerTestToolsComponent } from './auth-module/view/server-test-tools/server-test-tools.component';
 import { UserProfileComponent } from './auth-module/view/user-profile/user-profile.component';
@@ -30,6 +31,11 @@ const appRoutes: Routes = [
   {
     path: 'admin/users',
     component: AdminUsersListComponent,
+    canActivate: [AuthGuard, AuthAdminGuard],
+  },
+  {
+    path: 'admin/user-edit/:id',
+    component: AdminUserEditComponent,
     canActivate: [AuthGuard, AuthAdminGuard],
   },
   {

@@ -65,11 +65,10 @@
       <button
         mat-button
         color="primary"
-        (click)="activateUser(user.id, !user.isActive)"
+        (click)="goToEditUser(user.id)"
         [disabled]="user.role == 'admin'"
       >
-        <span *ngIf="!user.isActive"> Activate user</span>
-        <span *ngIf="user.isActive"> Disactivate User</span>
+        Edit user
       </button>
     </td>
   </ng-container>

@@ -4,28 +4,33 @@ import { baseApiUrl } from 'environments/environment';
 import { Observable } from 'rxjs';
 import { UserAdminView } from './dto/user-admin-view.dto';
 
-export interface IUsersListElement {}
+// export interface IUsersListElement {}
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdminUsersService {
   constructor(private http: HttpClient) {}
-
-  // activateUser(userId: string, isActive: boolean) {
-  //   this.http
-  //     .post(baseApiUrl + '/api/auth/admin/activate-user', {
-  //       userId,
-  //       isActive,
-  //     })
-  //     .subscribe((x) => {
-  //       this.httpLoadUsers();
-  //     });
-  // }
-
   getUsersList(pattern: string): Observable<UserAdminView[]> {
     return this.http.get<UserAdminView[]>(
       baseApiUrl + `/api/admin/users?pattern=${pattern}`
+    );
+  }
+
+  getUserById(userId: string): Observable<UserAdminView> {
+    return this.http.get<UserAdminView>(
+      baseApiUrl + `/api/admin/user?userId=${userId}`
+    );
+  }
+
+  changeUser(
+    userId: string,
+    property: string,
+    value: string
+  ): Observable<UserAdminView> {
+    return this.http.get<UserAdminView>(
+      baseApiUrl +
+        `/api/admin/change-user?userId=${userId}&property=${property}&value=${value}`
     );
   }
 }

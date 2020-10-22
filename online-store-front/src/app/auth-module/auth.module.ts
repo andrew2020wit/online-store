@@ -9,6 +9,7 @@ import { ServerTestToolsComponent } from './view/server-test-tools/server-test-t
 import { UserProfileComponent } from './view/user-profile/user-profile.component';
 import { UserRegisterFormComponent } from './view/user-register-form/user-register-form.component';
 import { UserWidgetComponent } from './view/user-widget/user-widget.component';
+import { AdminUserEditComponent } from './view/admin-user-edit/admin-user-edit.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { UserWidgetComponent } from './view/user-widget/user-widget.component';
     UserProfileComponent,
     AdminUsersListComponent,
     ServerTestToolsComponent,
+    AdminUserEditComponent,
   ],
   imports: [CommonModule, ShareModule, MatDialogModule],
   exports: [AuthComponent, AdminUsersListComponent, ServerTestToolsComponent],
