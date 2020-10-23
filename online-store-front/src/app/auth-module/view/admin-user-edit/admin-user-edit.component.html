@@ -23,7 +23,19 @@
   </tr>
   <tr>
     <td>user.role:</td>
-    <td>{{ user?.role }}</td>
+    <td *ngIf="user">
+      {{ user?.role }}
+      <span *ngIf="user.role != 'manager'"
+        ><button mat-button color="primary" (click)="setUserRoleAs('manager')">
+          setUserRoleAs('manager')
+        </button></span
+      >
+      <span *ngIf="user.role != 'client'"
+        ><button mat-button color="primary" (click)="setUserRoleAs('client')">
+          setUserRoleAs('client')
+        </button></span
+      >
+    </td>
   </tr>
   <tr>
     <td>user.isActive:</td>

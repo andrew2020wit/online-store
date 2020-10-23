@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AdminUsersService } from '@app/auth-module/admin-users.service';
 import { UserAdminView } from '@app/auth-module/dto/user-admin-view.dto';
-import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin-user-edit',
@@ -20,7 +19,6 @@ export class AdminUserEditComponent implements OnInit {
   ) {
     this.route.params.subscribe((par) => {
       this.userId = par[`id`];
-      console.log('userId', this.userId);
     });
   }
 
@@ -37,7 +35,6 @@ export class AdminUserEditComponent implements OnInit {
     this.isLoading = true;
     this.adminUsersService
       .changeUser(userId, property, value)
-      .pipe(delay(3000))
       .subscribe((user) => {
         if (!user) {
           this.status = `change false`;
@@ -58,5 +55,9 @@ export class AdminUserEditComponent implements OnInit {
         this.changeUser(this.user.id, 'isActive', 'true');
       }
     }
+  }
+
+  setUserRoleAs(role: string) {
+    this.changeUser(this.user.id, 'role', role);
   }
 }
