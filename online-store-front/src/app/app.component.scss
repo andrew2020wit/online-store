@@ -1,11 +1,3 @@
-mat-sidenav-content {
-  padding: 10px;
-}
-
-mat-sidenav-container {
-  height: 100%;
-}
-
 .layout {
   height: 100vh;
   display: flex;
@@ -26,4 +18,8 @@ mat-sidenav-container {
 .bottom {
   width: 100%;
   flex: 0;
+}
+
+.main-content {
+  padding: 0.5rem;
 }

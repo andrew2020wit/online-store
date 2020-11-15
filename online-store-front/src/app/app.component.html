@@ -1,43 +1,34 @@
 <div class="layout">
-  <div class="header">
+  <header class="header">
     <mat-toolbar color="primary">
-      <button mat-button (click)="menuOn = !menuOn" color="accent">
-        <mat-icon>view_sidebar</mat-icon>Menu
-      </button>
-      <button mat-button color="accent" title="to home" (click)="toHome()">
-        <h1 id="homeTitle" class="mat-h1">OnlineStoreWebApp</h1>
-      </button>
-
-      <span style="flex: 1 1 auto;"></span>
-
-      <app-auth></app-auth>
+      <mat-toolbar-row>
+        <h1 id="homeTitle" class="mat-h1">OnlineStore</h1>
+        <span style="flex: 1 1 auto;"></span>
+        <app-auth></app-auth
+      ></mat-toolbar-row>
+      <mat-toolbar-row>
+        <button
+          mat-button
+          routerLinkActive="active-link-background"
+          [routerLinkActiveOptions]="{ exact: true }"
+          *ngFor="let link of links"
+          color="accent"
+          routerLink="{{ link.link }}"
+        >
+          {{ link.name }}
+        </button>
+      </mat-toolbar-row>
     </mat-toolbar>
-  </div>
-  <div class="main">
-    <mat-sidenav-container>
-      <mat-sidenav mode="side" [opened]="menuOn">
-        <mat-nav-list>
-          <a
-            mat-list-item
-            routerLink="{{ link.link }}"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            *ngFor="let link of links"
-          >
-            <button mat-button color="primary">{{ link.name }}</button>
-          </a>
-        </mat-nav-list>
-      </mat-sidenav>
-      <mat-sidenav-content>
-        <router-outlet></router-outlet>
-      </mat-sidenav-content>
-    </mat-sidenav-container>
-  </div>
-  <div class="footer">
+  </header>
+
+  <main class="main">
+    <div class="main-content">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
+  <footer class="footer">
     <mat-toolbar color="primary" class="bottom-toolbar">
-      <button mat-button (click)="menuOn = !menuOn" color="accent">
-        Menu
-      </button>
       <a (click)="toHome()">
         <button mat-button color="accent" title="to home">
           <h1 id="homeTitle" class="mat-h4">andrew2020wit</h1>
@@ -49,5 +40,5 @@
         <mat-icon>home</mat-icon> Go to home
       </button>
     </mat-toolbar>
-  </div>
+  </footer>
 </div>

@@ -36,7 +36,7 @@ $custom-light-app-theme: mat-light-theme(
 @include angular-material-theme($custom-light-app-theme);
 
 .active-link-background {
-  background-color: antiquewhite;
+  background-color: limegreen;
 }
 
 // =======================================================
@@ -44,6 +44,7 @@ $custom-light-app-theme: mat-light-theme(
 html,
 body {
   height: 100%;
+  background-color: map_get($mat-yellow, 50);
 }
 
 body {

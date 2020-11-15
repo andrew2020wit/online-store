@@ -9,7 +9,6 @@ import { menuList } from './site-menu';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  menuOn = true;
   links = menuList;
 
   constructor(private authService: AuthService, private router: Router) {
