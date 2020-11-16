@@ -29,7 +29,7 @@ type Mutation {
 }
 
 type Query {
-  allArticles(createOnCursor: DateTime = "2020-10-23T14:37:14.175Z", sample: String = "", take: Int = 3): [ArticleEntity!]!
+  allArticles(createOnCursor: DateTime = "2020-11-16T10:08:57.498Z", sample: String = "", take: Int = 3): [ArticleEntity!]!
   author(id: String!): UserEntity!
   getArticle(artId: String!): ArticleEntity!
   usersCount: usersCount!

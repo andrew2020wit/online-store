@@ -10,24 +10,34 @@ import { ServerTestToolsComponent } from './auth-module/view/server-test-tools/s
 import { UserProfileComponent } from './auth-module/view/user-profile/user-profile.component';
 import { UserRegisterFormComponent } from './auth-module/view/user-register-form/user-register-form.component';
 import { AboutComponent } from './view/pages/about/about.component';
+import { GoodsComponent } from './view/pages/goods/goods.component';
 import { HomePageComponent } from './view/pages/home-page/home-page.component';
+import { NewsComponent } from './view/pages/news/news.component';
 import { NotFoundPageComponent } from './view/pages/not-found-page/not-found-page.component';
+import { ReviewsComponent } from './view/pages/reviews/reviews.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomePageComponent },
+
+  { path: 'goods', component: GoodsComponent },
+  { path: 'news', component: NewsComponent },
+  { path: 'review', component: ReviewsComponent },
+  { path: 'about', component: AboutComponent },
+
   { path: 'article-view/:id', component: ArticleViewEditComponent },
   {
     path: 'create-article',
     component: CreateArticleComponent,
     canActivate: [AuthGuard],
   },
+
   { path: 'new-user', component: UserRegisterFormComponent },
   {
     path: 'user-profile',
     component: UserProfileComponent,
     canActivate: [AuthGuard],
   },
-  { path: 'about', component: AboutComponent },
+
   {
     path: 'admin/users',
     component: AdminUsersListComponent,
