@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { LoginFormComponent } from '../login-form/login-form.component';
 import { AuthService } from './../../auth.service';
 
 @Component({
@@ -10,16 +8,11 @@ import { AuthService } from './../../auth.service';
 })
 export class AuthComponent implements OnInit {
   isLogged = false;
-  constructor(private authService: AuthService, public loginDialog: MatDialog) {
+  constructor(private authService: AuthService) {
     this.authService.appUser$.subscribe((user) => {
       this.isLogged = !!user;
     });
   }
 
   ngOnInit(): void {}
-
-  popupLogIn() {
-    const dialogRef = this.loginDialog.open(LoginFormComponent);
-    dialogRef.afterClosed().subscribe((result) => {});
-  }
 }

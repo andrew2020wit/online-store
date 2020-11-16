@@ -20,9 +20,4 @@ export class UserWidgetComponent implements OnInit {
   }
 
   ngOnInit(): void {}
-
-  async logOut() {
-    await this.authService.logout();
-    this.router.navigate(['']);
-  }
 }

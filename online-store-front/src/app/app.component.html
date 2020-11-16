@@ -2,10 +2,13 @@
   <header class="header">
     <mat-toolbar color="primary">
       <mat-toolbar-row>
-        <h1 id="homeTitle" class="mat-h1">OnlineStore</h1>
+        <button mat-button color="accent" routerLink="/">
+          <h1>OnlineStore</h1>
+        </button>
         <span style="flex: 1 1 auto;"></span>
         <app-auth></app-auth
       ></mat-toolbar-row>
+
       <mat-toolbar-row>
         <button
           mat-button
@@ -36,8 +39,8 @@
       </a>
       <span></span>
       <span style="flex: 1 1 auto;"></span>
-      <button mat-button color="accent" (click)="toHome()">
-        <mat-icon>home</mat-icon> Go to home
+      <button mat-button color="accent" routerLink="/about">
+        About
       </button>
     </mat-toolbar>
   </footer>

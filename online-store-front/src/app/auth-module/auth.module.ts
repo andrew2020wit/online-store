@@ -10,6 +10,7 @@ import { UserProfileComponent } from './view/user-profile/user-profile.component
 import { UserRegisterFormComponent } from './view/user-register-form/user-register-form.component';
 import { UserWidgetComponent } from './view/user-widget/user-widget.component';
 import { AdminUserEditComponent } from './view/admin-user-edit/admin-user-edit.component';
+import { LoginPageComponent } from './view/login-page/login-page.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { AdminUserEditComponent } from './view/admin-user-edit/admin-user-edit.c
     AdminUsersListComponent,
     ServerTestToolsComponent,
     AdminUserEditComponent,
+    LoginPageComponent,
   ],
   imports: [CommonModule, ShareModule, MatDialogModule],
   exports: [AuthComponent, AdminUsersListComponent, ServerTestToolsComponent],

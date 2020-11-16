@@ -10,4 +10,8 @@ export class UserProfileComponent implements OnInit {
   constructor(public authService: AuthService) {}
 
   ngOnInit(): void {}
+
+  logOut() {
+    this.authService.logout();
+  }
 }
