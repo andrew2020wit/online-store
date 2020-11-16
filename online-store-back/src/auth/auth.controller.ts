@@ -1,4 +1,11 @@
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -16,6 +23,7 @@ export class AuthController {
     private readonly usersService: UsersService,
   ) {}
 
+  // users registration
   @Post('create-user')
   async register(
     @Body() createUserDto: CreateUserDto,
@@ -29,13 +37,24 @@ export class AuthController {
     @Request() req: RequestWithJwtUserExtDto,
     @Body() createUserDto: CreateUserDto,
   ): Promise<StatusMessageDto> {
+    // console.log('RequestWithJwtUserExtDto-user:', req.user);
+    // console.log('createUserDto:', createUserDto);
+
     return await this.usersService.editUser(req.user.sub, createUserDto);
   }
 
   @UseGuards(LocalAuthGuard)
   @Post('get-token-obj')
   async login(@Request() req: RequestWithJwtUserDto): Promise<JWTokenDTO> {
-    console.log('get-token-obj: ', req.user);
     return this.authService.getTokenObject(req.user);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('update-token')
+  async updateToken(
+    @Request() req: RequestWithJwtUserExtDto,
+  ): Promise<JWTokenDTO> {
+    console.log('RequestWithJwtUserExtDto-user:', req.user);
+    return await this.authService.updateToken(req.user);
   }
 }

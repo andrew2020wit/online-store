@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
+import { JwtPayloadExtDto } from './dto/jwt-payload-ext.dto';
 import { JwtPayloadDto } from './dto/jwt-payload.dto';
 import { JWTokenDTO } from './dto/token-object.dto';
 import { UserEntity } from './users/user.entity';
@@ -47,6 +48,17 @@ export class AuthService {
         sub: jwtPayloadDto.id,
         role: jwtPayloadDto.role,
         fullName: jwtPayloadDto.fullName,
+      }),
+    };
+  }
+
+  async updateToken(jwtPayloadExtDto: JwtPayloadExtDto): Promise<JWTokenDTO> {
+    return {
+      access_token: this.jwtService.sign({
+        login: jwtPayloadExtDto.login,
+        sub: jwtPayloadExtDto.sub,
+        role: jwtPayloadExtDto.role,
+        fullName: jwtPayloadExtDto.fullName,
       }),
     };
   }

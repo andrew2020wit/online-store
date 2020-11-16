@@ -40,6 +40,8 @@ export class AuthService {
   tokenStr = '';
   private _tokenObj: IToken = null;
 
+  setTimeoutOfTokenUpdate: ReturnType<typeof setTimeout>;
+
   constructor(private http: HttpClient, private router: Router) {}
 
   loadLocalToken() {
@@ -51,6 +53,7 @@ export class AuthService {
       this.tokenStr = access_token;
       const tokenObj: IToken = jwtHelperService.decodeToken(access_token);
       this._tokenObj = tokenObj;
+      console.log('new tokenObj:', tokenObj);
 
       const newUser: IUser = {
         fullName: tokenObj.fullName,
@@ -63,6 +66,12 @@ export class AuthService {
       this.appUser = newUser;
 
       this.checkExpOfToken();
+
+      clearTimeout(this.setTimeoutOfTokenUpdate);
+
+      this.setTimeoutOfTokenUpdate = setTimeout(() => {
+        this.getUpdateToken();
+      }, 3600000);
     }
   }
 
@@ -91,11 +100,26 @@ export class AuthService {
       });
   }
 
+  async getUpdateToken() {
+    if (!this.checkExpOfToken()) {
+      return;
+    }
+    this.http
+      .get<JWTokenDTO>(baseApiUrl + '/api/auth/update-token')
+      .subscribe((tokenObj) => {
+        console.log('start update token ');
+
+        localStorage.setItem(keyLocalStorToken, tokenObj.access_token);
+        this.loadLocalToken();
+      });
+  }
+
   async logout() {
     localStorage.removeItem(keyLocalStorToken);
     this._appUser$.next(null);
     this._tokenObj = null;
     this.tokenStr = '';
+    clearTimeout(this.setTimeoutOfTokenUpdate);
     this.router.navigate(['']);
     setTimeout(() => location.reload());
   }
