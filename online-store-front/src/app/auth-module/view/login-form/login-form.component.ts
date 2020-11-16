@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '@app/auth-module/auth.service';
+import { AuthService } from '../../auth.service';
 import { LoginDto } from '../../dto/login.dto';
 
 @Component({
@@ -28,6 +28,5 @@ export class LoginFormComponent implements OnInit {
     user.login = this.newLoginForm.get('login').value;
     user.password = this.newLoginForm.get('password').value;
     await this.authService.getToken(user);
-    setTimeout(() => location.reload(), 100);
   }
 }

@@ -1,11 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { StatusMessageDto } from '@app/global-interface/dto/status-message.dto';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { baseApiUrl } from 'environments/environment';
 import { BehaviorSubject } from 'rxjs';
-import { AdminUsersService } from './admin-users.service';
+import { baseApiUrl } from '../../environments/environment';
+import { StatusMessageDto } from '../global-interface/dto/status-message.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
 import { JWTokenDTO } from './dto/token-object.dto';
@@ -22,41 +21,47 @@ export interface IToken {
   exp: number;
 }
 
+export interface IUser {
+  id: string;
+  login: string;
+  role: string;
+  fullName: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private _appUser$ = new BehaviorSubject<IToken | null>(null);
+  private _appUser$ = new BehaviorSubject<IUser | null>(null);
   appUser$ = this._appUser$.asObservable();
-  currentToken = '';
 
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-    private adminUsersService: AdminUsersService
-  ) {}
+  appUser: IUser = null;
 
-  get appUser(): IToken | null {
-    return this._appUser$.getValue();
-  }
+  tokenStr = '';
+  private _tokenObj: IToken = null;
 
-  get appUserRole(): string | null {
-    const user: IToken = this._appUser$.getValue();
-    if (!!user) {
-      return user.role;
-    }
-    return null;
-  }
+  constructor(private http: HttpClient, private router: Router) {}
 
   loadLocalToken() {
     const access_token = localStorage.getItem(keyLocalStorToken);
     if (!access_token) {
       this._appUser$.next(null);
-      this.currentToken = '';
+      this.tokenStr = '';
     } else {
-      this.currentToken = access_token;
+      this.tokenStr = access_token;
       const tokenObj: IToken = jwtHelperService.decodeToken(access_token);
-      this._appUser$.next(tokenObj);
+      this._tokenObj = tokenObj;
+
+      const newUser: IUser = {
+        fullName: tokenObj.fullName,
+        role: tokenObj.role,
+        id: tokenObj.sub,
+        login: tokenObj.login,
+      };
+
+      this._appUser$.next(newUser);
+      this.appUser = newUser;
+
       this.checkExpOfToken();
     }
   }
@@ -81,26 +86,30 @@ export class AuthService {
       .subscribe((tokenObj) => {
         localStorage.setItem(keyLocalStorToken, tokenObj.access_token);
         this.loadLocalToken();
+        this.router.navigate(['']);
+        setTimeout(() => location.reload());
       });
   }
 
   async logout() {
-    this.router.navigate(['']);
     localStorage.removeItem(keyLocalStorToken);
     this._appUser$.next(null);
+    this._tokenObj = null;
+    this.tokenStr = '';
+    this.router.navigate(['']);
     setTimeout(() => location.reload());
   }
 
   checkExpOfToken(): boolean {
-    if (!this.appUser) {
+    if (!this._tokenObj) {
       return false;
     }
 
-    const exp = 1000 * this.appUser.exp;
+    const exp = 1000 * this._tokenObj.exp;
     const curTime: number = new Date().getTime();
 
     if (exp < curTime) {
-      console.log('token too old, logout');
+      console.error('token too old, logout');
       this.logout();
       return false;
     }

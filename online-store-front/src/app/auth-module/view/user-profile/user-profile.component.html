@@ -7,7 +7,7 @@
     <app-new-user></app-new-user>
   </mat-tab>
 
-  <mat-tab *ngIf="authService.appUserRole == 'admin'" label="Admin tools">
+  <mat-tab *ngIf="authService.appUser.role == 'admin'" label="Admin tools">
     <p></p>
 
     <p>

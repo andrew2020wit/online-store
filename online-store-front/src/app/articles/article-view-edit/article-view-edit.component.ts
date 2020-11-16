@@ -63,7 +63,7 @@ export class ArticleViewEditComponent implements OnInit {
     this.artId = this.activateRoute.snapshot.params['id'];
     const appUser = this.authService.appUser;
     if (appUser) {
-      this.appUserId = appUser.sub;
+      this.appUserId = appUser.id;
       if (appUser.role === 'admin') {
         this.isAdmin = true;
       }

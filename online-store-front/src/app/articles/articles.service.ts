@@ -40,7 +40,7 @@ export class ArticlesService {
   constructor(private apollo: Apollo, private authService: AuthService) {}
 
   createArticle$(title: string, description: string, text: string) {
-    const userId = this.authService.appUser.sub;
+    const userId = this.authService.appUser.id;
     if (!userId) {
       console.log('this.authService.appUser.sub false');
       return;
@@ -61,9 +61,9 @@ export class ArticlesService {
     description: string,
     text: string
   ) {
-    const userId = this.authService.appUser.sub;
+    const userId = this.authService.appUser.id;
     if (!userId) {
-      console.log('this.authService.appUser.sub false');
+      console.log('this.authService.appUser.id false');
       return;
     }
 
@@ -74,9 +74,9 @@ export class ArticlesService {
   }
 
   disActiveArticle$(articleId: string) {
-    const userId = this.authService.appUser.sub;
+    const userId = this.authService.appUser.id;
     if (!userId) {
-      console.log('this.authService.appUser.sub false');
+      console.log('this.authService.appUser.id false');
       return;
     }
 

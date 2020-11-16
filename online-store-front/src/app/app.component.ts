@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '@app/auth-module/auth.service';
+import { AuthService } from './auth-module/auth.service';
 import { menuList } from './site-menu';
 
 @Component({

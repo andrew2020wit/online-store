@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { baseApiUrl } from 'environments/environment';
 import { Observable } from 'rxjs';
+import { baseApiUrl } from '../../environments/environment';
 import { UserAdminView } from './dto/user-admin-view.dto';
 
 // export interface IUsersListElement {}
