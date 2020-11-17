@@ -10,6 +10,7 @@ import { LoginPageComponent } from './auth-module/view/login-page/login-page.com
 import { ServerTestToolsComponent } from './auth-module/view/server-test-tools/server-test-tools.component';
 import { UserProfileComponent } from './auth-module/view/user-profile/user-profile.component';
 import { UserRegisterFormComponent } from './auth-module/view/user-register-form/user-register-form.component';
+import { GoodsViewComponent } from './goods/goods-view/goods-view.component';
 import { AboutComponent } from './view/pages/about/about.component';
 import { GoodsComponent } from './view/pages/goods/goods.component';
 import { HomePageComponent } from './view/pages/home-page/home-page.component';
@@ -21,6 +22,7 @@ const appRoutes: Routes = [
   { path: '', component: HomePageComponent },
 
   { path: 'goods', component: GoodsComponent },
+  { path: 'goods-details-view/:id', component: GoodsViewComponent },
   { path: 'news', component: NewsComponent },
   { path: 'review', component: ReviewsComponent },
   { path: 'about', component: AboutComponent },
@@ -62,9 +64,9 @@ const appRoutes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(appRoutes, {
-    preloadingStrategy: PreloadAllModules,
-    relativeLinkResolution: 'legacy'
-}),
+      preloadingStrategy: PreloadAllModules,
+      relativeLinkResolution: 'legacy',
+    }),
   ],
   exports: [RouterModule],
 })

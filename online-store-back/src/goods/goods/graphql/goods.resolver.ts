@@ -34,4 +34,11 @@ export class GoodsResolver {
       },
     });
   }
+
+  @Query(() => GoodsEntity)
+  async getOneGoods(
+    @Args('id', { type: () => String }) id: string,
+  ): Promise<GoodsEntity> {
+    return await this.goodsRepository.findOne(id);
+  }
 }

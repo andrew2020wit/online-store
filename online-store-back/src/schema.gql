@@ -50,10 +50,11 @@ type Mutation {
 }
 
 type Query {
-  allArticles(createOnCursor: DateTime = "2020-11-17T15:03:49.699Z", sample: String = "", take: Int = 3): [ArticleEntity!]!
+  allArticles(createOnCursor: DateTime = "2020-11-17T19:26:57.985Z", sample: String = "", take: Int = 3): [ArticleEntity!]!
   author(id: String!): UserEntity!
   getArticle(artId: String!): ArticleEntity!
-  getGoods(createOnCursor: DateTime = "2020-11-17T15:03:49.729Z", sample: String = "", take: Int = 3): [GoodsEntity!]!
+  getGoods(createOnCursor: DateTime = "2020-11-17T19:26:58.016Z", sample: String = "", take: Int = 3): [GoodsEntity!]!
+  getOneGoods(id: String!): GoodsEntity!
   usersCount: usersCount!
 }
 
