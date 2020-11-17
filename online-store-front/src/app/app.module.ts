@@ -6,6 +6,7 @@ import { ArticlesModule } from './articles/articles.module';
 import { AuthModule } from './auth-module/auth.module';
 import { errorInterceptorProvider } from './auth-module/interceptors/errors.interceptor';
 import { jwtInterceptorProvider } from './auth-module/interceptors/jwt.interceptor';
+import { GoodsModule } from './goods/goods.module';
 import { ShareModule } from './share.module';
 import { ViewModule } from './view/view.module';
 
@@ -18,6 +19,7 @@ import { ViewModule } from './view/view.module';
     LayoutModule,
     ShareModule,
     HttpClientModule,
+    GoodsModule,
   ],
   providers: [errorInterceptorProvider, jwtInterceptorProvider],
   bootstrap: [AppComponent],
