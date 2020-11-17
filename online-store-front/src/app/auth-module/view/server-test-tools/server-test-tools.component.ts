@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { baseApiUrl } from 'environments/environment';
+import { baseApiUrl } from '../../../../environments/environment';
 import { AuthService } from './../../auth.service';
 
 @Component({
@@ -20,5 +20,14 @@ export class ServerTestToolsComponent implements OnInit {
         console.log('RegenerateTestServerData: ', x);
       });
     this.authService.logout();
+  }
+
+  // http://127.0.0.1:3001/api/test/regenerate-goods-test-data
+  RegenerateTestGoodsServerData(): void {
+    this.http
+      .get(baseApiUrl + '/api/test/regenerate-goods-test-data')
+      .subscribe((x) => {
+        console.log('RegenerateTestGoodsServerData: ', x);
+      });
   }
 }

@@ -16,5 +16,16 @@
         "titleBar.inactiveForeground": "#e7e7e799"
     },
     "peacock.color": "#110000",
-    "sqltools.connections": []
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "askForPassword": true,
+            "driver": "PostgreSQL",
+            "name": "online-store",
+            "database": "online-store-db",
+            "username": "postgres"
+        }
+    ]
 }

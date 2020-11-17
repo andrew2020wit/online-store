@@ -7,6 +7,7 @@ import { Connection } from 'typeorm';
 import { ArticlesModule } from './articles/articles.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './auth/users/users.module';
+import { GoodsModule } from './goods/goods/goods.module';
 import { InitTestDataService } from './testing/init-test-data/init-test-data.service';
 import { TestController } from './testing/test.controller';
 
@@ -35,6 +36,7 @@ import { TestController } from './testing/test.controller';
     ArticlesModule,
     UsersModule,
     ArticlesModule,
+    GoodsModule,
   ],
   providers: [InitTestDataService],
   controllers: [TestController],
