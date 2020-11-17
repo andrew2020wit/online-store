@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { smallNoPhotoUrlGlob } from '../../../environments/environment';
+import { baseApiUrl } from './../../../environments/environment';
 
 @Component({
   selector: 'app-goods-card',
@@ -10,9 +12,17 @@ export class GoodsCardComponent implements OnInit {
   @Input() name = 'no name !!!';
   @Input() id = '';
   @Input() description = 'no description';
+  @Input() smallPhotoUrl = '';
   @Input() createdOn: Date;
   @Input() updatedOn: Date;
-  constructor(private router: Router) {}
+
+  photoUrl = baseApiUrl + smallNoPhotoUrlGlob;
+
+  constructor(private router: Router) {
+    if (this.smallPhotoUrl !== '') {
+      this.photoUrl = this.smallPhotoUrl;
+    }
+  }
 
   ngOnInit(): void {}
 
