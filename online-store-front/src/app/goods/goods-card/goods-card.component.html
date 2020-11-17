@@ -1,16 +1,17 @@
-<button style="width: 100%; padding: 0; cursor: pointer;" (click)="go()">
-  <mat-card style="margin: 0.1em;">
+<button style="padding: 0; margin: 0.1rem; cursor: pointer;" (click)="go()">
+  <mat-card
+    style="
+      margin: 0.1rem;
+      border: 1px solid black;
+      height: 300px;
+      width: 350px;
+    "
+  >
     <mat-card-header>
       <mat-card-title> {{ name }} </mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <div>{{ description }}</div>
-      <div style="text-align: right;">
-        created: {{ createdOn | utcToLocalTime | date: "short" }}
-        <span *ngIf="createdOn != updatedOn"
-          >updated: {{ updatedOn | utcToLocalTime | date: "short" }}
-        </span>
-      </div>
     </mat-card-content>
   </mat-card>
 </button>

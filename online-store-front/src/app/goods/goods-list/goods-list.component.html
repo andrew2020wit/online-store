@@ -15,6 +15,8 @@
 
 <div class="errorLoadingDiv" *ngIf="errorLoading">No connection to server</div>
 
+<br />
+
 <app-goods-card
   *ngFor="let good of goods"
   name="{{ good.name }}"

@@ -1,7 +1,8 @@
 export interface IGoods {
   id?: string;
   name: string;
-  photoUrl?: string;
+  smallPhotoUrl?: string;
+  bidPhotoUrl?: string;
   price?: number;
   description?: string;
   isActive?: boolean;

@@ -20,7 +20,11 @@ export class GoodsEntity {
 
   @Field({ description: `photoUrl` })
   @Column('varchar', { length: 128, nullable: false, default: '' })
-  photoUrl: string;
+  smallPhotoUrl: string;
+
+  @Field({ description: `photoUrl` })
+  @Column('varchar', { length: 128, nullable: false, default: '' })
+  bidPhotoUrl: string;
 
   @Field({ description: `price` })
   @Column({ nullable: true, default: null })
