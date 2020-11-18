@@ -9,6 +9,9 @@
   >
     <mat-card-header>
       <mat-card-title> {{ name }} </mat-card-title>
+      <span *ngIf="price">
+        Price: <strong style="font-size: large;"> ${{ price }} </strong></span
+      >
     </mat-card-header>
     <img mat-card-image [src]="photoUrl" alt="goods photo" />
     <mat-card-content>

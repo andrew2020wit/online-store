@@ -15,6 +15,8 @@ const GoodsOneGQL = gql`
       description
       createdOn
       updatedOn
+      bigPhotoUrl
+      price
     }
   }
 `;
@@ -32,6 +34,8 @@ export class GoodsViewComponent {
   description: string;
   createdOn: Date;
   updatedOn: Date;
+  bigPhotoUrl = '';
+  price = null;
 
   photoUrl = baseApiUrl + bigNoPhotoUrlGlob;
 
@@ -41,6 +45,9 @@ export class GoodsViewComponent {
     private router: Router
   ) {
     this.goodsId = this.activateRoute.snapshot.params['id'];
+    if (this.bigPhotoUrl !== '') {
+      this.photoUrl = this.bigPhotoUrl;
+    }
   }
 
   ngOnInit(): void {
@@ -57,6 +64,8 @@ export class GoodsViewComponent {
         this.description = goods1.description;
         this.createdOn = goods1.createdOn;
         this.updatedOn = goods1.updatedOn;
+        this.bigPhotoUrl = goods1.bigPhotoUrl;
+        this.price = goods1.price;
       });
   }
 }

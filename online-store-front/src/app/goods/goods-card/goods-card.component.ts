@@ -13,6 +13,7 @@ export class GoodsCardComponent implements OnInit {
   @Input() id = '';
   @Input() description = 'no description';
   @Input() smallPhotoUrl = '';
+  @Input() price = null;
   @Input() createdOn: Date;
   @Input() updatedOn: Date;
 
