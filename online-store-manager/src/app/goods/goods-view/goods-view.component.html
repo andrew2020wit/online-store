@@ -1,0 +1,11 @@
+<div>
+  <h1>{{ name }}</h1>
+
+  <img [src]="photoUrl" style="float: left; margin: 0.5rem;" />
+  <span *ngIf="price">
+    Price: <strong style="font-size: large;"> ${{ price }} </strong></span
+  >
+
+  <div>{{ description }}</div>
+  <span>updated: {{ updatedOn | utcToLocalTime | date: "short" }}</span>
+</div>

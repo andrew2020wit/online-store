@@ -1,0 +1,33 @@
+<mat-form-field>
+  <mat-label>Title - Filter</mat-label>
+  <input id="filterInput" matInput type="text" [(ngModel)]="gqlSample" />
+  <button
+    mat-button
+    *ngIf="gqlSample"
+    matSuffix
+    mat-icon-button
+    aria-label="Clear"
+    (click)="gqlSample = ''; titleFilterReLoad()"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-form-field>
+
+<div class="errorLoadingDiv" *ngIf="errorLoading">No connection to server</div>
+
+<br />
+
+<app-goods-card
+  *ngFor="let good of goods"
+  name="{{ good.name }}"
+  description="{{ good.description }}"
+  createdOn="{{ good.createdOn }}"
+  updatedOn="{{ good.updatedOn }}"
+  price = {{good.price}}
+  smallPhotoUrl = {{good.smallPhotoUrl}}
+  id="{{ good.id }}"
+></app-goods-card>
+
+<div id="IntersectionTarget" style="height: 5px;"></div>
+
+<div *ngIf="loading && !dataFinished">loading...</div>

@@ -1,0 +1,8 @@
+<span>
+  <span *ngIf="isLogged">
+    <app-user-widget></app-user-widget>
+  </span>
+  <span *ngIf="!isLogged">
+    <button mat-button color="accent" routerLink="/login-page">LogIn</button>
+  </span>
+</span>
