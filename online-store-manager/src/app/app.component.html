@@ -33,10 +33,12 @@
     </mat-toolbar>
   </footer>
 
-  <div *ngIf="isLoading" class="app-spinner">
-    <mat-spinner></mat-spinner>
+  <div *ngIf="isLoading" class="app-flex-z100-center-class">
     <div>
-      <button mat-button color="primary">Please, wait, I'm loading...</button>
+      <mat-spinner></mat-spinner>
+      <div>
+        <button mat-button color="primary">Please, wait, I'm loading...</button>
+      </div>
     </div>
   </div>
 </div>
