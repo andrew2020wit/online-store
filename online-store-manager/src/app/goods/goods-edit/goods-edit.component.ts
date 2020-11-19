@@ -1,0 +1,140 @@
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { FormlyFieldConfig } from '@ngx-formly/core';
+import { Apollo, QueryRef } from 'apollo-angular';
+import {
+  baseApiUrl,
+  bigNoPhotoUrlGlob,
+} from '../../../environments/environment';
+import { IGoods } from '../goods.interface';
+import { GoodsOneGQL } from '../GoodsOneGQL.const';
+
+class FormModel {
+  name = '';
+  description = '';
+  price = null;
+  bigPhotoUrl = '';
+  smallPhotoUrl = '';
+}
+
+const formFieldsConst: FormlyFieldConfig[] = [
+  {
+    key: 'name',
+    type: 'input',
+    templateOptions: {
+      label: 'Name of goods',
+      placeholder: 'Name of goods',
+      required: true,
+      minLength: 3,
+      maxLength: 256,
+    },
+  },
+  {
+    key: 'bigPhotoUrl',
+    type: 'input',
+    templateOptions: {
+      label: 'bigPhotoUrl',
+      placeholder: 'bigPhotoUrl',
+      maxLength: 256,
+    },
+  },
+  {
+    key: 'smallPhotoUrl',
+    type: 'input',
+    templateOptions: {
+      label: 'smallPhotoUrl',
+      placeholder: 'smallPhotoUrl',
+      maxLength: 256,
+    },
+  },
+  {
+    key: 'price',
+    type: 'input',
+    templateOptions: {
+      type: 'number',
+      label: 'price',
+      placeholder: 'price',
+      max: 1000000000,
+    },
+  },
+
+  {
+    key: 'description',
+    type: 'textarea',
+    templateOptions: {
+      label: 'description',
+      placeholder: 'description, maxLength: 5000',
+      rows: 5,
+      maxLength: 5000,
+    },
+  },
+];
+
+@Component({
+  selector: 'app-goods-edit',
+  templateUrl: './goods-edit.component.html',
+  styleUrls: ['./goods-edit.component.scss'],
+})
+export class GoodsEditComponent implements OnInit {
+  form = new FormGroup({});
+  formModel = new FormModel();
+  formFields = formFieldsConst;
+
+  GoodsWatchQuery: QueryRef<any>;
+  goodsId: string;
+
+  createdOn: Date;
+  updatedOn: Date;
+  bigPhotoUrl = '';
+  smallPhotoUrl = '';
+
+  photoUrl = baseApiUrl + bigNoPhotoUrlGlob;
+
+  constructor(private apollo: Apollo, private activateRoute: ActivatedRoute) {
+    this.goodsId = this.activateRoute.snapshot.params['id'];
+
+    if (this.bigPhotoUrl !== '') {
+      this.photoUrl = this.bigPhotoUrl;
+    }
+    this.loadGoodsProperty();
+  }
+
+  ngOnInit(): void {}
+
+  loadGoodsProperty() {
+    if (!this.goodsId) {
+      console.log('no goodsId');
+      return;
+    }
+    this.apollo
+      .watchQuery<any>({
+        query: GoodsOneGQL,
+        variables: {
+          id: this.goodsId,
+        },
+      })
+      .valueChanges.subscribe(({ data, loading }) => {
+        const formModel1 = new FormModel();
+        const goods1 = data.getOneGoods as IGoods;
+        console.log('goods1', goods1);
+
+        formModel1.name = goods1.name;
+        formModel1.description = goods1.description;
+        formModel1.price = goods1.price;
+        formModel1.smallPhotoUrl = goods1.smallPhotoUrl;
+        formModel1.bigPhotoUrl = goods1.bigPhotoUrl;
+
+        this.formModel = formModel1;
+
+        this.createdOn = goods1.createdOn;
+        this.updatedOn = goods1.updatedOn;
+        this.smallPhotoUrl = goods1.smallPhotoUrl;
+        this.bigPhotoUrl = goods1.bigPhotoUrl;
+      });
+  }
+
+  edit() {}
+  create() {}
+  disActivate() {}
+}

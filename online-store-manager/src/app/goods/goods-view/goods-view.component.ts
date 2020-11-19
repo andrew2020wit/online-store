@@ -1,25 +1,12 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Apollo, gql, QueryRef } from 'apollo-angular';
+import { ActivatedRoute } from '@angular/router';
+import { Apollo, QueryRef } from 'apollo-angular';
 import {
   baseApiUrl,
   bigNoPhotoUrlGlob,
 } from '../../../environments/environment';
 import { IGoods } from './../goods.interface';
-
-const GoodsOneGQL = gql`
-  query getOneGoods($id: String!) {
-    getOneGoods(id: $id) {
-      id
-      name
-      description
-      createdOn
-      updatedOn
-      bigPhotoUrl
-      price
-    }
-  }
-`;
+import { GoodsOneGQL } from './../GoodsOneGQL.const';
 
 @Component({
   selector: 'app-goods-view',
@@ -30,6 +17,8 @@ export class GoodsViewComponent {
   GoodsWatchQuery: QueryRef<any>;
   goodsId: string;
 
+  editGoodsLink = '#';
+
   name: string;
   description: string;
   createdOn: Date;
@@ -39,12 +28,10 @@ export class GoodsViewComponent {
 
   photoUrl = baseApiUrl + bigNoPhotoUrlGlob;
 
-  constructor(
-    private apollo: Apollo,
-    private activateRoute: ActivatedRoute,
-    private router: Router
-  ) {
+  constructor(private apollo: Apollo, private activateRoute: ActivatedRoute) {
     this.goodsId = this.activateRoute.snapshot.params['id'];
+    this.editGoodsLink = '/goods-edit/' + this.goodsId;
+
     if (this.bigPhotoUrl !== '') {
       this.photoUrl = this.bigPhotoUrl;
     }

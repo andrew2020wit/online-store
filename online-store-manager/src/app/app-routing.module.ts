@@ -10,6 +10,7 @@ import { LoginPageComponent } from './auth-module/view/login-page/login-page.com
 import { ServerTestToolsComponent } from './auth-module/view/server-test-tools/server-test-tools.component';
 import { UserProfileComponent } from './auth-module/view/user-profile/user-profile.component';
 import { UserRegisterFormComponent } from './auth-module/view/user-register-form/user-register-form.component';
+import { GoodsEditComponent } from './goods/goods-edit/goods-edit.component';
 import { GoodsViewComponent } from './goods/goods-view/goods-view.component';
 import { AboutComponent } from './view/pages/about/about.component';
 import { GoodsComponent } from './view/pages/goods/goods.component';
@@ -23,6 +24,8 @@ const appRoutes: Routes = [
 
   { path: 'goods', component: GoodsComponent },
   { path: 'goods-details-view/:id', component: GoodsViewComponent },
+  { path: 'goods-edit/:id', component: GoodsEditComponent },
+  { path: 'goods-edit', component: GoodsEditComponent },
   { path: 'news', component: NewsComponent },
   { path: 'review', component: ReviewsComponent },
   { path: 'about', component: AboutComponent },
