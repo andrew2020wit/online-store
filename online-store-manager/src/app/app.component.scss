@@ -23,3 +23,15 @@
 .main-content {
   padding: 0.5rem;
 }
+
+.app-spinner {
+  z-index: 100;
+  position: absolute;
+  top: 35%;
+  left: 35%;
+}
+
+.error-box {
+  color: red;
+  font-size: large;
+}

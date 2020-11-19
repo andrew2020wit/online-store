@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { GeneralService } from './app-common/general.service';
 import { AuthService } from './auth-module/auth.service';
 
 @Component({
@@ -8,8 +9,16 @@ import { AuthService } from './auth-module/auth.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  constructor(private authService: AuthService, private router: Router) {
+  isLoading = false;
+  errorMessage = '';
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private generalService: GeneralService
+  ) {
     this.authService.loadLocalToken();
+    this.generalService.isLoading$.subscribe((x) => (this.isLoading = x));
+    this.generalService.errorMessage$.subscribe((x) => (this.errorMessage = x));
   }
   ngOnInit(): void {}
 
