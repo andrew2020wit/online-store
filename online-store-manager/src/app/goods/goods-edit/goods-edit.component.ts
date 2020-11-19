@@ -1,14 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { FormlyFieldConfig } from '@ngx-formly/core';
 import { Apollo, QueryRef } from 'apollo-angular';
 import {
   baseApiUrl,
   bigNoPhotoUrlGlob,
 } from '../../../environments/environment';
+import { formFieldsGoodsEdit } from '../formFields.const';
 import { IGoods } from '../goods.interface';
-import { GoodsOneGQL } from '../GoodsOneGQL.const';
+import {
+  CreateGoodsGQL,
+  DisActiveGoodsGQL,
+  EditGoodsGQL,
+  GoodsOneGQL,
+} from '../GoodsOneGQL.const';
 
 class FormModel {
   name = '';
@@ -18,59 +23,6 @@ class FormModel {
   smallPhotoUrl = '';
 }
 
-const formFieldsConst: FormlyFieldConfig[] = [
-  {
-    key: 'name',
-    type: 'input',
-    templateOptions: {
-      label: 'Name of goods',
-      placeholder: 'Name of goods',
-      required: true,
-      minLength: 3,
-      maxLength: 256,
-    },
-  },
-  {
-    key: 'bigPhotoUrl',
-    type: 'input',
-    templateOptions: {
-      label: 'bigPhotoUrl',
-      placeholder: 'bigPhotoUrl',
-      maxLength: 256,
-    },
-  },
-  {
-    key: 'smallPhotoUrl',
-    type: 'input',
-    templateOptions: {
-      label: 'smallPhotoUrl',
-      placeholder: 'smallPhotoUrl',
-      maxLength: 256,
-    },
-  },
-  {
-    key: 'price',
-    type: 'input',
-    templateOptions: {
-      type: 'number',
-      label: 'price',
-      placeholder: 'price',
-      max: 1000000000,
-    },
-  },
-
-  {
-    key: 'description',
-    type: 'textarea',
-    templateOptions: {
-      label: 'description',
-      placeholder: 'description, maxLength: 5000',
-      rows: 5,
-      maxLength: 5000,
-    },
-  },
-];
-
 @Component({
   selector: 'app-goods-edit',
   templateUrl: './goods-edit.component.html',
@@ -79,7 +31,7 @@ const formFieldsConst: FormlyFieldConfig[] = [
 export class GoodsEditComponent implements OnInit {
   form = new FormGroup({});
   formModel = new FormModel();
-  formFields = formFieldsConst;
+  formFields = formFieldsGoodsEdit;
 
   GoodsWatchQuery: QueryRef<any>;
   goodsId: string;
@@ -134,7 +86,52 @@ export class GoodsEditComponent implements OnInit {
       });
   }
 
-  edit() {}
-  create() {}
-  disActivate() {}
+  edit() {
+    if (!this.goodsId) {
+      return;
+    }
+    this.apollo
+      .mutate({
+        mutation: EditGoodsGQL,
+        variables: {
+          id: this.goodsId,
+          name: this.formModel.name,
+          description: this.formModel.description,
+          smallPhotoUrl: this.formModel.smallPhotoUrl,
+          bigPhotoUrl: this.formModel.bigPhotoUrl,
+          price: this.formModel.price,
+        },
+      })
+      .subscribe((x) => console.log(x));
+  }
+
+  create() {
+    if (this.goodsId) {
+      return;
+    }
+    this.apollo
+      .mutate({
+        mutation: CreateGoodsGQL,
+        variables: {
+          name: this.formModel.name,
+          description: this.formModel.description,
+          smallPhotoUrl: this.formModel.smallPhotoUrl,
+          bigPhotoUrl: this.formModel.bigPhotoUrl,
+          price: this.formModel.price,
+        },
+      })
+      .subscribe((x) => console.log(x));
+  }
+
+  disActivate() {
+    if (!this.goodsId) {
+      return;
+    }
+    this.apollo
+      .mutate({
+        mutation: DisActiveGoodsGQL,
+        variables: { goodsId: this.goodsId },
+      })
+      .subscribe((x) => console.log(x));
+  }
 }
