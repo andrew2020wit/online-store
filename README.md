@@ -4,6 +4,10 @@
 2. Front: client for customers
 3. Manager: client for admins & managers
 
+## Technics
+
+Static Server, Authentication, JWT, Passport, TypeORM, validation, environment, dotenv, GraphQL, interceptors, guards, Reactive forms, RxJS, Subject-state, Angular-Material, Material custom theme, infinite scroll, ngx-formly
+
 ## Based on NestJS, Angular, PostgreSQL
 
 ## "author": "andrew2020wit"

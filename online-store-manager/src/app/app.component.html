@@ -8,19 +8,6 @@
         <span style="flex: 1 1 auto;"></span>
         <app-auth></app-auth
       ></mat-toolbar-row>
-
-      <mat-toolbar-row>
-        <button
-          mat-button
-          routerLinkActive="active-link-background"
-          [routerLinkActiveOptions]="{ exact: true }"
-          *ngFor="let link of links"
-          color="accent"
-          routerLink="{{ link.link }}"
-        >
-          {{ link.name }}
-        </button>
-      </mat-toolbar-row>
     </mat-toolbar>
   </header>
 
