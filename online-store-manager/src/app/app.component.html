@@ -13,7 +13,14 @@
 
   <main class="main">
     <div class="main-content">
-      <div *ngIf="errorMessage" class="error-box">{{ errorMessage }}</div>
+      <div *ngIf="errorMessage">
+        <div>
+          <button mat-button color="primary" (click)="hideErrorMessage()">
+            Hide ErrorMessage
+          </button>
+        </div>
+        <div class="error-box">{{ errorMessage }}</div>
+      </div>
       <router-outlet></router-outlet>
     </div>
   </main>

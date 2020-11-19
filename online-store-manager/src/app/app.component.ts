@@ -26,4 +26,7 @@ export class AppComponent implements OnInit {
     this.router.navigate(['']);
     setTimeout(() => document.location.reload(), 0);
   }
+  hideErrorMessage() {
+    this.generalService.errorMessage$.next('');
+  }
 }
