@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
-import { TestInitGoodsService } from './../goods/goods/test-init-goods.service';
+import { TestInitGoodsService } from './../goods/test-init-goods.service';
 import { InitTestDataService } from './init-test-data/init-test-data.service';
 
 @Controller('api/test')
