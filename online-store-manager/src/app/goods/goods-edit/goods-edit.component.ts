@@ -102,7 +102,9 @@ export class GoodsEditComponent implements OnInit {
           price: this.formModel.price,
         },
       })
-      .subscribe((x) => console.log(x));
+      .subscribe((x) => {
+        location.reload();
+      });
   }
 
   create() {
@@ -120,7 +122,9 @@ export class GoodsEditComponent implements OnInit {
           price: this.formModel.price,
         },
       })
-      .subscribe((x) => console.log(x));
+      .subscribe((x) => {
+        location.reload();
+      });
   }
 
   disActivate() {

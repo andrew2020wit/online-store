@@ -10,13 +10,11 @@ export class JwtAdminStrategy extends PassportStrategy(Strategy, 'adminjwt') {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      // secretOrKey: '111',
       secretOrKey: process.env.JWT_SECRETKEY,
     });
   }
 
   async validate(payload: JwtPayloadExtDto): Promise<JwtPayloadExtDto> {
-    // console.log(payload);
     if (payload.role != 'admin') {
       throw new HttpException(
         'Forbidden, you must be admin',

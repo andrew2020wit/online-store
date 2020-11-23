@@ -19,10 +19,38 @@
   >
     DisActivate this goods
   </button>
-  <div *ngIf="formModel.bigPhotoUrl">bigPhoto <img [src]="bigPhotoUrl" /></div>
-  <div *ngIf="formModel.smallPhotoUrl">
-    smallPhoto <img [src]="smallPhotoUrl" />
-  </div>
+
+  <mat-card
+    class="example-card"
+    *ngIf="formModel.bigPhotoUrl"
+    style="width: 300px; float: left; margin: 0.5rem;"
+  >
+    <mat-card-header>
+      <mat-card-title>BigPhoto</mat-card-title>
+    </mat-card-header>
+    <img
+      mat-card-image
+      [src]="bigPhotoUrl"
+      alt="bigPhoto"
+      style="height: 200px;"
+    />
+  </mat-card>
+
+  <mat-card
+    class="example-card"
+    *ngIf="formModel.smallPhotoUrl"
+    style="width: 300px; float: left; margin: 0.5rem;"
+  >
+    <mat-card-header>
+      <mat-card-title>SmallPhoto</mat-card-title>
+    </mat-card-header>
+    <img
+      mat-card-image
+      [src]="smallPhotoUrl"
+      alt="smallPhotoUrl"
+      style="height: 200px;"
+    />
+  </mat-card>
 
   <app-upload
     label="BigPhoto"
