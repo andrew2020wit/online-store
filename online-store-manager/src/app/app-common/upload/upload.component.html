@@ -1,0 +1,33 @@
+<div>
+  <button mat-button color="primary" (click)="fileInput.click()">
+    {{ label }}
+  </button>
+
+  <button
+    mat-button
+    color="primary"
+    (click)="uploadFileToServer()"
+    [disabled]="!fileToUpload"
+  >
+    Send file
+  </button>
+
+  <br />
+
+  <span *ngIf="fileToUpload">
+    file: <strong>{{ fileToUpload?.name }}</strong>
+  </span>
+
+  <span *ngIf="upLoadedMes">{{ upLoadedMes }}</span>
+  <br />
+  <span *ngIf="upLoading" style="color: red;">upLoading...</span>
+
+  <input
+    #fileInput
+    hidden
+    type="file"
+    id="file"
+    [accept]="accept"
+    (change)="handleFileInput($event.target.files)"
+  />
+</div>

@@ -19,7 +19,7 @@ import { TestController } from './testing/test.controller';
       sortSchema: true,
     }),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'client'),
+      rootPath: join(__dirname, '..', 'public'),
       exclude: ['/api*', '/graphql*'],
     }),
     TypeOrmModule.forRoot({

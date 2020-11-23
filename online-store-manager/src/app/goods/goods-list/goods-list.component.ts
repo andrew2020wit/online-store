@@ -14,6 +14,7 @@ const GoodsGQL = gql`
       updatedOn
       price
       smallPhotoUrl
+      bigPhotoUrl
     }
   }
 `;

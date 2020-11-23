@@ -2,10 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Apollo, QueryRef } from 'apollo-angular';
-import {
-  baseApiUrl,
-  bigNoPhotoUrlGlob,
-} from '../../../environments/environment';
+import { baseApiUrl } from '../../../environments/environment';
 import { formFieldsGoodsEdit } from '../formFields.const';
 import { IGoods } from '../goods.interface';
 import {
@@ -38,17 +35,20 @@ export class GoodsEditComponent implements OnInit {
 
   createdOn: Date;
   updatedOn: Date;
+
   bigPhotoUrl = '';
   smallPhotoUrl = '';
 
-  photoUrl = baseApiUrl + bigNoPhotoUrlGlob;
+  bigApiEndpoint = '';
+  smallApiEndpoint = '';
 
   constructor(private apollo: Apollo, private activateRoute: ActivatedRoute) {
     this.goodsId = this.activateRoute.snapshot.params['id'];
+    this.bigApiEndpoint =
+      baseApiUrl + '/goods/photo-upload/' + 'bigPhotoUrl/' + this.goodsId;
+    this.smallApiEndpoint =
+      baseApiUrl + '/goods/photo-upload/' + 'smallPhotoUrl/' + this.goodsId;
 
-    if (this.bigPhotoUrl !== '') {
-      this.photoUrl = this.bigPhotoUrl;
-    }
     this.loadGoodsProperty();
   }
 
@@ -81,8 +81,8 @@ export class GoodsEditComponent implements OnInit {
 
         this.createdOn = goods1.createdOn;
         this.updatedOn = goods1.updatedOn;
-        this.smallPhotoUrl = goods1.smallPhotoUrl;
-        this.bigPhotoUrl = goods1.bigPhotoUrl;
+        this.bigPhotoUrl = baseApiUrl + this.formModel.bigPhotoUrl;
+        this.smallPhotoUrl = baseApiUrl + this.formModel.smallPhotoUrl;
       });
   }
 
@@ -133,5 +133,18 @@ export class GoodsEditComponent implements OnInit {
         variables: { goodsId: this.goodsId },
       })
       .subscribe((x) => console.log(x));
+  }
+
+  doneBigImgUpload(isOk) {
+    if (!isOk) {
+      return;
+    }
+    console.log('img upload', isOk);
+  }
+  doneSmallImgUpload(isOk) {
+    if (!isOk) {
+      return;
+    }
+    console.log('img upload', isOk);
   }
 }

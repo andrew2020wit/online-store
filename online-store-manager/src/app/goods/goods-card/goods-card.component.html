@@ -13,7 +13,12 @@
         Price: <strong style="font-size: large;"> ${{ price }} </strong></span
       >
     </mat-card-header>
-    <img mat-card-image [src]="photoUrl" alt="goods photo" />
+    <img
+      mat-card-image
+      style="height: 200px;"
+      [src]="smallPhotoUrlFact"
+      alt="goods photo"
+    />
     <mat-card-content>
       <div>{{ description }}</div>
     </mat-card-content>

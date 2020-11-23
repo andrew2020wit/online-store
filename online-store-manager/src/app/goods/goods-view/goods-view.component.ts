@@ -26,15 +26,15 @@ export class GoodsViewComponent {
   bigPhotoUrl = '';
   price = null;
 
-  photoUrl = baseApiUrl + bigNoPhotoUrlGlob;
+  bigPhotoUrlFact = '';
 
   constructor(private apollo: Apollo, private activateRoute: ActivatedRoute) {
     this.goodsId = this.activateRoute.snapshot.params['id'];
     this.editGoodsLink = '/goods-edit/' + this.goodsId;
 
-    if (this.bigPhotoUrl !== '') {
-      this.photoUrl = this.bigPhotoUrl;
-    }
+    // if (this.bigPhotoUrl !== '') {
+    //   this.bigPhotoUrlFact = this.bigPhotoUrl;
+    // }
   }
 
   ngOnInit(): void {
@@ -53,6 +53,12 @@ export class GoodsViewComponent {
         this.updatedOn = goods1.updatedOn;
         this.bigPhotoUrl = goods1.bigPhotoUrl;
         this.price = goods1.price;
+
+        if (this.bigPhotoUrl !== '') {
+          this.bigPhotoUrlFact = baseApiUrl + this.bigPhotoUrl;
+        } else {
+          this.bigPhotoUrlFact = baseApiUrl + bigNoPhotoUrlGlob;
+        }
       });
   }
 }

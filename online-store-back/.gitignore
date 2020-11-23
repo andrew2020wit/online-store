@@ -39,3 +39,4 @@ lerna-debug.log*
 
 # Folder config file
 [Dd]esktop.ini
+/public

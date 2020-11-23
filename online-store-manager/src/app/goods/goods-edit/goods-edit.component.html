@@ -19,7 +19,25 @@
   >
     DisActivate this goods
   </button>
+  <div *ngIf="formModel.bigPhotoUrl">bigPhoto <img [src]="bigPhotoUrl" /></div>
+  <div *ngIf="formModel.smallPhotoUrl">
+    smallPhoto <img [src]="smallPhotoUrl" />
+  </div>
+
+  <app-upload
+    label="BigPhoto"
+    accept="image/*"
+    [apiEndpoint]="bigApiEndpoint"
+    (onDone)="doneBigImgUpload($event)"
+  ></app-upload>
+  <app-upload
+    label="SmallPhoto"
+    accept="image/*"
+    [apiEndpoint]="smallApiEndpoint"
+    (onDone)="doneSmallImgUpload($event)"
+  ></app-upload>
 </ng-container>
+
 <ng-template #elseTemplate>
   <button
     mat-button

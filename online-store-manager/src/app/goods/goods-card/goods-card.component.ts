@@ -17,15 +17,17 @@ export class GoodsCardComponent implements OnInit {
   @Input() createdOn: Date;
   @Input() updatedOn: Date;
 
-  photoUrl = baseApiUrl + smallNoPhotoUrlGlob;
+  smallPhotoUrlFact = '';
 
-  constructor(private router: Router) {
+  constructor(private router: Router) {}
+
+  ngOnInit(): void {
     if (this.smallPhotoUrl !== '') {
-      this.photoUrl = this.smallPhotoUrl;
+      this.smallPhotoUrlFact = baseApiUrl + this.smallPhotoUrl;
+    } else {
+      this.smallPhotoUrlFact = baseApiUrl + smallNoPhotoUrlGlob;
     }
   }
-
-  ngOnInit(): void {}
 
   go() {
     this.router.navigate(['/goods-details-view', this.id]);
