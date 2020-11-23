@@ -22,10 +22,22 @@ import { ReviewsComponent } from './view/pages/reviews/reviews.component';
 const appRoutes: Routes = [
   { path: '', component: HomePageComponent },
 
-  { path: 'goods', component: GoodsComponent },
-  { path: 'goods-details-view/:id', component: GoodsViewComponent },
-  { path: 'goods-edit/:id', component: GoodsEditComponent },
-  { path: 'goods-edit', component: GoodsEditComponent },
+  { path: 'goods', component: GoodsComponent, canActivate: [AuthGuard] },
+  {
+    path: 'goods-details-view/:id',
+    component: GoodsViewComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'goods-edit/:id',
+    component: GoodsEditComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'goods-edit',
+    component: GoodsEditComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'news', component: NewsComponent },
   { path: 'review', component: ReviewsComponent },
   { path: 'about', component: AboutComponent },

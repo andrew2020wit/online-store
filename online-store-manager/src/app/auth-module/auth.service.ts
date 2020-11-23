@@ -67,6 +67,12 @@ export class AuthService {
 
       this.checkExpOfToken();
 
+      if (this.appUser.role != 'admin' && this.appUser.role != 'manager') {
+        alert('this client only for managers and admins!');
+        this.logout();
+        return;
+      }
+
       clearTimeout(this.setTimeoutOfTokenUpdate);
 
       this.setTimeoutOfTokenUpdate = setTimeout(() => {
