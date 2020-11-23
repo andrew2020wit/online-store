@@ -5,6 +5,7 @@ import { AuthAdminController } from './admin.controller';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtAdminStrategy } from './strategies/jwt-admin.strategy';
+import { JwtManagerStrategy } from './strategies/jwt-manager.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { UsersModule } from './users/users.module';
@@ -25,7 +26,13 @@ import { UsersModule } from './users/users.module';
       },
     }),
   ],
-  providers: [JwtAdminStrategy, JwtStrategy, LocalStrategy, AuthService],
+  providers: [
+    JwtAdminStrategy,
+    JwtStrategy,
+    JwtManagerStrategy,
+    LocalStrategy,
+    AuthService,
+  ],
   controllers: [AuthController, AuthAdminController],
   exports: [AuthService, PassportModule, JwtModule],
 })

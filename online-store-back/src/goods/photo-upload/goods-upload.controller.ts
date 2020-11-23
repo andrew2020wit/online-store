@@ -3,11 +3,13 @@ import {
   Param,
   Post,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express/multer/interceptors/file.interceptor';
 import { InjectRepository } from '@nestjs/typeorm';
 import { diskStorage } from 'multer';
+import { ManagerJwtAuthGuard } from 'src/auth/guards/manager-jwt-auth.guard';
 import { Repository } from 'typeorm';
 import { GoodsEntity } from '../goods.entity';
 import { editFileName, imageFileFilter } from './file-upload.utils';
@@ -19,6 +21,7 @@ export class GoodsController {
     private goodsRepository: Repository<GoodsEntity>,
   ) {}
   @Post('photo-upload/:type/:id')
+  @UseGuards(ManagerJwtAuthGuard)
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
