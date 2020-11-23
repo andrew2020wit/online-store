@@ -10,7 +10,8 @@ import {
 } from '@nestjs/graphql';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtPayloadExtDto } from 'src/auth/dto/jwt-payload-ext.dto';
-import { CurrentUser, GqlAuthGuard } from 'src/auth/guards/gql-auth.guard';
+import { CurrentUser } from 'src/auth/guards/gql-auth.guard';
+import { GqlManagerAuthGuard } from 'src/auth/guards/gql-manager-auth.guard';
 import { LessThan, Like, Repository } from 'typeorm';
 import { GoodsEntity } from './../goods.entity';
 
@@ -93,7 +94,7 @@ export class GoodsResolver {
   }
 
   @Mutation(returns => String)
-  @UseGuards(GqlAuthGuard)
+  @UseGuards(GqlManagerAuthGuard)
   async createGoods(
     @Args() args: CreateGoodsArgs,
     @CurrentUser() user: JwtPayloadExtDto,
@@ -109,7 +110,7 @@ export class GoodsResolver {
   }
 
   @Mutation(returns => String)
-  @UseGuards(GqlAuthGuard)
+  @UseGuards(GqlManagerAuthGuard)
   async editGoods(
     @Args() args: UpdateGoodsArgs,
     @CurrentUser() user: JwtPayloadExtDto,
@@ -125,7 +126,7 @@ export class GoodsResolver {
   }
 
   @Mutation(returns => String)
-  @UseGuards(GqlAuthGuard)
+  @UseGuards(GqlManagerAuthGuard)
   async disActiveGoods(
     @Args({ name: 'goodsId', type: () => String }) goodsId: string,
   ): Promise<string> {
