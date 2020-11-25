@@ -10,6 +10,7 @@ import { UsersModule } from './auth/users/users.module';
 import { GoodsModule } from './goods/goods.module';
 import { InitTestDataService } from './testing/init-test-data/init-test-data.service';
 import { TestController } from './testing/test.controller';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { TestController } from './testing/test.controller';
     UsersModule,
     ArticlesModule,
     GoodsModule,
+    OrdersModule,
   ],
   providers: [InitTestDataService],
   controllers: [TestController],
