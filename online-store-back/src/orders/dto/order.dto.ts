@@ -3,12 +3,14 @@ export class OrderDto {
     id?: string;
     userId: string;
     deliverAddress: string;
+    userNote: string;
+    status: string;
+
     isCanceled?: boolean;
     isPaid?: boolean;
     isDispatched?: boolean;
     isDelivered?: boolean;
-    status?: string;
-    userNote?: string;
+
     createdOn?: Date;
     updatedOn?: Date;
   };

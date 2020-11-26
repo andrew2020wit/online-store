@@ -2,11 +2,5 @@ export class StatusMessageDto {
   message: string;
   source: string;
   ok: boolean;
+  resultId?: string;
 }
-
-/*
-
-{ message: '',
-  source: '',
-  ok: true }
-*/

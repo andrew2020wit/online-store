@@ -7,7 +7,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { GoodsEntity } from '../../goods/goods.entity';
 import { OrdersEntity } from './orders.entity';
 
 @ObjectType()
@@ -20,18 +19,12 @@ export class OrderItemsEntity {
   @Field(type => OrdersEntity)
   @ManyToOne(() => OrdersEntity, {
     eager: true,
-    cascade: false,
+    cascade: true,
     nullable: false,
   })
   orderId: OrdersEntity;
 
-  @Field(type => GoodsEntity)
-  @ManyToOne(() => GoodsEntity, {
-    eager: true,
-    cascade: false,
-    nullable: false,
-  })
-  goodsId: GoodsEntity;
+  goodsId: string;
 
   @Field({ description: `count` })
   @Column({ nullable: true, default: 1 })
