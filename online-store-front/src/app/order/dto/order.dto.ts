@@ -1,6 +1,6 @@
 export class OrderDto {
   header: OrderHeader;
-  body: Array<OrderItemDto>;
+  body: Array<OrderItem>;
 }
 
 export class OrderHeader {
@@ -18,7 +18,7 @@ export class OrderHeader {
   createdOn?: Date;
   updatedOn?: Date;
 }
-export class OrderItemDto {
+export class OrderItem {
   id?: string;
   orderId?: string;
 

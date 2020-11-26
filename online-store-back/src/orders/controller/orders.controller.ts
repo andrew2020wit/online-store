@@ -8,7 +8,7 @@ import { OrderDto } from '../dto/order.dto';
 import { OrderItemsEntity } from '../entity/order-items.entity';
 import { OrdersEntity } from './../entity/orders.entity';
 
-@Controller('orders')
+@Controller('api/orders')
 export class OrdersController {
   constructor(
     @InjectRepository(OrdersEntity)

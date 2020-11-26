@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-// Loadding, error view
+// Loading, error view
 @Injectable({
   providedIn: 'root',
 })
