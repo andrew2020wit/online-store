@@ -1,11 +1,15 @@
-<div>
-  <h1>{{ name }}</h1>
+<div *ngIf="goods">
+  <h1>{{ goods.name }}</h1>
 
-  <img [src]="photoUrl" style="float: left; margin: 0.5rem;" />
-  <span *ngIf="price">
-    Price: <strong style="font-size: large;"> ${{ price }} </strong></span
+  <app-order-item-set-widget [goods]="goods"></app-order-item-set-widget>
+
+  <br />
+
+  <img [src]="goods.bigPhotoUrl" style="float: left; margin: 0.5rem;" />
+  <span *ngIf="goods.price">
+    Price: <strong style="font-size: large;"> ${{ goods.price }} </strong></span
   >
 
-  <div>{{ description }}</div>
-  <span>updated: {{ updatedOn | utcToLocalTime | date: "short" }}</span>
+  <div>{{ goods.description }}</div>
+  <span>updated: {{ goods.updatedOn | utcToLocalTime | date: "short" }}</span>
 </div>

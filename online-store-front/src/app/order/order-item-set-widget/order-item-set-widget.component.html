@@ -1,0 +1,28 @@
+<div>
+  <span *ngIf="count != 0">
+    <strong>
+      Buy, count: {{ count }}
+      <span *ngIf="goods.price > 0"
+        >, sum: ${{ goods.price * count }}</span
+      ></strong
+    >
+  </span>
+  <button *ngIf="count != 1" mat-button color="primary" (click)="setCount(1)">
+    Buy one
+  </button>
+  <button *ngIf="count > 0" mat-button color="primary" (click)="changeCount(1)">
+    Buy ++
+  </button>
+  <button
+    *ngIf="count > 1"
+    mat-button
+    color="primary"
+    (click)="changeCount(-1)"
+  >
+    Buy --
+  </button>
+  <button *ngIf="count > 0" mat-button color="primary" (click)="setCount(0)">
+    Cancel
+  </button>
+  <button mat-button color="primary" *ngIf="count > 0">Open cart</button>
+</div>

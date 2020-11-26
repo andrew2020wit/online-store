@@ -21,7 +21,7 @@ export class OrderHeader {
 export class OrderItem {
   id?: string;
   orderId?: string;
-
+  name: string;
   goodsId: string;
   count: number;
 

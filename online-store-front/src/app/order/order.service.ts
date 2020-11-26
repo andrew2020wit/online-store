@@ -1,17 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { IUser } from '../auth-module/auth.service';
 import { baseApiUrl } from './../../environments/environment.prod';
 import { AuthService } from './../auth-module/auth.service';
-import { StatusMessageDto } from './../global-interface/dto/status-message.dto';
-import { OrderDto, OrderHeader, OrderItem } from './dto/order.dto';
+import { OrderHeader, OrderItem } from './dto/order.dto';
 
+const keyLocalStorItems = 'keyLocalStorItems';
 @Injectable({
   providedIn: 'root',
 })
 export class OrderService {
   orderHeader: OrderHeader;
-  orderItems: OrderItem[];
+  orderItemsMap = new Map<string, OrderItem>();
+  orderItemsMap$ = new BehaviorSubject<Map<string, OrderItem>>(
+    this.orderItemsMap
+  );
+
   putEndPoint = baseApiUrl + '/api/orders';
 
   appUser: IUser; // ???
@@ -23,55 +28,66 @@ export class OrderService {
     this.authService.appUser$.subscribe((user) => {
       this.appUser = user;
     });
-    this.setDefaultState();
+    this.loadOrderItemsMap();
   }
   setDefaultState() {
-    this.orderItems = [];
-    this.orderHeader = null;
-    this.orderHeader.deliverAddress = '';
-    this.orderHeader.status = '';
-    this.orderHeader.userNote = '';
-    this.orderHeader.userId = '';
+    this.orderItemsMap.clear();
+    this.orderItemsMap$.next(this.orderItemsMap);
+
+    const newOrderHeader = new OrderHeader();
+    newOrderHeader.deliverAddress = '';
+    newOrderHeader.status = '';
+    newOrderHeader.userNote = '';
+    newOrderHeader.userId = '';
+    this.orderHeader = newOrderHeader;
   }
 
-  addGoods(goodsId: string, price: number, count: number) {
-    const newItem = new OrderItem();
-    newItem.count = count;
-    newItem.goodsId = goodsId;
-    newItem.isCanceled = false;
-    newItem.price = price;
-    this.orderItems.push(newItem);
+  setOrderItem(goodsId: string, item: OrderItem) {
+    this.orderItemsMap.set(goodsId, item);
+    this.orderItemsMap$.next(this.orderItemsMap);
+    this.saveOrderItemsMap();
   }
 
-  cancelGoods(index: number) {
-    this.orderItems[index].isCanceled = true;
+  saveOrderItemsMap() {
+    if (!this.orderItemsMap) {
+      return;
+    }
+    const arr = [];
+    this.orderItemsMap.forEach((value, key) => {
+      arr.push([key, value]);
+    });
+    localStorage.setItem(keyLocalStorItems, JSON.stringify(arr));
   }
 
-  reCancelGoods(index: number) {
-    this.orderItems[index].isCanceled = false;
-  }
+  loadOrderItemsMap() {
+    const jsonItemMap = localStorage.getItem(keyLocalStorItems);
+    console.log('jsonItemMap', jsonItemMap);
 
-  updateCount(index: number, count: number) {
-    this.orderItems[index].count = count;
+    if (jsonItemMap) {
+      const arr = JSON.parse(jsonItemMap) as Array<[string, OrderItem]>;
+      const map = new Map<string, OrderItem>(arr);
+      this.orderItemsMap = map;
+      this.orderItemsMap$.next(map);
+    } else {
+      this.setDefaultState();
+    }
   }
 
   isValidOrder() {
-    if (!this.orderItems) {
-      return false;
-    }
-    // if (this.orderHeader.deliverAddress == ''){return false}
+    // if (!this.orderItems) {
+    //   return false;
+    // }
+    // // if (this.orderHeader.deliverAddress == ''){return false}
     return true;
   }
 
   sendOrder() {
-    if (!this.isValidOrder) {
-      console.error('Order not valid');
-      return;
-    }
-    const newOrder = new OrderDto();
-    newOrder.header = this.orderHeader;
-    newOrder.body = this.orderItems;
-
-    return this.httpClient.put<StatusMessageDto>(this.putEndPoint, newOrder);
+    // if (!this.isValidOrder) {
+    //   console.error('Order not valid');
+    //   return;
+    // }
+    // const newOrder = new OrderDto();
+    // newOrder.header = this.orderHeader;
+    // return this.httpClient.put<StatusMessageDto>(this.putEndPoint, newOrder);
   }
 }

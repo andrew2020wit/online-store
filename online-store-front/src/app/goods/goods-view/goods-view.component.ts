@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Apollo, gql, QueryRef } from 'apollo-angular';
-import {
-  baseApiUrl,
-  bigNoPhotoUrlGlob,
-} from '../../../environments/environment';
+import { bigNoPhotoUrlGlob } from '../../../environments/environment';
+import { baseApiUrl } from './../../../environments/environment';
 import { IGoods } from './../goods.interface';
 
 const GoodsOneGQL = gql`
@@ -28,44 +26,43 @@ const GoodsOneGQL = gql`
 })
 export class GoodsViewComponent {
   GoodsWatchQuery: QueryRef<any>;
-  goodsId: string;
+  goods: IGoods;
+  routerId: string;
 
-  name: string;
-  description: string;
-  createdOn: Date;
-  updatedOn: Date;
-  bigPhotoUrl = '';
-  price = null;
-
-  photoUrl = baseApiUrl + bigNoPhotoUrlGlob;
-
-  constructor(
-    private apollo: Apollo,
-    private activateRoute: ActivatedRoute,
-    private router: Router
-  ) {
-    this.goodsId = this.activateRoute.snapshot.params['id'];
-    if (this.bigPhotoUrl !== '') {
-      this.photoUrl = this.bigPhotoUrl;
-    }
+  constructor(private apollo: Apollo, private activateRoute: ActivatedRoute) {
+    this.routerId = this.activateRoute.snapshot.params['id'];
+    this.getGoods();
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  getGoods() {
     this.apollo
       .watchQuery<any>({
         query: GoodsOneGQL,
         variables: {
-          id: this.goodsId,
+          id: this.routerId,
         },
       })
       .valueChanges.subscribe(({ data, loading }) => {
         const goods1 = data.getOneGoods as IGoods;
-        this.name = goods1.name;
-        this.description = goods1.description;
-        this.createdOn = goods1.createdOn;
-        this.updatedOn = goods1.updatedOn;
-        this.bigPhotoUrl = goods1.bigPhotoUrl;
-        this.price = goods1.price;
+
+        const goodsTemp: IGoods = {
+          name: goods1.name,
+          description: goods1.description,
+          createdOn: goods1.createdOn,
+          updatedOn: goods1.updatedOn,
+          bigPhotoUrl: goods1.bigPhotoUrl,
+          price: goods1.price,
+        };
+        if (goodsTemp.bigPhotoUrl == '') {
+          goodsTemp.bigPhotoUrl = bigNoPhotoUrlGlob;
+          goodsTemp.bigPhotoUrl = baseApiUrl + goodsTemp.bigPhotoUrl;
+        } else {
+          goodsTemp.bigPhotoUrl = baseApiUrl + goodsTemp.bigPhotoUrl;
+        }
+        goodsTemp.id = this.routerId;
+        this.goods = goodsTemp;
       });
   }
 }

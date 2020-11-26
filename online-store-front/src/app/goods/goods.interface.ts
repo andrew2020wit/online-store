@@ -3,7 +3,7 @@ export interface IGoods {
   name: string;
   smallPhotoUrl?: string;
   bigPhotoUrl?: string;
-  price?: number;
+  price: number;
   description?: string;
   isActive?: boolean;
   createdOn?: Date;
