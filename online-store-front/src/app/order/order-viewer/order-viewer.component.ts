@@ -11,6 +11,7 @@ export class OrderViewerComponent implements OnInit {
   orderItems: OrderItem[] = [];
   itemCount = 0;
   orderSum = 0;
+  cartIsOpen = false;
 
   constructor(private orderService: OrderService) {
     this.orderService.orderItemsMap$.subscribe((map) => {
@@ -24,6 +25,9 @@ export class OrderViewerComponent implements OnInit {
       );
       this.itemCount = itemCount;
       this.orderSum = orderSum;
+    });
+    this.orderService.cartIsOpen$.subscribe((x) => {
+      this.cartIsOpen = x;
     });
   }
 
@@ -47,5 +51,8 @@ export class OrderViewerComponent implements OnInit {
   removeOrderItem(orderItem: OrderItem) {
     orderItem.count = -1;
     this.orderService.setOrderItem(orderItem);
+  }
+  hideCart() {
+    this.orderService.cartIsOpen$.next(false);
   }
 }

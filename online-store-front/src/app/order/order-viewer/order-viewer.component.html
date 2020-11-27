@@ -1,51 +1,58 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>Shopping Cart</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <table>
-      <tr>
-        <th>Remove</th>
-        <th>+</th>
-        <th>-</th>
-        <th>Count</th>
-        <th>Price</th>
-        <th>Item-sum</th>
-        <th>Item-name</th>
-      </tr>
-      <tr *ngFor="let item of orderItems">
-        <td>
-          <button mat-button color="primary" (click)="removeOrderItem(item)">
-            Remove
-          </button>
-        </td>
-        <td>
-          <button mat-button color="primary" (click)="incrementOrderItem(item)">
-            Plus
-          </button>
-        </td>
-        <td>
-          <button
-            mat-button
-            color="primary"
-            (click)="decrementOrderItem(item)"
-            [disabled]="item.count == 0"
-          >
-            Minus
-          </button>
-        </td>
-        <td>{{ item.count }}</td>
-        <td>{{ item.price }}</td>
-        <td>{{ item.count * item.price }}</td>
-        <td>{{ item.name }}</td>
-      </tr>
-    </table>
-    <p>
-      Resume: GoodsCount: {{ itemCount }}, orderSum:
-      <strong> {{ orderSum }}</strong>
-    </p>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-button color="error" (click)="clearCart()">Clear cart</button>
-  </mat-card-actions>
-</mat-card>
+<div *ngIf="cartIsOpen">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Shopping Cart</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table>
+        <tr>
+          <th>Remove</th>
+          <th>+</th>
+          <th>-</th>
+          <th>Count</th>
+          <th>Price</th>
+          <th>Item-sum</th>
+          <th>Item-name</th>
+        </tr>
+        <tr *ngFor="let item of orderItems">
+          <td>
+            <button mat-button color="primary" (click)="removeOrderItem(item)">
+              Remove
+            </button>
+          </td>
+          <td>
+            <button
+              mat-button
+              color="primary"
+              (click)="incrementOrderItem(item)"
+            >
+              Plus
+            </button>
+          </td>
+          <td>
+            <button
+              mat-button
+              color="primary"
+              (click)="decrementOrderItem(item)"
+              [disabled]="item.count == 0"
+            >
+              Minus
+            </button>
+          </td>
+          <td>{{ item.count }}</td>
+          <td>{{ item.price }}</td>
+          <td>{{ item.count * item.price }}</td>
+          <td>{{ item.name }}</td>
+        </tr>
+      </table>
+      <p>
+        Resume: GoodsCount: {{ itemCount }}, orderSum:
+        <strong> {{ orderSum }}</strong>
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button color="error" (click)="clearCart()">Clear cart</button>
+      <button mat-button color="primary" (click)="hideCart()">Hide Cart</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

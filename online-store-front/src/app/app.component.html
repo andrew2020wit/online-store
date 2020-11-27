@@ -6,6 +6,12 @@
           <h1>OnlineStore</h1>
         </button>
         <span style="flex: 1 1 auto;"></span>
+
+        <div [ngClass]="{ borderOfOnButton: cartIsOpen }">
+          <button mat-button color="accent" (click)="switchCart()">
+            <mat-icon>shopping_cart</mat-icon> {{ itemCount }} : {{ orderSum }}
+          </button>
+        </div>
         <app-auth></app-auth
       ></mat-toolbar-row>
 

@@ -19,7 +19,7 @@ export class OrderService {
 
   putEndPoint = baseApiUrl + '/api/orders';
 
-  cartIsOpen = false;
+  cartIsOpen$ = new BehaviorSubject<boolean>(false);
 
   appUser: IUser; // ???
 

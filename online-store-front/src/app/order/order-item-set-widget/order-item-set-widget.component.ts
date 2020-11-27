@@ -10,10 +10,24 @@ import { OrderService } from './../order.service';
 })
 export class OrderItemSetWidgetComponent implements OnInit {
   count = 0;
+  cartIsOpen = false;
 
   @Input() goods: IGoods;
 
-  constructor(private orderService: OrderService) {}
+  constructor(private orderService: OrderService) {
+    orderService.orderItemsMap$.subscribe((map) => {
+      if (!this.goods) {
+        return;
+      }
+      const item = map.get(this.goods.id);
+      if (item) {
+        this.count = item.count;
+      }
+    });
+    orderService.cartIsOpen$.subscribe((x) => {
+      this.cartIsOpen = x;
+    });
+  }
 
   changeCount(x) {
     this.count = this.count + x;
@@ -33,6 +47,10 @@ export class OrderItemSetWidgetComponent implements OnInit {
       price: this.goods.price,
     };
     this.orderService.setOrderItem(orderItem);
+  }
+
+  openCart() {
+    this.orderService.cartIsOpen$.next(true);
   }
 
   ngOnInit(): void {}
