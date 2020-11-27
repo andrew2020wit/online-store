@@ -32,7 +32,7 @@ export class OrderItemSetWidgetComponent implements OnInit {
       goodsId: this.goods.id,
       price: this.goods.price,
     };
-    this.orderService.setOrderItem(orderItem.goodsId, orderItem);
+    this.orderService.setOrderItem(orderItem);
   }
 
   ngOnInit(): void {}

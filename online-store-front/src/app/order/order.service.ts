@@ -42,8 +42,12 @@ export class OrderService {
     this.orderHeader = newOrderHeader;
   }
 
-  setOrderItem(goodsId: string, item: OrderItem) {
-    this.orderItemsMap.set(goodsId, item);
+  setOrderItem(item: OrderItem) {
+    if (item.count < 0) {
+      this.orderItemsMap.delete(item.goodsId);
+    } else {
+      this.orderItemsMap.set(item.goodsId, item);
+    }
     this.orderItemsMap$.next(this.orderItemsMap);
     this.saveOrderItemsMap();
   }
@@ -61,7 +65,6 @@ export class OrderService {
 
   loadOrderItemsMap() {
     const jsonItemMap = localStorage.getItem(keyLocalStorItems);
-    console.log('jsonItemMap', jsonItemMap);
 
     if (jsonItemMap) {
       const arr = JSON.parse(jsonItemMap) as Array<[string, OrderItem]>;

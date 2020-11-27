@@ -25,4 +25,20 @@ export class OrderViewerComponent implements OnInit {
   clearCart() {
     this.orderService.setDefaultState();
   }
+
+  incrementOrderItem(orderItem: OrderItem) {
+    orderItem.count = orderItem.count + 1;
+    this.orderService.setOrderItem(orderItem);
+  }
+  decrementOrderItem(orderItem: OrderItem) {
+    if (orderItem.count < 1) {
+      return;
+    }
+    orderItem.count = orderItem.count - 1;
+    this.orderService.setOrderItem(orderItem);
+  }
+  removeOrderItem(orderItem: OrderItem) {
+    orderItem.count = -1;
+    this.orderService.setOrderItem(orderItem);
+  }
 }
