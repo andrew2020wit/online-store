@@ -2,4 +2,4 @@
 
 ## "author": "andrew2020wit"
 
-## "license": "proprietary, only for view"
+## "license": "proprietary"

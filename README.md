@@ -1,5 +1,9 @@
 # OnlineStore, Angular/Nestjs application
 
+project in development...
+
+## Components
+
 1. Back: Nestjs-back
 2. Front: client for customers
 3. Manager: client for admins & managers
@@ -8,11 +12,27 @@
 
 Static Server, Authentication, JWT, Passport, TypeORM, validation, environment, dotenv, GraphQL, interceptors, guards, Reactive forms, RxJS, Subject-state, Angular-Material, Material custom theme, infinite scroll, ngx-formly, Upload Files
 
+## Features
+
+### Users, Authentication, JWT
+
+admins, managers, clients/users
+
+### Articles, news
+
+create/edit
+
+### Goods
+
+1. shopwindow
+2. order, cart
+3. edit price/goods
+
 ## Based on NestJS, Angular, PostgreSQL
 
 ## "author": "andrew2020wit"
 
-## "license": "proprietary, only for view"
+## "license": "proprietary"
 
 ## Based on my "Blog"-project
 

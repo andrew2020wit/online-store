@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { IUser } from '../auth-module/auth.service';
-import { baseApiUrl } from './../../environments/environment.prod';
+import { baseApiUrl } from './../../environments/environment';
 import { AuthService } from './../auth-module/auth.service';
 import { OrderHeader, OrderItem } from './dto/order.dto';
 
