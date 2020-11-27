@@ -26,7 +26,8 @@ export class OrderItem {
   count: number;
 
   isCanceled?: boolean;
-  price?: number;
+  price: number;
+  currency?: string;
   createdOn?: Date;
   updatedOn?: Date;
 }

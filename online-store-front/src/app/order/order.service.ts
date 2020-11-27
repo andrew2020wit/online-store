@@ -19,6 +19,8 @@ export class OrderService {
 
   putEndPoint = baseApiUrl + '/api/orders';
 
+  cartIsOpen = false;
+
   appUser: IUser; // ???
 
   constructor(
@@ -74,6 +76,19 @@ export class OrderService {
     } else {
       this.setDefaultState();
     }
+  }
+
+  computeOrderResults(itemMap: Map<string, OrderItem>) {
+    let itemCount = 0;
+    let orderSum = 0;
+    itemMap.forEach((item) => {
+      if (item.count > 0) {
+        itemCount = itemCount + 1;
+        orderSum = orderSum + item.count * item.price;
+      }
+    });
+
+    return { itemCount, orderSum };
   }
 
   isValidOrder() {

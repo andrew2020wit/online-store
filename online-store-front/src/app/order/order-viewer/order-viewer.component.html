@@ -40,6 +40,10 @@
         <td>{{ item.name }}</td>
       </tr>
     </table>
+    <p>
+      Resume: GoodsCount: {{ itemCount }}, orderSum:
+      <strong> {{ orderSum }}</strong>
+    </p>
   </mat-card-content>
   <mat-card-actions>
     <button mat-button color="error" (click)="clearCart()">Clear cart</button>

@@ -9,6 +9,8 @@ import { OrderService } from './../order.service';
 })
 export class OrderViewerComponent implements OnInit {
   orderItems: OrderItem[] = [];
+  itemCount = 0;
+  orderSum = 0;
 
   constructor(private orderService: OrderService) {
     this.orderService.orderItemsMap$.subscribe((map) => {
@@ -17,6 +19,11 @@ export class OrderViewerComponent implements OnInit {
         orderItems1.push(value);
       });
       this.orderItems = orderItems1;
+      const { itemCount, orderSum } = this.orderService.computeOrderResults(
+        map
+      );
+      this.itemCount = itemCount;
+      this.orderSum = orderSum;
     });
   }
 
