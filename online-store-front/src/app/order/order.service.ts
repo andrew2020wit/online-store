@@ -4,7 +4,8 @@ import { BehaviorSubject } from 'rxjs';
 import { IUser } from '../auth-module/auth.service';
 import { baseApiUrl } from './../../environments/environment';
 import { AuthService } from './../auth-module/auth.service';
-import { OrderHeader, OrderItem } from './dto/order.dto';
+import { StatusMessageDto } from './../global-interface/dto/status-message.dto';
+import { OrderDto, OrderHeader, OrderItem } from './dto/order.dto';
 
 const keyLocalStorItems = 'keyLocalStorItems';
 @Injectable({
@@ -99,13 +100,26 @@ export class OrderService {
     return true;
   }
 
-  sendOrder() {
-    // if (!this.isValidOrder) {
-    //   console.error('Order not valid');
-    //   return;
-    // }
-    // const newOrder = new OrderDto();
-    // newOrder.header = this.orderHeader;
-    // return this.httpClient.put<StatusMessageDto>(this.putEndPoint, newOrder);
+  buildOrder(
+    orderItems: OrderItem[],
+    address: string,
+    userNote: string,
+    user: IUser
+  ): OrderDto {
+    const order = new OrderDto();
+    order.header.deliverAddress = address;
+    order.header.userId = user.id;
+    order.header.userNote = userNote;
+    order.body = [];
+    orderItems.forEach((item) => {
+      if (item.count > 0) {
+        order.body.push(item);
+      }
+    });
+    return order;
+  }
+
+  sendOrder(orderDto: OrderDto) {
+    return this.httpClient.put<StatusMessageDto>(this.putEndPoint, orderDto);
   }
 }

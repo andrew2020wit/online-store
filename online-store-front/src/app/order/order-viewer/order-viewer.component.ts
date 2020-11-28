@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../auth-module/auth.service';
 import { OrderItem } from './../dto/order.dto';
 import { OrderService } from './../order.service';
 
@@ -12,8 +13,13 @@ export class OrderViewerComponent implements OnInit {
   itemCount = 0;
   orderSum = 0;
   cartIsOpen = false;
+  deliverAddress = '';
+  userNote = '';
 
-  constructor(private orderService: OrderService) {
+  constructor(
+    private orderService: OrderService,
+    private authService: AuthService
+  ) {
     this.orderService.orderItemsMap$.subscribe((map) => {
       const orderItems1: OrderItem[] = [];
       map.forEach((value) => {
@@ -54,5 +60,27 @@ export class OrderViewerComponent implements OnInit {
   }
   hideCart() {
     this.orderService.cartIsOpen$.next(false);
+  }
+  sendOrder() {
+    const addr = this.deliverAddress;
+    const items = this.orderItems;
+    const userNote = this.userNote;
+    const user = this.authService.appUser;
+    if (!user) {
+      alert('You must be logged!');
+      this.authService.loginFrameOpened$.next(true);
+      return;
+    }
+    if (addr == '') {
+      alert('DeliverAddress must be not empty!');
+      return;
+    }
+    if (!confirm(`Are you really wont to send order to ${addr}?`)) {
+      return;
+    }
+    const order = this.orderService.buildOrder(items, addr, userNote, user);
+    this.orderService.sendOrder(order).subscribe((x) => {
+      console.log('orderService.sendOrder', x);
+    });
   }
 }

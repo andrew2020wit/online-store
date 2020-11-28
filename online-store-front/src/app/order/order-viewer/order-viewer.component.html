@@ -49,10 +49,36 @@
         Resume: GoodsCount: {{ itemCount }}, orderSum:
         <strong> {{ orderSum }}</strong>
       </p>
+      <mat-form-field>
+        <mat-label>Deliver address</mat-label>
+        <textarea
+          matInput
+          placeholder="Deliver address"
+          [(ngModel)]="deliverAddress"
+          required
+        ></textarea>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Deliver address</mat-label>
+        <textarea
+          matInput
+          placeholder="Deliver address"
+          [(ngModel)]="userNote"
+        ></textarea>
+      </mat-form-field>
     </mat-card-content>
+
     <mat-card-actions>
-      <button mat-button color="error" (click)="clearCart()">Clear cart</button>
+      <button
+        mat-button
+        color="primary"
+        (click)="sendOrder()"
+        [disabled]="itemCount == 0"
+      >
+        Send Order
+      </button>
       <button mat-button color="primary" (click)="hideCart()">Hide Cart</button>
+      <button mat-button color="error" (click)="clearCart()">Clear cart</button>
     </mat-card-actions>
   </mat-card>
 </div>
