@@ -8,7 +8,7 @@ export class OrderHeader {
   userId: string;
   deliverAddress: string;
   userNote: string;
-  status: string;
+  status?: string;
 
   isCanceled?: boolean;
   isPaid?: boolean;

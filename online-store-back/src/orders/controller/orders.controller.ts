@@ -48,6 +48,7 @@ export class OrdersController {
     newOrder.userNote = orderDto.header.userNote;
 
     // create orderItems
+    newOrder.items = [];
     orderDto.body.forEach(item => {
       if (item.count > 0) {
         const newItem = new OrderItemsEntity();

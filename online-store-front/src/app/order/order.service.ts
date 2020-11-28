@@ -107,9 +107,11 @@ export class OrderService {
     user: IUser
   ): OrderDto {
     const order = new OrderDto();
-    order.header.deliverAddress = address;
-    order.header.userId = user.id;
-    order.header.userNote = userNote;
+    order.header = {
+      deliverAddress: address,
+      userId: user.id,
+      userNote: userNote,
+    };
     order.body = [];
     orderItems.forEach((item) => {
       if (item.count > 0) {

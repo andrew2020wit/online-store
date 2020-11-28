@@ -61,6 +61,7 @@ export class OrderViewerComponent implements OnInit {
   hideCart() {
     this.orderService.cartIsOpen$.next(false);
   }
+
   sendOrder() {
     const addr = this.deliverAddress;
     const items = this.orderItems;
@@ -79,6 +80,7 @@ export class OrderViewerComponent implements OnInit {
       return;
     }
     const order = this.orderService.buildOrder(items, addr, userNote, user);
+
     this.orderService.sendOrder(order).subscribe((x) => {
       console.log('orderService.sendOrder', x);
     });
