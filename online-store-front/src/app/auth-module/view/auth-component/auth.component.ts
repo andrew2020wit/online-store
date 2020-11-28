@@ -15,4 +15,7 @@ export class AuthComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+  openLoginFrame() {
+    this.authService.loginFrameOpened$.next(true);
+  }
 }

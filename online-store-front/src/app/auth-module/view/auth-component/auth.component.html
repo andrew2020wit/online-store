@@ -3,6 +3,6 @@
     <app-user-widget></app-user-widget>
   </span>
   <span *ngIf="!isLogged">
-    <button mat-button color="accent" routerLink="/login-page">LogIn</button>
+    <button mat-button color="accent" (click)="openLoginFrame()">LogIn</button>
   </span>
 </span>

@@ -42,7 +42,17 @@ export class AuthService {
 
   setTimeoutOfTokenUpdate: ReturnType<typeof setTimeout>;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  loginFrameOpened$ = new BehaviorSubject<boolean>(false);
+
+  constructor(private http: HttpClient, private router: Router) {
+    this.appUser$.subscribe((user) => {
+      if (user) {
+        this.loginFrameOpened$.next(false);
+      } else {
+        this.loginFrameOpened$.next(true);
+      }
+    });
+  }
 
   loadLocalToken() {
     const access_token = localStorage.getItem(keyLocalStorToken);

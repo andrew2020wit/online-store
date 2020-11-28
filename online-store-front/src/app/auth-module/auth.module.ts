@@ -19,6 +19,13 @@ import { UserWidgetComponent } from './view/user-widget/user-widget.component';
     LoginPageComponent,
   ],
   imports: [CommonModule, ShareModule, MatDialogModule],
-  exports: [AuthComponent],
+  exports: [
+    AuthComponent,
+    LoginFormComponent,
+    UserRegisterFormComponent,
+    UserWidgetComponent,
+    UserProfileComponent,
+    LoginPageComponent,
+  ],
 })
 export class AuthModule {}

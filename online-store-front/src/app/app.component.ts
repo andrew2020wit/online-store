@@ -38,7 +38,9 @@ export class AppComponent implements OnInit {
       this.orderSum = orderSum;
     });
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.authService.loginFrameOpened$.next(false);
+  }
 
   toHome() {
     this.router.navigate(['']);

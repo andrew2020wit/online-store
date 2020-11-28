@@ -32,6 +32,9 @@
 
   <main class="main">
     <div class="main-content">
+      <!-- login hide frame -->
+      <app-login-page></app-login-page>
+      <!-- error hide frame -->
       <div *ngIf="errorMessage">
         <div>
           <button mat-button color="primary" (click)="hideErrorMessage()">
@@ -40,7 +43,7 @@
         </div>
         <div class="error-box">{{ errorMessage }}</div>
       </div>
-
+      <!-- order cart hide frame -->
       <div>
         <app-order-viewer></app-order-viewer>
       </div>
