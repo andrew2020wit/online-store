@@ -32,8 +32,11 @@ export class OrderService {
       this.appUser = user;
     });
     this.loadOrderItemsMap();
+    this.orderItemsMap$.subscribe((map) => {
+      this.saveOrderItemsMap();
+    });
   }
-  setDefaultState() {
+  private setDefaultState() {
     this.orderItemsMap.clear();
     this.orderItemsMap$.next(this.orderItemsMap);
 
@@ -52,11 +55,11 @@ export class OrderService {
       this.orderItemsMap.set(item.goodsId, item);
     }
     this.orderItemsMap$.next(this.orderItemsMap);
-    this.saveOrderItemsMap();
   }
 
-  saveOrderItemsMap() {
+  private saveOrderItemsMap() {
     if (!this.orderItemsMap) {
+      localStorage.removeItem(keyLocalStorItems);
       return;
     }
     const arr = [];
@@ -66,7 +69,7 @@ export class OrderService {
     localStorage.setItem(keyLocalStorItems, JSON.stringify(arr));
   }
 
-  loadOrderItemsMap() {
+  private loadOrderItemsMap() {
     const jsonItemMap = localStorage.getItem(keyLocalStorItems);
 
     if (jsonItemMap) {
@@ -90,14 +93,6 @@ export class OrderService {
     });
 
     return { itemCount, orderSum };
-  }
-
-  isValidOrder() {
-    // if (!this.orderItems) {
-    //   return false;
-    // }
-    // // if (this.orderHeader.deliverAddress == ''){return false}
-    return true;
   }
 
   buildOrder(
@@ -133,5 +128,8 @@ export class OrderService {
       createdOnLessThan: dateAfter,
     };
     return this.httpClient.post<OrdersEntity[]>(endPoint, query);
+  }
+  clearCart() {
+    this.setDefaultState();
   }
 }

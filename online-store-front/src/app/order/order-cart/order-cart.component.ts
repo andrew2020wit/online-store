@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../../auth-module/auth.service';
 import { OrderItem } from '../dto/order.dto';
 import { OrderService } from '../order.service';
@@ -18,7 +19,8 @@ export class OrderCartComponent implements OnInit {
 
   constructor(
     private orderService: OrderService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {
     this.orderService.orderItemsMap$.subscribe((map) => {
       const orderItems1: OrderItem[] = [];
@@ -40,7 +42,7 @@ export class OrderCartComponent implements OnInit {
   ngOnInit(): void {}
 
   clearCart() {
-    this.orderService.setDefaultState();
+    this.orderService.clearCart();
   }
 
   incrementOrderItem(orderItem: OrderItem) {
@@ -83,6 +85,9 @@ export class OrderCartComponent implements OnInit {
 
     this.orderService.sendOrder(order).subscribe((x) => {
       console.log('orderService.sendOrder', x);
+      this.orderService.clearCart();
+      this.orderService.cartIsOpen$.next(false);
+      this.router.navigate(['/orders-list']);
     });
   }
 }
