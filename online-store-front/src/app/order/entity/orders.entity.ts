@@ -6,6 +6,7 @@ export class OrdersEntity {
   userId?: string;
 
   items?: OrderItemsEntity[];
+  orderSum?: number;
 
   isCanceled?: boolean;
 

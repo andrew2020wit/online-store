@@ -1,3 +1,27 @@
-<p>orders-list works!</p>
+<h3>Orders history</h3>
 
-<div *ngFor="let order of orders">{{ order.id }}</div>
+<mat-accordion *ngFor="let order of orders" style="margin: 4px;">
+  <mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title> OrderId: {{ order.id.slice(0, 8) }} </mat-panel-title>
+      <mat-panel-description>
+        CreatedOn: {{ order.createdOn | date: "short" }} Status:
+        {{ order.status }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>count</th>
+        <th>price</th>
+        <th>itemSum</th>
+      </tr>
+      <tr *ngFor="let item of order.items">
+        <td>{{ item.goods.name }}</td>
+        <td>{{ item.count }}</td>
+        <td>{{ item.price }}</td>
+        <td>{{ item.price * item.count }}</td>
+      </tr>
+    </table>
+  </mat-expansion-panel>
+</mat-accordion>

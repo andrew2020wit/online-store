@@ -66,7 +66,6 @@ export class OrdersService {
   }
 
   async getOrders(userIdFromToken: string, queryOrdersDto: QueryOrdersDto) {
-    console.log('getOrders');
     return await this.ordersRepository.find({
       take: queryOrdersDto.maxItemCount,
       order: { createdOn: 'DESC' },

@@ -36,6 +36,9 @@ export class OrdersEntity {
   )
   items?: OrderItemsEntity[];
 
+  @Column({ nullable: true })
+  orderSum?: number;
+
   @Column({ type: 'boolean', nullable: false, default: false })
   isCanceled?: boolean;
 
