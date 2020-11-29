@@ -9,7 +9,6 @@ import {
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RequestWithJwtUserExtDto } from 'src/auth/interfaces/request-with-user-ext.interface';
 import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
-import { OrderDto } from '../dto/order.dto';
 import { QueryOrdersDto } from '../dto/query-orders.dto';
 import { OrdersEntity } from '../entity/orders.entity';
 import { OrdersService } from '../orders.service';
@@ -22,9 +21,9 @@ export class OrdersController {
   @UseGuards(JwtAuthGuard)
   async createOrder(
     @Request() req: RequestWithJwtUserExtDto,
-    @Body() orderDto: OrderDto,
+    @Body() order: OrdersEntity,
   ): Promise<StatusMessageDto> {
-    return this.ordersService.createOrder(req.user.sub, orderDto);
+    return this.ordersService.createOrder(req.user.sub, order);
   }
 
   @Post('query')

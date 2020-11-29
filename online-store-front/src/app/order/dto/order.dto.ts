@@ -1,7 +1,7 @@
-export class OrderDto {
-  header: OrderHeader;
-  body: Array<OrderItem>;
-}
+// export class Order {
+//   header: OrderHeader;
+//   body: Array<OrderItem>;
+// }
 
 export class OrderHeader {
   id?: string;

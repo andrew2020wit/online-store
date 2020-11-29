@@ -15,9 +15,10 @@ export class TestController {
   // http://127.0.0.1:3001/api/test/regenerate-test-data
   @Get('regenerate-test-data')
   async init(): Promise<StatusMessageDto> {
+    await this.testInitOrdersService.clearTables();
     await this.initTestDataService.initData();
     await this.testInitGoodsService.goodsGenerator();
-    await this.testInitOrdersService.clearTables();
+
     return { ok: true, source: 'regenerate-test-data', message: 'Done' };
   }
 }

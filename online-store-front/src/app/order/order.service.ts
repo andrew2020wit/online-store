@@ -5,7 +5,7 @@ import { IUser } from '../auth-module/auth.service';
 import { baseApiUrl } from './../../environments/environment';
 import { AuthService } from './../auth-module/auth.service';
 import { StatusMessageDto } from './../global-interface/dto/status-message.dto';
-import { OrderDto, OrderHeader, OrderItem } from './dto/order.dto';
+import { OrderHeader, OrderItem } from './dto/order.dto';
 import { QueryOrdersDto } from './dto/query-orders.dto';
 import { OrdersEntity } from './entity/orders.entity';
 
@@ -100,25 +100,23 @@ export class OrderService {
     address: string,
     userNote: string,
     user: IUser
-  ): OrderDto {
-    const order = new OrderDto();
-    order.header = {
-      deliverAddress: address,
-      userId: user.id,
-      userNote: userNote,
-    };
-    order.body = [];
+  ): OrdersEntity {
+    const order = new OrdersEntity();
+    order.deliverAddress = address;
+    order.userId = user.id;
+    order.userNote = userNote;
+    order.items = [];
     orderItems.forEach((item) => {
       if (item.count > 0) {
-        order.body.push(item);
+        order.items.push(item);
       }
     });
     return order;
   }
 
-  sendOrder(orderDto: OrderDto) {
+  sendOrder(order: OrdersEntity) {
     const endPoint = baseApiUrl + '/api/orders';
-    return this.httpClient.put<StatusMessageDto>(endPoint, orderDto);
+    return this.httpClient.put<StatusMessageDto>(endPoint, order);
   }
 
   getOrders(takeN, dateAfter) {

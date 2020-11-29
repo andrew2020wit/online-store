@@ -6,7 +6,7 @@
       <mat-panel-title> OrderId: {{ order.id.slice(0, 8) }} </mat-panel-title>
       <mat-panel-description>
         CreatedOn: {{ order.createdOn | date: "short" }} Status:
-        {{ order.status }}
+        {{ order.status }} Sum: {{ order.orderSum }}
       </mat-panel-description>
     </mat-expansion-panel-header>
     <table>

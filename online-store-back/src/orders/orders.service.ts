@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
 import { LessThan, Repository } from 'typeorm';
-import { OrderDto } from './dto/order.dto';
 import { QueryOrdersDto } from './dto/query-orders.dto';
 import { OrderItemsEntity } from './entity/order-items.entity';
 import { OrdersEntity } from './entity/orders.entity';
@@ -16,7 +15,7 @@ export class OrdersService {
 
   async createOrder(
     userIdFromToken: string,
-    orderDto: OrderDto,
+    order: OrdersEntity,
   ): Promise<StatusMessageDto> {
     const returnMessage: StatusMessageDto = {
       ok: false,
@@ -25,15 +24,15 @@ export class OrdersService {
     };
 
     // validation
-    if (orderDto.header.deliverAddress == '') {
+    if (order.deliverAddress == '') {
       returnMessage.message = 'deliverAddress must be no empty';
       return returnMessage;
     }
-    if (orderDto.body.length == 0) {
+    if (order.items.length == 0) {
       returnMessage.message = 'order is empty';
       return returnMessage;
     }
-    if (orderDto.body[0].count == 0) {
+    if (order.items[0].count == 0) {
       returnMessage.message = 'count must be > 0';
       return returnMessage;
     }
@@ -42,20 +41,23 @@ export class OrdersService {
     const newOrder = new OrdersEntity();
     newOrder.userId = userIdFromToken;
     newOrder.status = 'new';
-    newOrder.deliverAddress = orderDto.header.deliverAddress;
-    newOrder.userNote = orderDto.header.userNote;
+    newOrder.deliverAddress = order.deliverAddress;
+    newOrder.userNote = order.userNote;
 
     // create orderItems
     newOrder.items = [];
-    orderDto.body.forEach(item => {
+    let orderSum = 0;
+    order.items.forEach(item => {
       if (item.count > 0) {
         const newItem = new OrderItemsEntity();
         newItem.count = item.count;
         newItem.goodsId = item.goodsId;
         newItem.price = item.price;
         newOrder.items.push(newItem);
+        orderSum = orderSum + newItem.price * newItem.count;
       }
     });
+    newOrder.orderSum = orderSum;
 
     //save order
     const savedOrder = await this.ordersRepository.save(newOrder);
