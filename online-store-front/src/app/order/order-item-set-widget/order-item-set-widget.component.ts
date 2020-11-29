@@ -22,6 +22,8 @@ export class OrderItemSetWidgetComponent implements OnInit {
       const item = map.get(this.goods.id);
       if (item) {
         this.count = item.count;
+      } else {
+        this.count = 0;
       }
     });
     orderService.cartIsOpen$.subscribe((x) => {
