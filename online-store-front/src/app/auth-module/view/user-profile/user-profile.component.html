@@ -7,20 +7,5 @@
     <app-new-user></app-new-user>
   </mat-tab>
 
-  <mat-tab *ngIf="authService.appUser.role == 'admin'" label="Admin tools">
-    <p></p>
-
-    <p>
-      <button mat-button color="primary" routerLink="/admin/users">
-        admin: users
-      </button>
-    </p>
-    <p>
-      <button mat-button color="primary" routerLink="/admin/test-tools">
-        admin: test tools
-      </button>
-    </p>
-  </mat-tab>
-
-  <mat-tab label="manager tools"> </mat-tab>
+  <mat-tab label="Orders"> Orders </mat-tab>
 </mat-tab-group>

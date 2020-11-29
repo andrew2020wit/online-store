@@ -11,7 +11,7 @@ export class TestInitGoodsService {
   ) {}
 
   async goodsGenerator() {
-    this.clearTables();
+    await this.clearTables();
     for (let n = 1; n <= 200; n++) {
       await this.goodsRepository.save({
         name: `GoodsName #${n}`,

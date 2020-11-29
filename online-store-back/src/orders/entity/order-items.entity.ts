@@ -1,8 +1,10 @@
 import { Field, ObjectType } from '@nestjs/graphql';
+import { GoodsEntity } from 'src/goods/goods.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -12,19 +14,26 @@ import { OrdersEntity } from './orders.entity';
 @ObjectType()
 @Entity()
 export class OrderItemsEntity {
-  @Field()
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Field(type => OrdersEntity)
-  @ManyToOne(() => OrdersEntity, {
-    eager: true,
-    cascade: true,
-    nullable: false,
-  })
+  @ManyToOne(() => OrdersEntity)
   orderId: OrdersEntity;
 
+  @Field()
+  @Column({
+    nullable: false,
+  })
   goodsId: string;
+
+  @Field(type => GoodsEntity)
+  @ManyToOne(type => GoodsEntity, {
+    eager: true,
+    cascade: false,
+    nullable: false,
+  })
+  @JoinColumn()
+  goods: GoodsEntity;
 
   @Field({ description: `count` })
   @Column({ nullable: true, default: 1 })
@@ -35,8 +44,12 @@ export class OrderItemsEntity {
   isCanceled: boolean;
 
   @Field({ description: `price` })
-  @Column({ nullable: true, default: null })
+  @Column({ nullable: false })
   price: number;
+
+  @Field({ description: `currency` })
+  @Column({ nullable: false, default: '' })
+  currency: string;
 
   @Field()
   @CreateDateColumn()

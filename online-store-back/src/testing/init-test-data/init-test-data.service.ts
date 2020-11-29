@@ -16,12 +16,14 @@ export class InitTestDataService {
   ) {}
   initData(): StatusMessageDto {
     this.clearTables();
-    this.usersGenerator(50);
+    this.usersGenerator();
     return { message: 'done', source: 'initData', ok: true };
   }
-  async usersGenerator(quantity: number): Promise<void> {
+
+  async usersGenerator(): Promise<void> {
     const password2 = await bcrypt.hash('12', 10);
-    for (let n = 1; n <= quantity; n++) {
+    // managers + articles
+    for (let n = 1; n <= 3; n++) {
       const author = await this.userRepository.save({
         login: 'manager' + n,
         fullName: 'Manager N' + n,
@@ -29,8 +31,9 @@ export class InitTestDataService {
         role: 'manager',
       });
 
+      // create articles
       const connection = getConnection();
-      for (let m = 1; m <= 4; m++) {
+      for (let m = 1; m <= 40; m++) {
         const newArt = new ArticleEntity();
         newArt.author = author;
         newArt.title = 'News N' + m + ' from: ' + author.fullName;
@@ -46,9 +49,9 @@ export class InitTestDataService {
         await connection.manager.save(newArt);
       }
     }
-    // admin section
+    // create admins
     await this.userRepository.save({
-      login: 'admin1',
+      login: 'admin',
       fullName: 'Admin N1',
       password: password2,
       role: 'admin',
@@ -59,7 +62,21 @@ export class InitTestDataService {
       password: password2,
       role: 'admin',
     });
+    // create clients
+    await this.userRepository.save({
+      login: 'user',
+      fullName: 'Hugo Boss',
+      password: password2,
+      role: 'client',
+    });
+    await this.userRepository.save({
+      login: 'user2',
+      fullName: 'Secret bayer',
+      password: password2,
+      role: 'client',
+    });
   }
+
   async clearTables(): Promise<void> {
     await getConnection()
       .createQueryBuilder()
