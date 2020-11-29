@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth-module/auth.service';
-import { OrderItem } from './../dto/order.dto';
-import { OrderService } from './../order.service';
+import { OrderItem } from '../dto/order.dto';
+import { OrderService } from '../order.service';
 
 @Component({
-  selector: 'app-order-viewer',
-  templateUrl: './order-viewer.component.html',
-  styleUrls: ['./order-viewer.component.scss'],
+  selector: 'app-order-cart',
+  templateUrl: './order-cart.component.html',
+  styleUrls: ['./order-cart.component.scss'],
 })
-export class OrderViewerComponent implements OnInit {
+export class OrderCartComponent implements OnInit {
   orderItems: OrderItem[] = [];
   itemCount = 0;
   orderSum = 0;

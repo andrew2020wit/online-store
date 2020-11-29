@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ShareModule } from './../share.module';
+import { OrderCartComponent } from './order-cart/order-cart.component';
 import { OrderItemSetWidgetComponent } from './order-item-set-widget/order-item-set-widget.component';
-import { OrderViewerComponent } from './order-viewer/order-viewer.component';
 
 @NgModule({
-  declarations: [OrderViewerComponent, OrderItemSetWidgetComponent],
-  exports: [OrderViewerComponent, OrderItemSetWidgetComponent],
+  declarations: [OrderCartComponent, OrderItemSetWidgetComponent],
+  exports: [OrderCartComponent, OrderItemSetWidgetComponent],
   imports: [CommonModule, ShareModule],
 })
 export class OrderModule {}
