@@ -1,4 +1,3 @@
-import { Field, ObjectType } from '@nestjs/graphql';
 import { UserEntity } from 'src/auth/users/user.entity';
 import {
   Column,
@@ -12,60 +11,50 @@ import {
 } from 'typeorm';
 import { OrderItemsEntity } from './order-items.entity';
 
-@ObjectType()
 @Entity()
 export class OrdersEntity {
-  @Field()
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id?: string;
 
-  @Field()
   @Column({
     nullable: false,
   })
-  userId: string;
+  userId?: string;
 
   @ManyToOne(type => UserEntity)
   @JoinColumn()
-  user: UserEntity;
+  user?: UserEntity;
 
-  @Field(type => OrderItemsEntity)
   @OneToMany(
     () => OrderItemsEntity,
-    item => item.orderId,
+    item => item.order,
     {
       eager: true,
       cascade: true,
       nullable: false,
     },
   )
-  items: OrderItemsEntity[];
+  items?: OrderItemsEntity[];
 
-  @Field()
   @Column({ type: 'boolean', nullable: false, default: false })
-  isCanceled: boolean;
+  isCanceled?: boolean;
 
-  @Field()
   @Column({ type: 'boolean', nullable: false, default: false })
-  isPaid: boolean;
+  isPaid?: boolean;
 
-  @Field()
   @Column({ type: 'boolean', nullable: false, default: false })
-  isDispatched: boolean;
+  isDispatched?: boolean;
 
-  @Field()
   @Column({ type: 'boolean', nullable: false, default: false })
-  isDelivered: boolean;
+  isDelivered?: boolean;
 
-  @Field()
   @Column('varchar', {
     length: 128,
     nullable: false,
     default: '',
   })
-  status: string;
+  status?: string;
 
-  @Field()
   @Column('varchar', {
     length: 512,
     nullable: false,
@@ -73,19 +62,16 @@ export class OrdersEntity {
   })
   deliverAddress: string;
 
-  @Field()
   @Column('varchar', {
     length: 512,
     nullable: false,
     default: '',
   })
-  userNote: string;
+  userNote?: string;
 
-  @Field()
   @CreateDateColumn()
-  createdOn: Date;
+  createdOn?: Date;
 
-  @Field()
   @UpdateDateColumn()
-  updatedOn: Date;
+  updatedOn?: Date;
 }

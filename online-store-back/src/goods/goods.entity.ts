@@ -12,7 +12,7 @@ import {
 export class GoodsEntity {
   @Field()
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id?: string;
 
   @Field({ description: `Goods name` })
   @Column('varchar', { length: 128, nullable: false })
@@ -20,11 +20,11 @@ export class GoodsEntity {
 
   @Field({ description: `photoUrl` })
   @Column('varchar', { length: 128, nullable: false, default: '' })
-  smallPhotoUrl: string;
+  smallPhotoUrl?: string;
 
   @Field({ description: `photoUrl` })
   @Column('varchar', { length: 128, nullable: false, default: '' })
-  bigPhotoUrl: string;
+  bigPhotoUrl?: string;
 
   @Field({ description: `price` })
   @Column({ nullable: true, default: null })
@@ -36,17 +36,17 @@ export class GoodsEntity {
     nullable: false,
     default: '',
   })
-  description: string;
+  description?: string;
 
   @Field()
   @Column({ type: 'boolean', nullable: false, default: true })
-  isActive: boolean;
+  isActive?: boolean;
 
   @Field()
   @CreateDateColumn()
-  createdOn: Date;
+  createdOn?: Date;
 
   @Field()
   @UpdateDateColumn()
-  updatedOn: Date;
+  updatedOn?: Date;
 }

@@ -5,6 +5,7 @@ import { AuthGuard } from './auth-module/guards/auth.guard';
 import { UserProfileComponent } from './auth-module/view/user-profile/user-profile.component';
 import { UserRegisterFormComponent } from './auth-module/view/user-register-form/user-register-form.component';
 import { GoodsViewComponent } from './goods/goods-view/goods-view.component';
+import { OrdersListComponent } from './order/orders-list/orders-list.component';
 import { AboutComponent } from './view/pages/about/about.component';
 import { GoodsComponent } from './view/pages/goods/goods.component';
 import { HomePageComponent } from './view/pages/home-page/home-page.component';
@@ -17,6 +18,11 @@ const appRoutes: Routes = [
 
   { path: 'goods', component: GoodsComponent },
   { path: 'goods-details-view/:id', component: GoodsViewComponent },
+  {
+    path: 'orders-list',
+    component: OrdersListComponent,
+    canActivate: [AuthGuard],
+  },
 
   { path: 'news', component: NewsComponent },
   { path: 'review', component: ReviewsComponent },

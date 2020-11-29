@@ -6,6 +6,8 @@ import { baseApiUrl } from './../../environments/environment';
 import { AuthService } from './../auth-module/auth.service';
 import { StatusMessageDto } from './../global-interface/dto/status-message.dto';
 import { OrderDto, OrderHeader, OrderItem } from './dto/order.dto';
+import { QueryOrdersDto } from './dto/query-orders.dto';
+import { OrdersEntity } from './entity/orders.entity';
 
 const keyLocalStorItems = 'keyLocalStorItems';
 @Injectable({
@@ -17,8 +19,6 @@ export class OrderService {
   orderItemsMap$ = new BehaviorSubject<Map<string, OrderItem>>(
     this.orderItemsMap
   );
-
-  putEndPoint = baseApiUrl + '/api/orders';
 
   cartIsOpen$ = new BehaviorSubject<boolean>(false);
 
@@ -122,6 +122,16 @@ export class OrderService {
   }
 
   sendOrder(orderDto: OrderDto) {
-    return this.httpClient.put<StatusMessageDto>(this.putEndPoint, orderDto);
+    const endPoint = baseApiUrl + '/api/orders';
+    return this.httpClient.put<StatusMessageDto>(endPoint, orderDto);
+  }
+
+  getOrders(takeN, dateAfter) {
+    const endPoint = baseApiUrl + '/api/orders/query';
+    const query: QueryOrdersDto = {
+      maxItemCount: takeN,
+      createdOnLessThan: dateAfter,
+    };
+    return this.httpClient.post<OrdersEntity[]>(endPoint, query);
   }
 }

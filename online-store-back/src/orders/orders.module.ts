@@ -3,13 +3,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { OrdersController } from './controller/orders.controller';
 import { OrderItemsEntity } from './entity/order-items.entity';
 import { OrdersEntity } from './entity/orders.entity';
-import { OrdersResolver } from './graphql/orders.resolver';
+import { OrdersService } from './orders.service';
 import { TestInitOrdersService } from './test-init-orders.service';
 
 @Module({
   controllers: [OrdersController],
-  providers: [OrdersResolver, TestInitOrdersService],
+  providers: [TestInitOrdersService, OrdersService],
   imports: [TypeOrmModule.forFeature([OrderItemsEntity, OrdersEntity])],
-  exports: [TypeOrmModule, TestInitOrdersService, OrdersResolver],
+  exports: [TypeOrmModule, TestInitOrdersService],
 })
 export class OrdersModule {}
