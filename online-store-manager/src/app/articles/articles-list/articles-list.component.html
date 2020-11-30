@@ -1,22 +1,20 @@
 <mat-form-field>
   <mat-label>Title - Filter</mat-label>
-  <input id="filterInput" matInput type="text" [(ngModel)]="gqlSample" />
+  <input id="filterInput" matInput type="text" [(ngModel)]="pattern" />
   <button
     mat-button
-    *ngIf="gqlSample"
+    *ngIf="pattern"
     matSuffix
     mat-icon-button
     aria-label="Clear"
-    (click)="gqlSample = ''; titleFilterReLoad()"
+    (click)="pattern = ''; titleFilterReLoad()"
   >
     <mat-icon>close</mat-icon>
   </button>
 </mat-form-field>
 
-<div class="errorLoadingDiv" *ngIf="errorLoading">No connection to server</div>
-
 <app-article-header-card
-  *ngFor="let header of articleHeaders"
+  *ngFor="let header of entitys"
   title="{{ header.title }}"
   authorFullName="{{ header.author.fullName }}"
   description="{{ header.description }}"
@@ -26,5 +24,3 @@
 ></app-article-header-card>
 
 <div id="IntersectionTarget" style="height: 5px;"></div>
-
-<div *ngIf="loading && !dataFinished">loading...</div>
