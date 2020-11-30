@@ -14,7 +14,7 @@ import { Repository } from 'typeorm';
 import { GoodsEntity } from '../goods.entity';
 import { editFileName, imageFileFilter } from './file-upload.utils';
 
-@Controller('goods')
+@Controller('goods-upload')
 export class GoodsUploadController {
   constructor(
     @InjectRepository(GoodsEntity)

@@ -1,22 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { Apollo, gql, QueryRef } from 'apollo-angular';
-import { fromEvent, Observable, Subscription } from 'rxjs';
+import { fromEvent, Observable } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { IGoods } from '../goods.interface';
+import { GoodsEntity } from './../goods.entity';
+import { GoodsService } from './../goods.service';
 
-const GoodsGQL = gql`
-  query getGoods($take: Int, $createOnCursor: DateTime, $sample: String) {
-    getGoods(take: $take, createOnCursor: $createOnCursor, sample: $sample) {
-      id
-      name
-      description
-      createdOn
-      updatedOn
-      price
-      smallPhotoUrl
-    }
-  }
-`;
+class InfiniteScrollStatus {
+  isIntersecting = false;
+  dataFinished = false;
+  errorLoading = false;
+  isLoading = false;
+}
 
 @Component({
   selector: 'app-goods-list',
@@ -25,52 +18,39 @@ const GoodsGQL = gql`
 })
 export class GoodsListComponent implements OnInit {
   private intersectionObserver: IntersectionObserver;
-  isIntersecting2 = false;
+  infiniteScrollStatus: InfiniteScrollStatus = {
+    isIntersecting: false,
+    dataFinished: false,
+    errorLoading: false,
+    isLoading: false,
+  };
 
-  goods: IGoods[] = [];
+  entitys: GoodsEntity[] = [];
 
-  private querySubscription: Subscription;
-  GoodsWatchQuery: QueryRef<any>;
-  takeV = 40;
-  gqlSample = '';
+  //QueryDto
+  take = 20;
+  pattern = '';
   createOnCursor: Date = new Date();
-  dataFinished = false;
-  loading = false;
-  errorLoading = false;
 
   filterInput: Element;
   filterInputKeyUp: Observable<Event>;
 
-  constructor(private apollo: Apollo) {
+  constructor(private entityService: GoodsService) {
     this.intersectionObserver = new IntersectionObserver(
-      (entries) => this.intersectionCallback(entries),
+      (entries) => {
+        this.infiniteScrollStatus.isIntersecting = entries[0].isIntersecting;
+      },
       { rootMargin: '0px 0px 1000px 0px' }
     );
+    this.autoLoader();
   }
 
-  ngOnInit(): void {
-    this.GoodsWatchQuery = this.apollo.watchQuery<any>({
-      query: GoodsGQL,
-      variables: {
-        take: this.takeV,
-        createOnCursor: this.createOnCursor,
-      },
-      errorPolicy: 'all',
-    });
-    setTimeout(() => this.autoLoader(), 200);
-  }
+  ngOnInit() {}
 
   ngAfterViewInit(): void {
     this.intersectionObserver.observe(
       document.getElementById('IntersectionTarget')
     );
-
-    this.querySubscription = this.GoodsWatchQuery.valueChanges.subscribe(
-      ({ data, loading }) => {
-        this.loadGoods({ data, loading });
-      }
-    );
-
     this.filterInput = document.querySelector('#filterInput');
     this.filterInputKeyUp = fromEvent(this.filterInput, 'keyup') as Observable<
       Event
@@ -80,68 +60,48 @@ export class GoodsListComponent implements OnInit {
       .subscribe(() => this.titleFilterReLoad());
   }
 
-  intersectionCallback(entries) {
-    this.isIntersecting2 = entries[0].isIntersecting;
-    // setTimeout(() => this.intersectionCallbackAsinc(), 0);
-  }
-
-  async autoLoader() {
-    if (this.isIntersecting2 && !this.dataFinished) {
-      this.loadGoodsNext();
-    }
-    if (!this.errorLoading) {
-      setTimeout(() => this.autoLoader(), 200);
-    }
-  }
-
-  loadGoods({ data, loading }) {
-    this.loading = loading;
-    const newGoods: IGoods[] = data.getGoods as IGoods[];
-    const length = newGoods.length;
-    if (length < this.takeV) {
-      this.dataFinished = true;
-    }
-    if (length > 0) {
-      this.createOnCursor = newGoods[length - 1].createdOn;
-    }
-    this.goods.push(...newGoods);
-  }
-
-  loadGoodsNext() {
-    if (this.dataFinished) {
-      return;
-    }
-    this.GoodsWatchQuery.fetchMore({
-      variables: {
-        createOnCursor: this.createOnCursor,
-        sample: this.gqlSample,
-      },
-    }).then(
-      ({ data, loading }) => {
-        this.loadGoods({ data, loading });
-      },
-      (error) => {
-        this.errorLoading = true;
-        console.log('errorLoading', error);
-      }
-    );
-  }
-
-  titleFilterReLoad() {
-    this.goods = [];
-    this.dataFinished = false;
-    this.GoodsWatchQuery.fetchMore({
-      variables: {
-        createOnCursor: new Date(),
-        sample: this.gqlSample,
-      },
-    }).then(({ data, loading }) => {
-      this.loadGoods({ data, loading });
-    });
-  }
+  titleFilterReLoad() {}
 
   ngOnDestroy() {
-    this.querySubscription.unsubscribe();
     this.intersectionObserver.disconnect();
+  }
+
+  autoLoader() {
+    if (
+      this.infiniteScrollStatus.dataFinished ||
+      this.infiniteScrollStatus.errorLoading
+    ) {
+      return;
+    }
+    if (
+      !this.infiniteScrollStatus.isLoading &&
+      this.infiniteScrollStatus.isIntersecting
+    ) {
+      this.getEntity();
+    }
+    setTimeout(() => {
+      this.autoLoader();
+    }, 200);
+  }
+
+  restartLoader() {
+    this.entitys = [];
+    this.infiniteScrollStatus.dataFinished = false;
+    this.infiniteScrollStatus.errorLoading = false;
+    this.infiniteScrollStatus.isLoading = false;
+    this.autoLoader();
+  }
+
+  getEntity() {
+    this.infiniteScrollStatus.isLoading = true;
+    this.entityService
+      .getEntity(this.take, this.createOnCursor, this.pattern)
+      .subscribe((entitys) => {
+        this.entitys.push(...entitys);
+        this.infiniteScrollStatus.isLoading = false;
+        if (entitys.length < this.take) {
+          this.infiniteScrollStatus.dataFinished;
+        }
+      });
   }
 }
