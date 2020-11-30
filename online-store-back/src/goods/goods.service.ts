@@ -80,7 +80,7 @@ export class GoodsService {
     response.resultId = resEntity.id;
   }
 
-  async Activate(id: string, status: boolean) {
+  async activate(id: string, status: boolean) {
     const response = new StatusMessageDto();
     response.ok = false;
     response.source = 'GoodsService:delete';
