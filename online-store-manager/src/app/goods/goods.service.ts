@@ -24,4 +24,36 @@ export class GoodsService {
     const endPoint = baseApiUrl + '/api/goods' + `?id=${id}`;
     return this.http.get<GoodsEntity>(endPoint);
   }
+
+  create$(title: string, description: string, text: string) {
+    // const userId = this.authService.appUser.id;
+    // if (!userId) {
+    //   console.log('this.authService.appUser.sub false');
+    //   return;
+    // }
+    return this.http.put;
+  }
+
+  edit$(articleId: string, title: string, description: string, text: string) {
+    // const userId = this.authService.appUser.id;
+    // if (!userId) {
+    //   console.log('this.authService.appUser.id false');
+    //   return;
+    // }
+    // return this.apollo.mutate({
+    //   mutation: this.EditArticlesGQL,
+    //   variables: { articleId, description, text, title },
+    // });
+  }
+
+  delete$(articleId: string) {
+    // const userId = this.authService.appUser.id;
+    // if (!userId) {
+    //   console.log('this.authService.appUser.id false');
+    //   return;
+    // }
+    // return this.apollo.mutate({
+    //   mutation: this.DisActiveArticleGQL,
+    //   variables: { articleId },
+    // });
 }
