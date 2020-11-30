@@ -5,10 +5,10 @@ import { GoodsEntity } from './../goods.entity';
 import { GoodsService } from './../goods.service';
 
 class InfiniteScrollStatus {
-  isIntersecting = false;
-  dataFinished = false;
-  errorLoading = false;
-  isLoading = false;
+  isIntersecting: boolean;
+  dataFinished: boolean;
+  errorLoading: boolean;
+  isLoading: boolean;
 }
 
 @Component({
@@ -19,7 +19,7 @@ class InfiniteScrollStatus {
 export class GoodsListComponent implements OnInit {
   private intersectionObserver: IntersectionObserver;
   infiniteScrollStatus: InfiniteScrollStatus = {
-    isIntersecting: false,
+    isIntersecting: true,
     dataFinished: false,
     errorLoading: false,
     isLoading: false,

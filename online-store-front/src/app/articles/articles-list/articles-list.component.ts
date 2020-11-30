@@ -4,10 +4,10 @@ import { debounceTime } from 'rxjs/operators';
 import { ArticleEntity } from './../article.entity';
 import { ArticlesService } from './../articles.service';
 class InfiniteScrollStatus {
-  isIntersecting = false;
-  dataFinished = false;
-  errorLoading = false;
-  isLoading = false;
+  isIntersecting: boolean;
+  dataFinished: boolean;
+  errorLoading: boolean;
+  isLoading: boolean;
 }
 
 @Component({
@@ -18,7 +18,7 @@ class InfiniteScrollStatus {
 export class ArticlesListComponent implements OnInit, AfterViewInit, OnDestroy {
   private intersectionObserver: IntersectionObserver;
   infiniteScrollStatus: InfiniteScrollStatus = {
-    isIntersecting: false,
+    isIntersecting: true,
     dataFinished: false,
     errorLoading: false,
     isLoading: false,
