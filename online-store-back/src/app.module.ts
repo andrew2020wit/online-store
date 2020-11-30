@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { GraphQLModule } from '@nestjs/graphql/dist/graphql.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
@@ -8,17 +7,12 @@ import { ArticlesModule } from './articles/articles.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './auth/users/users.module';
 import { GoodsModule } from './goods/goods.module';
+import { OrdersModule } from './orders/orders.module';
 import { InitTestDataService } from './testing/init-test-data/init-test-data.service';
 import { TestController } from './testing/test.controller';
-import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
-    GraphQLModule.forRoot({
-      context: ({ req }) => ({ req }),
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      sortSchema: true,
-    }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
       exclude: ['/api*', '/graphql*'],

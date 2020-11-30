@@ -32,10 +32,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
 import { AppRoutingModule } from './app-routing.module';
-import { GraphQLModule } from './graphql.module';
 import { UtcToLocalTimePipe } from './utils/utc-to-localtime.pipe';
 
-const customModules = [AppRoutingModule, GraphQLModule, FormlyMaterialModule];
+const customModules = [AppRoutingModule, FormlyMaterialModule];
 const angularModules = [
   BrowserAnimationsModule,
   HttpClientModule,
