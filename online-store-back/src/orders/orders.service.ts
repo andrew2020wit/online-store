@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
 import { LessThan, Repository } from 'typeorm';
-import { QueryOrdersDto } from './dto/query-orders.dto';
+import { QueryDto } from '../global-interface/dto/query.dto';
 import { OrderItemsEntity } from './entity/order-items.entity';
 import { OrdersEntity } from './entity/orders.entity';
 
@@ -67,7 +67,7 @@ export class OrdersService {
     return returnMessage;
   }
 
-  async getOrders(userIdFromToken: string, queryOrdersDto: QueryOrdersDto) {
+  async getOrders(userIdFromToken: string, queryOrdersDto: QueryDto) {
     return await this.ordersRepository.find({
       take: queryOrdersDto.maxItemCount,
       order: { createdOn: 'DESC' },

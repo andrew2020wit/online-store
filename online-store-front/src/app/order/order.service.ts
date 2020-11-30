@@ -2,11 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { IUser } from '../auth-module/auth.service';
+import { QueryDto } from '../global-interface/dto/query.dto';
 import { baseApiUrl } from './../../environments/environment';
 import { AuthService } from './../auth-module/auth.service';
 import { StatusMessageDto } from './../global-interface/dto/status-message.dto';
 import { OrderHeader, OrderItem } from './dto/order.dto';
-import { QueryOrdersDto } from './dto/query-orders.dto';
 import { OrdersEntity } from './entity/orders.entity';
 
 const keyLocalStorItems = 'keyLocalStorItems';
@@ -121,7 +121,7 @@ export class OrderService {
 
   getOrders(takeN, dateAfter) {
     const endPoint = baseApiUrl + '/api/orders/query';
-    const query: QueryOrdersDto = {
+    const query: QueryDto = {
       maxItemCount: takeN,
       createdOnLessThan: dateAfter,
     };

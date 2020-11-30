@@ -15,7 +15,7 @@ import { GoodsEntity } from '../goods.entity';
 import { editFileName, imageFileFilter } from './file-upload.utils';
 
 @Controller('goods')
-export class GoodsController {
+export class GoodsUploadController {
   constructor(
     @InjectRepository(GoodsEntity)
     private goodsRepository: Repository<GoodsEntity>,

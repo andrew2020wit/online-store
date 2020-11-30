@@ -15,14 +15,14 @@ import {
 export class UserEntity {
   @Field()
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id?: string;
 
   @Column({
     nullable: false,
     unique: true,
   })
   @Length(3, 32)
-  login: string;
+  login?: string;
 
   @Field()
   @Column({
@@ -30,22 +30,25 @@ export class UserEntity {
     unique: true,
   })
   @Length(3, 64)
-  fullName: string;
+  fullName?: string;
 
   @Column({
     nullable: false,
     select: false,
   })
   @Length(2, 32)
-  password: string;
+  password?: string;
 
   @Field()
   @Column({ nullable: false, default: 'user' })
-  role: string;
+  role?: string;
+
+  @Column({ nullable: true, default: '' })
+  defaultDeliverAddress?: string;
 
   @Field()
   @Column({ type: 'boolean', nullable: false, default: true })
-  isActive: boolean;
+  isActive?: boolean;
 
   @Field()
   @CreateDateColumn()
