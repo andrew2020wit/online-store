@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GoodsEntity } from './../goods.entity';
 import { GoodsService } from './../goods.service';
 @Component({
@@ -13,7 +13,8 @@ export class GoodsViewComponent {
 
   constructor(
     private entityService: GoodsService,
-    private activateRoute: ActivatedRoute
+    private activateRoute: ActivatedRoute,
+    private router: Router
   ) {
     this.routerId = this.activateRoute.snapshot.params['id'];
     this.getEntity();
@@ -25,5 +26,8 @@ export class GoodsViewComponent {
     this.entityService.getById(this.routerId).subscribe((entity) => {
       this.entity = entity;
     });
+  }
+  edit() {
+    this.router.navigate([`/edit-goods/${this.routerId}`]);
   }
 }

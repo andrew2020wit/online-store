@@ -29,12 +29,12 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'goods-edit/:id',
+    path: 'edit-goods/:id',
     component: GoodsEditComponent,
     canActivate: [AuthGuard],
   },
   {
-    path: 'goods-edit',
+    path: 'edit-goods',
     component: GoodsEditComponent,
     canActivate: [AuthGuard],
   },
