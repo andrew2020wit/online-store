@@ -43,7 +43,7 @@ export class GoodsController {
   @UseGuards(ManagerJwtAuthGuard)
   @Delete()
   async activate(
-    @Query() query: { id: string; status: boolean },
+    @Body() query: { id: string; status: boolean },
   ): Promise<StatusMessageDto> {
     return this.service.activate(query.id, query.status);
   }
