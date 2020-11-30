@@ -19,4 +19,9 @@ export class GoodsService {
     };
     return this.http.post<GoodsEntity[]>(endPoint, query);
   }
+
+  getById(id: string) {
+    const endPoint = baseApiUrl + '/api/goods' + `?id=${id}`;
+    return this.http.get<GoodsEntity>(endPoint);
+  }
 }
