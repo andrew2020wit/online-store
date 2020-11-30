@@ -14,11 +14,11 @@ import {
 export class ArticleEntity {
   @Field()
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id?: string;
 
   @Field({ description: `Article title` })
   @Column('varchar', { length: 128, nullable: false })
-  title: string;
+  title?: string;
 
   @Field({ description: `Short article description` })
   @Column('varchar', {
@@ -26,32 +26,28 @@ export class ArticleEntity {
     nullable: false,
     default: '',
   })
-  description: string;
+  description?: string;
 
   @Field()
   @Column({
     nullable: false,
     type: 'text',
   })
-  text: string;
+  text?: string;
 
   @Field()
   @Column({ type: 'boolean', nullable: false, default: true })
-  isActive: boolean;
+  isActive?: boolean;
 
   @Field(type => UserEntity)
-  @ManyToOne(
-    () => UserEntity,
-    user => user.articles,
-    { eager: true, cascade: false, nullable: false },
-  )
-  author: UserEntity;
+  @ManyToOne(() => UserEntity, { eager: true, cascade: false, nullable: false })
+  author?: UserEntity;
 
   @Field()
   @CreateDateColumn()
-  createdOn: Date;
+  createdOn?: Date;
 
   @Field()
   @UpdateDateColumn()
-  updatedOn: Date;
+  updatedOn?: Date;
 }

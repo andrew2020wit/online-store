@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { ArticleViewEditComponent } from './articles/article-view-edit/article-view-edit.component';
+import { ArticleViewComponent } from './articles/article-view/article-view.component';
 import { AuthGuard } from './auth-module/guards/auth.guard';
 import { UserProfileComponent } from './auth-module/view/user-profile/user-profile.component';
 import { UserRegisterFormComponent } from './auth-module/view/user-register-form/user-register-form.component';
@@ -26,7 +26,7 @@ const appRoutes: Routes = [
 
   { path: 'news', component: NewsComponent },
   { path: 'review', component: ReviewsComponent },
-  { path: 'article-view/:id', component: ArticleViewEditComponent },
+  { path: 'article-view/:id', component: ArticleViewComponent },
 
   { path: 'about', component: AboutComponent },
 

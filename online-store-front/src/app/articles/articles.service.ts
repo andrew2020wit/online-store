@@ -1,88 +1,61 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Apollo, gql } from 'apollo-angular';
+import { baseApiUrl } from '../../environments/environment';
+import { QueryDto } from '../global-interface/dto/query.dto';
 import { AuthService } from './../auth-module/auth.service';
+import { ArticleEntity } from './article.entity';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ArticlesService {
-  CreateArticlesGQL = gql`
-    mutation createArticle(
-      $description: String!
-      $text: String!
-      $title: String!
-    ) {
-      createArticle(description: $description, text: $text, title: $title)
-    }
-  `;
-  EditArticlesGQL = gql`
-    mutation editArticle(
-      $articleId: String!
-      $description: String!
-      $text: String!
-      $title: String!
-    ) {
-      editArticle(
-        articleId: $articleId
-        description: $description
-        text: $text
-        title: $title
-      )
-    }
-  `;
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
-  DisActiveArticleGQL = gql`
-    mutation disActiveArticle($articleId: String!) {
-      disActiveArticle(articleId: $articleId)
-    }
-  `;
-
-  constructor(private apollo: Apollo, private authService: AuthService) {}
-
-  createArticle$(title: string, description: string, text: string) {
-    const userId = this.authService.appUser.id;
-    if (!userId) {
-      console.log('this.authService.appUser.sub false');
-      return;
-    }
-    return this.apollo.mutate({
-      mutation: this.CreateArticlesGQL,
-      variables: {
-        description,
-        text,
-        title,
-      },
-    });
+  getEntity(takeN: number, dateAfter: Date, pattern: string) {
+    const endPoint = baseApiUrl + '/api/articles/query';
+    const query: QueryDto = {
+      maxItemCount: takeN,
+      createdOnLessThan: dateAfter,
+      pattern: pattern,
+    };
+    return this.http.post<ArticleEntity[]>(endPoint, query);
   }
 
-  editArticle$(
-    articleId: string,
-    title: string,
-    description: string,
-    text: string
-  ) {
-    const userId = this.authService.appUser.id;
-    if (!userId) {
-      console.log('this.authService.appUser.id false');
-      return;
-    }
-
-    return this.apollo.mutate({
-      mutation: this.EditArticlesGQL,
-      variables: { articleId, description, text, title },
-    });
+  getById(id: string) {
+    const endPoint = baseApiUrl + '/api/articles' + `?id=${id}`;
+    return this.http.get<ArticleEntity>(endPoint);
   }
 
-  disActiveArticle$(articleId: string) {
-    const userId = this.authService.appUser.id;
-    if (!userId) {
-      console.log('this.authService.appUser.id false');
-      return;
-    }
+  create$(title: string, description: string, text: string) {
+    // const userId = this.authService.appUser.id;
+    // if (!userId) {
+    //   console.log('this.authService.appUser.sub false');
+    //   return;
+    // }
+    return this.http.put;
+  }
 
-    return this.apollo.mutate({
-      mutation: this.DisActiveArticleGQL,
-      variables: { articleId },
-    });
+  edit$(articleId: string, title: string, description: string, text: string) {
+    // const userId = this.authService.appUser.id;
+    // if (!userId) {
+    //   console.log('this.authService.appUser.id false');
+    //   return;
+    // }
+    // return this.apollo.mutate({
+    //   mutation: this.EditArticlesGQL,
+    //   variables: { articleId, description, text, title },
+    // });
+  }
+
+  delete$(articleId: string) {
+    // const userId = this.authService.appUser.id;
+    // if (!userId) {
+    //   console.log('this.authService.appUser.id false');
+    //   return;
+    // }
+    // return this.apollo.mutate({
+    //   mutation: this.DisActiveArticleGQL,
+    //   variables: { articleId },
+    // });
   }
 }

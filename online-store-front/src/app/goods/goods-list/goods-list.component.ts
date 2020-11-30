@@ -60,7 +60,9 @@ export class GoodsListComponent implements OnInit {
       .subscribe(() => this.titleFilterReLoad());
   }
 
-  titleFilterReLoad() {}
+  titleFilterReLoad() {
+    this.restartLoader();
+  }
 
   ngOnDestroy() {
     this.intersectionObserver.disconnect();

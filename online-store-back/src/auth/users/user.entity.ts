@@ -1,11 +1,9 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Length } from 'class-validator';
-import { ArticleEntity } from 'src/articles/article.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -57,13 +55,6 @@ export class UserEntity {
   @Field()
   @UpdateDateColumn()
   updatedOn?: Date;
-
-  @Field(type => [ArticleEntity], { nullable: true })
-  @OneToMany(
-    () => ArticleEntity,
-    article => article.author,
-  )
-  articles: ArticleEntity[];
 }
 
 export const selectAllUserEntity = [

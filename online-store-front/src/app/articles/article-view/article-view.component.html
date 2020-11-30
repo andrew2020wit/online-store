@@ -1,12 +1,12 @@
 <div>
-  <h1>{{ title }}</h1>
+  <h1>{{ entity.title }}</h1>
   <p>
-    author: <strong> {{ authorFullName }}</strong
-    >, created: {{ createdOn | utcToLocalTime | date: "short" }}
-    <span *ngIf="createdOn != updatedOn"
-      >updated: {{ updatedOn | utcToLocalTime | date: "short" }}</span
+    author: <strong> {{ entity.author.fullName }}</strong
+    >, created: {{ entity.createdOn | utcToLocalTime | date: "short" }}
+    <span *ngIf="entity.createdOn != entity.updatedOn"
+      >updated: {{ entity.updatedOn | utcToLocalTime | date: "short" }}</span
     >
   </p>
-  <p style="margin-left: 2em;">{{ description }}</p>
-  <div>{{ text }}</div>
+  <p style="margin-left: 2em;">{{ entity.description }}</p>
+  <div>{{ entity.text }}</div>
 </div>

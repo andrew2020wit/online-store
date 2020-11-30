@@ -20,7 +20,7 @@ export class GoodsUploadController {
     @InjectRepository(GoodsEntity)
     private goodsRepository: Repository<GoodsEntity>,
   ) {}
-  @Post('photo-upload/:type/:id')
+  @Post(':type/:id')
   @UseGuards(ManagerJwtAuthGuard)
   @UseInterceptors(
     FileInterceptor('file', {

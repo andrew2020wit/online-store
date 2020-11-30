@@ -1,4 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ArticleEntity } from './../article.entity';
+import { ArticlesService } from './../articles.service';
 
 @Component({
   selector: 'app-article-view',
@@ -6,10 +9,19 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./article-view.component.scss'],
 })
 export class ArticleViewComponent {
-  @Input() title: string;
-  @Input() description: string;
-  @Input() text: string;
-  @Input() createdOn: Date;
-  @Input() updatedOn: Date;
-  @Input() authorFullName: string;
+  routerId: string;
+  entity: ArticleEntity;
+
+  constructor(
+    private entityService: ArticlesService,
+    private activateRoute: ActivatedRoute
+  ) {
+    this.routerId = this.activateRoute.snapshot.params['id'];
+    this.getEntity();
+  }
+  getEntity() {
+    this.entityService.getById(this.routerId).subscribe((entity) => {
+      this.entity = entity;
+    });
+  }
 }
