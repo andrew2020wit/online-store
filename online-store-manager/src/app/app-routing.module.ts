@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { ArticleViewEditComponent } from './articles/article-view-edit/article-view-edit.component';
+import { ArticleViewComponent } from './articles/article-view/article-view.component';
 import { CreateArticleComponent } from './articles/create-article/create-article.component';
 import { AuthAdminGuard } from './auth-module/guards/auth-admin.guard';
 import { AuthGuard } from './auth-module/guards/auth.guard';
@@ -44,7 +44,7 @@ const appRoutes: Routes = [
 
   { path: 'login-page', component: LoginPageComponent },
 
-  { path: 'article-view/:id', component: ArticleViewEditComponent },
+  { path: 'article-view/:id', component: ArticleViewComponent },
   {
     path: 'create-article',
     component: CreateArticleComponent,

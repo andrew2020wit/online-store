@@ -1,14 +1,14 @@
-<div>
-  <button mat-button color="primary" [routerLink]="editGoodsLink">
-    Edit this goods
-  </button>
-  <h1>{{ name }}</h1>
+<div *ngIf="entity">
+  <h1>{{ entity.name }}</h1>
 
-  <img [src]="bigPhotoUrlFact" style="float: left; margin: 0.5rem;" />
-  <span *ngIf="price">
-    Price: <strong style="font-size: large;"> ${{ price }} </strong></span
+  <br />
+
+  <img [src]="entity.bigPhotoUrl" style="float: left; margin: 0.5rem;" />
+  <span *ngIf="entity.price">
+    Price:
+    <strong style="font-size: large;"> ${{ entity.price }} </strong></span
   >
 
-  <div>{{ description }}</div>
-  <span>updated: {{ updatedOn | utcToLocalTime | date: "short" }}</span>
+  <div>{{ entity.description }}</div>
+  <span>updated: {{ entity.updatedOn | utcToLocalTime | date: "short" }}</span>
 </div>
