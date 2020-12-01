@@ -39,26 +39,25 @@ export class ArticlesService {
     userRoleFromToken: string,
   ): Promise<StatusMessageDto> {
     const result = new StatusMessageDto('ArticlesService.createOrEdit');
-
-    const newEntity = new ArticleEntity();
+    let newEntity: ArticleEntity;
 
     if (entity.id) {
-      const oldEntity = await this.repository.findOne(entity.id);
-
+      newEntity = await this.repository.findOne(entity.id);
+      console.log('newEntity', newEntity);
       // validation
-      if (!oldEntity) {
+      if (!newEntity) {
         result.message = 'wrong entity id';
         return result;
       }
       if (
         userRoleFromToken != 'admin' &&
-        userIdFromToken != oldEntity.author.id
+        userIdFromToken != newEntity.author.id
       ) {
         result.message = 'wrong user';
         return result;
       }
-
-      newEntity.id = entity.id;
+    } else {
+      newEntity = new ArticleEntity();
     }
 
     newEntity.title = entity.title;

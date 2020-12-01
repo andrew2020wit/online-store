@@ -1,19 +1,22 @@
-<button style="width: 100%; padding: 0; cursor: pointer;" (click)="go()">
-  <mat-card style="margin: 0.1em;">
-    <mat-card-header>
-      <mat-card-title
-        ><span style="color: red;">{{ authorFullName }}</span
-        >: {{ title }}
-      </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <div>{{ description }}</div>
-      <div style="text-align: right;">
-        created: {{ createdOn | utcToLocalTime | date: "short" }}
-        <span *ngIf="createdOn != updatedOn"
-          >updated: {{ updatedOn | utcToLocalTime | date: "short" }}
-        </span>
-      </div>
-    </mat-card-content>
-  </mat-card>
-</button>
+<div *ngIf="entity">
+  <button style="width: 100%; padding: 0; cursor: pointer;" (click)="go()">
+    <mat-card style="margin: 0.1em;">
+      <mat-card-header>
+        <mat-card-title
+          ><span style="color: red;">{{ entity.author.fullName }}</span
+          >: {{ entity.title }}
+          <small>articleType: {{ entity.articleType }}</small>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div>{{ entity.description }}</div>
+        <div style="text-align: right;">
+          created: {{ entity.createdOn | utcToLocalTime | date: "short" }}
+          <span *ngIf="entity.createdOn != entity.updatedOn"
+            >updated: {{ entity.updatedOn | utcToLocalTime | date: "short" }}
+          </span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </button>
+</div>

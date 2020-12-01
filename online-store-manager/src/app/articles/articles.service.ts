@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { baseApiUrl } from '../../environments/environment';
 import { QueryDto } from '../global-interface/dto/query.dto';
 import { AuthService } from './../auth-module/auth.service';
+import { StatusMessageDto } from './../global-interface/dto/status-message.dto';
 import { ArticleEntity } from './article.entity';
 
 @Injectable({
@@ -26,36 +27,8 @@ export class ArticlesService {
     return this.http.get<ArticleEntity>(endPoint);
   }
 
-  create$(title: string, description: string, text: string) {
-    // const userId = this.authService.appUser.id;
-    // if (!userId) {
-    //   console.log('this.authService.appUser.sub false');
-    //   return;
-    // }
-    return this.http.put;
-  }
-
-  edit$(articleId: string, title: string, description: string, text: string) {
-    // const userId = this.authService.appUser.id;
-    // if (!userId) {
-    //   console.log('this.authService.appUser.id false');
-    //   return;
-    // }
-    // return this.apollo.mutate({
-    //   mutation: this.EditArticlesGQL,
-    //   variables: { articleId, description, text, title },
-    // });
-  }
-
-  delete$(articleId: string) {
-    // const userId = this.authService.appUser.id;
-    // if (!userId) {
-    //   console.log('this.authService.appUser.id false');
-    //   return;
-    // }
-    // return this.apollo.mutate({
-    //   mutation: this.DisActiveArticleGQL,
-    //   variables: { articleId },
-    // });
+  edit$(entity: ArticleEntity) {
+    const endPoint = baseApiUrl + '/api/articles';
+    return this.http.post<StatusMessageDto>(endPoint, entity);
   }
 }

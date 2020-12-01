@@ -1,5 +1,8 @@
 <div *ngIf="entity">
-  <h1>{{ entity.title }}</h1>
+  <button mat-button color="primary" (click)="goToEdit()">goToEdit</button>
+  <h1>
+    <small>{{ entity.articleType }} : </small>{{ entity.title }}
+  </h1>
   <p>
     author: <strong> {{ entity.author.fullName }}</strong
     >, created: {{ entity.createdOn | utcToLocalTime | date: "short" }}

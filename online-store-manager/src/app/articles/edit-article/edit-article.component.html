@@ -1,0 +1,17 @@
+<p>edit-article works!</p>
+<form [formGroup]="form">
+  <formly-form
+    [form]="form"
+    [fields]="formFields"
+    [model]="formModel"
+  ></formly-form>
+</form>
+
+<button
+  mat-button
+  color="primary"
+  (click)="sendEntity()"
+  [disabled]="!form.valid"
+>
+  Send
+</button>

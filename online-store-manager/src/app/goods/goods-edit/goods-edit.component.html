@@ -1,11 +1,11 @@
 <p>goods-edit works!</p>
-<form [formGroup]="form">
-  <formly-form
-    [form]="form"
-    [fields]="formFields"
-    [model]="formModel"
-  ></formly-form>
-</form>
+  <form [formGroup]="form">
+    <formly-form
+      [form]="form"
+      [fields]="formFields"
+      [model]="formModel"
+    ></formly-form>
+  </form>
 
 <ng-container *ngIf="goodsId; else elseTemplate">
   <button mat-button color="primary" (click)="edit()" [disabled]="!form.valid">

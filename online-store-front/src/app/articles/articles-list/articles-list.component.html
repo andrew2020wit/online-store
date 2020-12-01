@@ -14,13 +14,8 @@
 </mat-form-field>
 
 <app-article-header-card
-  *ngFor="let header of entitys"
-  title="{{ header.title }}"
-  authorFullName="{{ header.author.fullName }}"
-  description="{{ header.description }}"
-  createdOn="{{ header.createdOn }}"
-  updatedOn="{{ header.updatedOn }}"
-  id="{{ header.id }}"
+  *ngFor="let entity of entitys"
+  [entity]="entity"
 ></app-article-header-card>
 
 <div id="IntersectionTarget" style="height: 5px;"></div>
