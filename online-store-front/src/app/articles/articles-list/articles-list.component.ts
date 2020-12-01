@@ -98,6 +98,7 @@ export class ArticlesListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.entityService
       .getEntity(this.take, this.createOnCursor, this.pattern)
       .subscribe((entitys) => {
+        // console.log('entitys', entitys);
         this.entitys.push(...entitys);
         this.infiniteScrollStatus.isLoading = false;
         if (entitys.length < this.take) {

@@ -1,139 +1,77 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from 'src/auth/users/user.entity';
+import { QueryDto } from 'src/global-interface/dto/query.dto';
 import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
-import { getConnection, Repository } from 'typeorm';
+import { LessThan, Like, Repository } from 'typeorm';
 import { ArticleEntity } from './article.entity';
-import { ArticleDTO } from './dto/article.dto';
 
 @Injectable()
 export class ArticlesService {
   constructor(
     @InjectRepository(ArticleEntity)
-    private readonly articleRep: Repository<ArticleEntity>,
+    private readonly repository: Repository<ArticleEntity>,
     @InjectRepository(UserEntity)
-    private readonly usersRep: Repository<UserEntity>,
+    private readonly usersRepository: Repository<UserEntity>,
   ) {}
-  async createArticle(
-    newArtDto: ArticleDTO,
-    userIdFromToken: string,
-  ): Promise<StatusMessageDto> {
-    if (!userIdFromToken) {
-      return {
-        message: 'userIdFromToken in null',
-        source: 'createArticle',
-        ok: false,
-      };
-    }
 
-    const connection = getConnection();
-    const newArt = new ArticleEntity();
-    newArt.title = newArtDto.title;
-    newArt.description = newArtDto.description;
-    newArt.text = newArtDto.text;
-    newArt.author = await connection.manager.findOne(
-      UserEntity,
-      userIdFromToken,
-    );
-
-    try {
-      await connection.manager.save(newArt);
-
-      console.log('createArticle newArtRet', newArt);
-
-      return {
-        message: newArtDto.title,
-        source: 'createArticle',
-        ok: true,
-      };
-    } catch (err) {
-      return { message: err.message, source: 'createArticle', ok: false };
-    }
+  async getById(id: string): Promise<ArticleEntity> {
+    return await this.repository.findOne(id);
   }
 
-  async editArticle(
-    artDto: ArticleDTO,
-    userIdFromToken: string,
-  ): Promise<StatusMessageDto> {
-    const oldArticle = await this.articleRep.findOne(artDto.id);
-
-    //if article not exist
-    if (!oldArticle) {
-      return {
-        message: 'article id not exist',
-        source: 'editArticle',
-        ok: false,
-      };
-    }
-
-    // if wrong user
-    if (oldArticle.author.id !== userIdFromToken) {
-      return {
-        message: 'wrong user',
-        source: 'editArticle',
-        ok: false,
-      };
-    }
-
-    // rewrite article
-    oldArticle.text = artDto.text;
-    oldArticle.title = artDto.title;
-    oldArticle.description = artDto.description;
-    try {
-      await this.articleRep.save(oldArticle);
-      return {
-        message: oldArticle.title,
-        source: 'editArticle',
-        ok: true,
-      };
-    } catch (err) {
-      return { message: err.message, source: 'editArticle', ok: false };
-    }
+  async query(queryDto: QueryDto): Promise<ArticleEntity[]> {
+    return this.repository.find({
+      select: ['id', 'title', 'description', 'createdOn', 'updatedOn'],
+      relations: ['author'],
+      take: queryDto.maxItemCount,
+      order: { createdOn: 'DESC' },
+      where: {
+        createdOn: LessThan(queryDto.createdOnLessThan),
+        title: Like(`%${queryDto.pattern}%`),
+        isActive: true,
+      },
+    });
   }
 
-  async disActiveArticle(
-    ArticleId: string,
+  async createOrEdit(
+    entity: ArticleEntity,
     userIdFromToken: string,
-    roleOfUserFromToken: string,
+    userRoleFromToken: string,
   ): Promise<StatusMessageDto> {
-    const oldArticle = await this.articleRep.findOne(ArticleId);
+    const result = new StatusMessageDto('ArticlesService.createOrEdit');
 
-    //if article not exist
-    if (!oldArticle) {
-      return {
-        message: 'article id not exist',
-        source: 'disActiveArticle',
-        ok: false,
-      };
+    const newEntity = new ArticleEntity();
+
+    if (entity.id) {
+      const oldEntity = await this.repository.findOne(entity.id);
+
+      // validation
+      if (!oldEntity) {
+        result.message = 'wrong entity id';
+        return result;
+      }
+      if (
+        userRoleFromToken != 'admin' &&
+        userIdFromToken != oldEntity.author.id
+      ) {
+        result.message = 'wrong user';
+        return result;
+      }
+
+      newEntity.id = entity.id;
     }
 
-    // if wrong user
-    if (
-      oldArticle.author.id !== userIdFromToken &&
-      roleOfUserFromToken !== 'admin'
-    ) {
-      return {
-        message: 'wrong user',
-        source: 'disActiveArticle',
-        ok: false,
-      };
-    }
+    newEntity.title = entity.title;
+    newEntity.description = entity.description;
+    newEntity.text = entity.text;
+    newEntity.isActive = entity.isActive;
+    newEntity.articleType = entity.articleType;
+    newEntity.author = await this.usersRepository.findOne(userIdFromToken);
 
-    // rewrite article
-    oldArticle.isActive = false;
-    try {
-      await this.articleRep.save(oldArticle);
-      return {
-        message: oldArticle.title,
-        source: 'disActiveArticle',
-        ok: true,
-      };
-    } catch (err) {
-      return {
-        message: err.message,
-        source: 'disActiveArticle',
-        ok: false,
-      };
-    }
+    const resultEntity = await this.repository.save(newEntity);
+    result.ok = true;
+    result.resultId = resultEntity.id;
+
+    return result;
   }
 }

@@ -1,34 +1,42 @@
-import { Body, Controller, Get, Post, Put, Query } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Query,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
+import { ManagerJwtAuthGuard } from 'src/auth/guards/manager-jwt-auth.guard';
+import { RequestWithJwtUserExtDto } from 'src/auth/interfaces/request-with-user-ext.interface';
 import { QueryDto } from 'src/global-interface/dto/query.dto';
-import { LessThan, Like, Repository } from 'typeorm';
 import { ArticleEntity } from './article.entity';
+import { ArticlesService } from './articles.service';
 
 @Controller('api/articles')
 export class ArticlesController {
-  constructor(
-    @InjectRepository(ArticleEntity)
-    private repository: Repository<ArticleEntity>,
-  ) {}
+  constructor(private entityService: ArticlesService) {}
 
   @Get()
   async getById(@Query() query: { id: string }): Promise<ArticleEntity> {
-    return await this.repository.findOne(query.id);
+    return await this.entityService.getById(query.id);
   }
 
-  @Post('query')
+  @Post('query-header')
   async getOrders(@Body() queryDto: QueryDto): Promise<ArticleEntity[]> {
-    return this.repository.find({
-      take: queryDto.maxItemCount,
-      order: { createdOn: 'DESC' },
-      where: {
-        createdOn: LessThan(queryDto.createdOnLessThan),
-        title: Like(`%${queryDto.pattern}%`),
-        isActive: true,
-      },
-    });
+    return await this.entityService.query(queryDto);
   }
 
-  @Put()
-  async createEntity() {}
+  @UseGuards(ManagerJwtAuthGuard)
+  @Post()
+  async createOrEdit(
+    @Request() req: RequestWithJwtUserExtDto,
+    @Body() entity: ArticleEntity,
+  ) {
+    return await this.entityService.createOrEdit(
+      entity,
+      req.user.sub,
+      req.user.role,
+    );
+  }
 }

@@ -8,6 +8,12 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+export const articleTypes = {
+  article: 'article',
+  news: 'news',
+  review: 'review',
+};
+
 @Entity()
 export class ArticleEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -15,6 +21,9 @@ export class ArticleEntity {
 
   @Column('varchar', { length: 128, nullable: false })
   title?: string;
+
+  @Column('varchar', { length: 128, nullable: true, default: 'article' })
+  articleType?: string;
 
   @Column('varchar', {
     length: 512,

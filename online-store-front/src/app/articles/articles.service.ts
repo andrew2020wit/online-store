@@ -12,7 +12,7 @@ export class ArticlesService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   getEntity(takeN: number, dateAfter: Date, pattern: string) {
-    const endPoint = baseApiUrl + '/api/articles/query';
+    const endPoint = baseApiUrl + '/api/articles/query-header';
     const query: QueryDto = {
       maxItemCount: takeN,
       createdOnLessThan: dateAfter,

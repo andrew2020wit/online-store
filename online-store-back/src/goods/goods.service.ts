@@ -29,9 +29,9 @@ export class GoodsService {
   }
 
   async create(entity: GoodsEntity) {
-    const response = new StatusMessageDto();
+    const response = new StatusMessageDto('GoodsService:create');
     response.ok = false;
-    response.source = 'GoodsService:create';
+
     // Validation
     if (!entity || entity.id || !entity.name || !entity.price) {
       response.message = 'bad entity';
@@ -52,9 +52,8 @@ export class GoodsService {
   }
 
   async update(entity: GoodsEntity) {
-    const response = new StatusMessageDto();
+    const response = new StatusMessageDto('GoodsService:update');
     response.ok = false;
-    response.source = 'GoodsService:update';
     // Validation
     if (!entity || !entity.id || !entity.name || !entity.price) {
       response.message = 'bad entity';
@@ -81,9 +80,8 @@ export class GoodsService {
   }
 
   async activate(id: string, status: boolean) {
-    const response = new StatusMessageDto();
+    const response = new StatusMessageDto('GoodsService:delete');
     response.ok = false;
-    response.source = 'GoodsService:delete';
 
     const newEntity = await this.getById(id);
 

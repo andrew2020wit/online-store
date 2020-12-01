@@ -3,4 +3,9 @@ export class StatusMessageDto {
   source: string;
   ok: boolean;
   resultId?: string;
+  constructor(source: string) {
+    this.message = '';
+    this.ok = false;
+    this.source = source;
+  }
 }
