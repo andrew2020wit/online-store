@@ -11,8 +11,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { diskStorage } from 'multer';
 import { ManagerJwtAuthGuard } from 'src/auth/guards/manager-jwt-auth.guard';
 import { Repository } from 'typeorm';
-import { GoodsEntity } from '../goods.entity';
-import { editFileName, imageFileFilter } from './file-upload.utils';
+import { GoodsEntity } from '../entity/goods.entity';
+import { editFileName, imageFileFilter } from '../utils/file-upload.utils';
 
 @Controller('goods-upload')
 export class GoodsUploadController {

@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryDto } from 'src/global-interface/dto/query.dto';
+import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
 import { LessThan, Like, Repository } from 'typeorm';
-import { StatusMessageDto } from './../global-interface/dto/status-message.dto';
-import { GoodsEntity } from './goods.entity';
+import { GoodsEntity } from '../entity/goods.entity';
 
 @Injectable()
 export class GoodsService {

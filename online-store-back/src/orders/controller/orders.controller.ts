@@ -11,7 +11,7 @@ import { RequestWithJwtUserExtDto } from 'src/auth/interfaces/request-with-user-
 import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
 import { QueryDto } from '../../global-interface/dto/query.dto';
 import { OrdersEntity } from '../entity/orders.entity';
-import { OrdersService } from '../orders.service';
+import { OrdersService } from '../service/orders.service';
 
 @Controller('api/orders')
 export class OrdersController {

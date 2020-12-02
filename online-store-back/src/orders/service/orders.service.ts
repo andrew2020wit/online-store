@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { QueryDto } from 'src/global-interface/dto/query.dto';
 import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
 import { LessThan, Repository } from 'typeorm';
-import { QueryDto } from '../global-interface/dto/query.dto';
-import { OrderItemsEntity } from './entity/order-items.entity';
-import { OrdersEntity } from './entity/orders.entity';
+import { OrderItemsEntity } from '../entity/order-items.entity';
+import { OrdersEntity } from '../entity/orders.entity';
 
 @Injectable()
 export class OrdersService {

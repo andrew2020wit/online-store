@@ -3,8 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { OrdersController } from './controller/orders.controller';
 import { OrderItemsEntity } from './entity/order-items.entity';
 import { OrdersEntity } from './entity/orders.entity';
-import { OrdersService } from './orders.service';
-import { TestInitOrdersService } from './test-init-orders.service';
+import { OrdersService } from './service/orders.service';
+import { TestInitOrdersService } from './service/test-init-orders.service';
 
 @Module({
   controllers: [OrdersController],

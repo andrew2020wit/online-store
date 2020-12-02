@@ -11,8 +11,8 @@ import {
 import { ManagerJwtAuthGuard } from 'src/auth/guards/manager-jwt-auth.guard';
 import { QueryDto } from 'src/global-interface/dto/query.dto';
 import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
-import { GoodsEntity } from '../goods.entity';
-import { GoodsService } from '../goods.service';
+import { GoodsEntity } from '../entity/goods.entity';
+import { GoodsService } from '../service/goods.service';
 
 @Controller('api/goods')
 export class GoodsController {

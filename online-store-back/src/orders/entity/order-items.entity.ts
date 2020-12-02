@@ -1,4 +1,4 @@
-import { GoodsEntity } from 'src/goods/goods.entity';
+import { GoodsEntity } from 'src/goods/entity/goods.entity';
 import {
   Column,
   CreateDateColumn,
