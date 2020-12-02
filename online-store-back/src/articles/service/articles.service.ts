@@ -4,7 +4,7 @@ import { UserEntity } from 'src/auth/users/user.entity';
 import { QueryDto } from 'src/global-interface/dto/query.dto';
 import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
 import { LessThan, Like, Repository } from 'typeorm';
-import { ArticleEntity } from './article.entity';
+import { ArticleEntity } from '../entity/article.entity';
 
 @Injectable()
 export class ArticlesService {

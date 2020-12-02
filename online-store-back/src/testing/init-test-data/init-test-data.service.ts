@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
-import { ArticleEntity } from 'src/articles/article.entity';
+import { ArticleEntity } from 'src/articles/entity/article.entity';
 import { CreateUserDto } from 'src/auth/dto/create-user.dto';
 import { UserEntity } from 'src/auth/users/user.entity';
 import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';

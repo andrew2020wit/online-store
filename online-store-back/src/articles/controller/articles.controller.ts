@@ -10,8 +10,8 @@ import {
 import { ManagerJwtAuthGuard } from 'src/auth/guards/manager-jwt-auth.guard';
 import { RequestWithJwtUserExtDto } from 'src/auth/interfaces/request-with-user-ext.interface';
 import { QueryDto } from 'src/global-interface/dto/query.dto';
-import { ArticleEntity } from './article.entity';
-import { ArticlesService } from './articles.service';
+import { ArticleEntity } from '../entity/article.entity';
+import { ArticlesService } from '../service/articles.service';
 
 @Controller('api/articles')
 export class ArticlesController {
