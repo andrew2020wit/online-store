@@ -32,7 +32,6 @@ export class EditArticleComponent implements OnInit {
 
   setEmptyValues() {
     const formModelTemp = new ArticleEntity();
-    formModelTemp.articleType = '';
     formModelTemp.isActive = true;
     formModelTemp.text = '';
     formModelTemp.title = '';

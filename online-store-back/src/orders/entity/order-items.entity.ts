@@ -15,7 +15,7 @@ export class OrderItemsEntity {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 
-  @ManyToOne(() => OrdersEntity)
+  @ManyToOne(() => OrdersEntity, { onDelete: 'CASCADE' })
   order?: OrdersEntity;
 
   @Column({

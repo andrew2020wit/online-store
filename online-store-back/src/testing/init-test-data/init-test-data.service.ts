@@ -37,6 +37,23 @@ export class InitTestDataService {
         const newArt = new ArticleEntity();
         newArt.author = author;
         newArt.title = 'News N' + m + ' from: ' + author.fullName;
+        newArt.articleType = 'news';
+        newArt.description =
+          'description N' +
+          m +
+          'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam, vel!';
+        newArt.text =
+          'text N' +
+          m +
+          'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis fuga ducimus voluptate incidunt ad vel alias? Expedita voluptatem iste rerum numquam voluptas repudiandae neque repellendus, veniam natus quia error quod eaque deserunt officia. Unde fuga repellendus doloribus quasi, doloremque iusto.';
+
+        await connection.manager.save(newArt);
+      }
+      for (let m = 1; m <= 40; m++) {
+        const newArt = new ArticleEntity();
+        newArt.author = author;
+        newArt.title = 'Review N' + m + ' from: ' + author.fullName;
+        newArt.articleType = 'review';
         newArt.description =
           'description N' +
           m +

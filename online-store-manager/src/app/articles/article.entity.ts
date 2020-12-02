@@ -1,15 +1,11 @@
 import { UserEntity } from '../auth-module/user.entity';
 
-export const articleTypes = {
-  article: 'article',
-  news: 'news',
-  review: 'review',
-};
+export type articleTypes = 'article' | 'news' | 'review';
 
 export class ArticleEntity {
   id?: string;
   title?: string;
-  articleType?: string;
+  articleType?: articleTypes;
   description?: string;
   text?: string;
   isActive?: boolean;

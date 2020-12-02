@@ -8,11 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-export const articleTypes = {
-  article: 'article',
-  news: 'news',
-  review: 'review',
-};
+export type articleTypes = 'article' | 'news' | 'review';
 
 @Entity()
 export class ArticleEntity {
@@ -23,7 +19,7 @@ export class ArticleEntity {
   title?: string;
 
   @Column('varchar', { length: 128, nullable: true, default: 'article' })
-  articleType?: string;
+  articleType?: articleTypes;
 
   @Column('varchar', {
     length: 512,

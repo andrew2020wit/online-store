@@ -17,6 +17,9 @@ export class TestInitGoodsService {
         name: `GoodsName #${n}`,
         description: `GoodsDescription # ${n}`,
         price: n * 3,
+        currency: '$',
+        stockCount: 4 * n,
+        maxOrderCount: 100,
       });
     }
   }

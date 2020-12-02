@@ -1,11 +1,4 @@
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { articleTypes } from '../article.entity';
-
-// formModelTemp.articleType = '';
-// formModelTemp.isActive = true;
-// formModelTemp.text = '';
-// formModelTemp.title = '';
-// formModelTemp.description = '';
 
 export const formFieldsArticleEdit: FormlyFieldConfig[] = [
   {
@@ -28,9 +21,9 @@ export const formFieldsArticleEdit: FormlyFieldConfig[] = [
       description: 'articleType',
       required: true,
       options: [
-        { value: articleTypes.article, label: 'Article' },
-        { value: articleTypes.news, label: 'News' },
-        { value: articleTypes.review, label: 'Review' },
+        { value: 'article', label: 'Article' },
+        { value: 'news', label: 'News' },
+        { value: 'review', label: 'Review' },
       ],
     },
   },

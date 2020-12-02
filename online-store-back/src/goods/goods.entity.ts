@@ -23,6 +23,15 @@ export class GoodsEntity {
   @Column({ nullable: true, default: null })
   price: number;
 
+  @Column('varchar', { length: 128, nullable: true })
+  currency?: string;
+
+  @Column({ nullable: true, default: null })
+  maxOrderCount?: number;
+
+  @Column({ nullable: true, default: 0 })
+  stockCount?: number;
+
   @Column('varchar', {
     length: 512,
     nullable: false,
