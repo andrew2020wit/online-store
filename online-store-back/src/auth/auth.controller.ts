@@ -6,6 +6,7 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -16,6 +17,7 @@ import { RequestWithJwtUserExtDto } from './interfaces/request-with-user-ext.int
 import { RequestWithJwtUserDto } from './interfaces/request-with-user.interface';
 import { UsersService } from './users/users.service';
 
+@ApiTags('auth-users')
 @Controller('api/auth')
 export class AuthController {
   constructor(

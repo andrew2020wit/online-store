@@ -7,12 +7,14 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { ManagerJwtAuthGuard } from 'src/auth/guards/manager-jwt-auth.guard';
 import { RequestWithJwtUserExtDto } from 'src/auth/interfaces/request-with-user-ext.interface';
 import { QueryDto } from 'src/global-interface/dto/query.dto';
 import { ArticleEntity } from '../entity/article.entity';
 import { ArticlesService } from '../service/articles.service';
 
+@ApiTags('articles')
 @Controller('api/articles')
 export class ArticlesController {
   constructor(private entityService: ArticlesService) {}

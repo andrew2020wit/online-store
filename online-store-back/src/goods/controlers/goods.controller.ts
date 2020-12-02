@@ -8,12 +8,14 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { ManagerJwtAuthGuard } from 'src/auth/guards/manager-jwt-auth.guard';
 import { QueryDto } from 'src/global-interface/dto/query.dto';
 import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
 import { GoodsEntity } from '../entity/goods.entity';
 import { GoodsService } from '../service/goods.service';
 
+@ApiTags('goods')
 @Controller('api/goods')
 export class GoodsController {
   constructor(private service: GoodsService) {}

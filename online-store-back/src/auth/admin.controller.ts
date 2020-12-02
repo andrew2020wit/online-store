@@ -1,10 +1,12 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Like, Repository } from 'typeorm';
 import { UserAdminView } from './dto/user-admin-view.dto';
 import { AdminJwtAuthGuard } from './guards/admin-jwt-auth.guard';
 import { UserEntity } from './users/user.entity';
 
+@ApiTags('auth-users')
 @Controller('api/admin')
 export class AuthAdminController {
   constructor(

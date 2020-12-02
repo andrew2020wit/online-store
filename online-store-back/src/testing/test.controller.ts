@@ -1,4 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
 import { TestInitGoodsService } from 'src/goods/service/test-init-goods.service';
 import { TestInitOrdersService } from 'src/orders/service/test-init-orders.service';
@@ -13,6 +14,7 @@ export class TestController {
   ) {}
 
   // http://127.0.0.1:3001/api/test/regenerate-test-data
+  @ApiTags('testing')
   @Get('regenerate-test-data')
   async init(): Promise<StatusMessageDto> {
     await this.testInitOrdersService.clearTables();
