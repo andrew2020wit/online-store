@@ -1,11 +1,15 @@
 import { UserEntity } from '../auth-module/user.entity';
 
-export type articleTypes = 'article' | 'news' | 'review';
+export enum ArticleTypes {
+  article = 'article',
+  news = 'news',
+  review = 'review',
+}
 
 export class ArticleEntity {
   id?: string;
   title?: string;
-  articleType?: articleTypes;
+  articleType?: ArticleTypes;
   description?: string;
   text?: string;
   isActive?: boolean;

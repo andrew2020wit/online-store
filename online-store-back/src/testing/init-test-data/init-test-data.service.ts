@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
-import { ArticleEntity } from 'src/articles/entity/article.entity';
+import {
+  ArticleEntity,
+  ArticleTypes,
+} from 'src/articles/entity/article.entity';
 import { CreateUserDto } from 'src/auth/dto/create-user.dto';
 import { UserEntity } from 'src/auth/users/user.entity';
 import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
@@ -37,7 +40,7 @@ export class InitTestDataService {
         const newArt = new ArticleEntity();
         newArt.author = author;
         newArt.title = 'News N' + m + ' from: ' + author.fullName;
-        newArt.articleType = 'news';
+        newArt.articleType = ArticleTypes.news;
         newArt.description =
           'description N' +
           m +
@@ -53,7 +56,7 @@ export class InitTestDataService {
         const newArt = new ArticleEntity();
         newArt.author = author;
         newArt.title = 'Review N' + m + ' from: ' + author.fullName;
-        newArt.articleType = 'review';
+        newArt.articleType = ArticleTypes.review;
         newArt.description =
           'description N' +
           m +

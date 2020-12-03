@@ -13,7 +13,7 @@ export class ArticlesService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   getEntity(takeN: number, dateAfter: Date, pattern: string) {
-    const endPoint = baseApiUrl + '/api/articles/query-header';
+    const endPoint = baseApiUrl + '/api/article/query-header';
     const query: QueryDto = {
       maxItemCount: takeN,
       createdOnLessThan: dateAfter,
@@ -23,12 +23,12 @@ export class ArticlesService {
   }
 
   getById(id: string) {
-    const endPoint = baseApiUrl + '/api/articles' + `?id=${id}`;
+    const endPoint = baseApiUrl + '/api/article/get-by-id/' + id;
     return this.http.get<ArticleEntity>(endPoint);
   }
 
   edit$(entity: ArticleEntity) {
-    const endPoint = baseApiUrl + '/api/articles';
+    const endPoint = baseApiUrl + '/api/article/create-or-edit';
     return this.http.post<StatusMessageDto>(endPoint, entity);
   }
 }

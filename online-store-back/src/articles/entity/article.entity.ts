@@ -1,4 +1,3 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { UserEntity } from 'src/auth/users/user.entity';
 import {
   Column,
@@ -9,23 +8,23 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-export type articleTypes = 'article' | 'news' | 'review';
+export enum ArticleTypes {
+  article = 'article',
+  news = 'news',
+  review = 'review',
+}
 
 @Entity()
 export class ArticleEntity {
-  @ApiProperty()
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 
-  @ApiProperty()
   @Column('varchar', { length: 128, nullable: false })
   title?: string;
 
-  @ApiProperty()
   @Column('varchar', { length: 128, nullable: true, default: 'article' })
-  articleType?: articleTypes;
+  articleType?: ArticleTypes;
 
-  @ApiProperty()
   @Column('varchar', {
     length: 512,
     nullable: false,
@@ -33,26 +32,21 @@ export class ArticleEntity {
   })
   description?: string;
 
-  @ApiProperty()
   @Column({
     nullable: false,
     type: 'text',
   })
   text?: string;
 
-  @ApiProperty()
   @Column({ type: 'boolean', nullable: false, default: true })
   isActive?: boolean;
 
-  @ApiProperty()
   @ManyToOne(() => UserEntity, { eager: true, cascade: false, nullable: false })
   author?: UserEntity;
 
-  @ApiProperty()
   @CreateDateColumn()
   createdOn?: Date;
 
-  @ApiProperty()
   @UpdateDateColumn()
   updatedOn?: Date;
 }

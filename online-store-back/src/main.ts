@@ -19,14 +19,9 @@ async function bootstrap() {
     .setTitle('Online-Store RestAPI')
     .setDescription('Online-Store RestAPI')
     .setVersion('0.1')
-    .addTag('goods')
-    .addTag('articles')
-    .addTag('order')
-    .addTag('auth-users')
-    .addTag('testing')
     .build();
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('api-swagger', app, document);
+  SwaggerModule.setup('api/swagger', app, document);
 
   // app.setGlobalPrefix('api');
   await app.listen(PORT);
