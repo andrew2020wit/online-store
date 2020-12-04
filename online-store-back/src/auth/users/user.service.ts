@@ -6,13 +6,19 @@ import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
 import { FindOperator, LessThan, Like, Repository } from 'typeorm';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UserAdminView } from '../dto/user-admin-view.dto';
-import { UserEntity } from './user.entity';
+import { UserEntity, UserRole } from './user.entity';
 
 class WereObj {
   name?: FindOperator<string>;
   isActive?: boolean;
   createdOn?: FindOperator<Date>;
   articleType?: string;
+}
+
+export class AdminUserQueryDTO {
+  userId: string;
+  role?: UserRole;
+  isActive?: boolean;
 }
 
 @Injectable()
@@ -47,6 +53,35 @@ export class UserService {
       order: { createdOn: 'DESC' },
       where: whereObj,
     });
+  }
+
+  async adminChangeUser(
+    adminUserQueryDTO: AdminUserQueryDTO,
+  ): Promise<StatusMessageDto> {
+    const resp = new StatusMessageDto('adminChangeUser');
+    resp.resultId = adminUserQueryDTO.userId;
+
+    const user = await this.repository.findOne(adminUserQueryDTO.userId);
+
+    if (!user) {
+      resp.message = 'user not found';
+      return resp;
+    }
+    if (user.role == UserRole.admin) {
+      resp.message = 'admin can not change!';
+      return resp;
+    }
+
+    if (adminUserQueryDTO.role) {
+      user.role = adminUserQueryDTO.role;
+    }
+    if ('isActive' in adminUserQueryDTO) {
+      user.isActive = adminUserQueryDTO.isActive;
+    }
+
+    await this.repository.save(user);
+    resp.ok = true;
+    return resp;
   }
 
   async findAllUsers(): Promise<UserAdminView[] | undefined> {
