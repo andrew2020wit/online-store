@@ -3,9 +3,9 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
   Post,
   Put,
-  Query,
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
@@ -20,9 +20,9 @@ import { GoodsService } from '../service/goods.service';
 export class GoodsController {
   constructor(private service: GoodsService) {}
 
-  @Get()
-  async getById(@Query() query: { id: string }): Promise<GoodsEntity> {
-    return await this.service.getById(query.id);
+  @Get('get-by-id')
+  async getById(@Param('id') id: string): Promise<GoodsEntity> {
+    return await this.service.getById(id);
   }
 
   @Post('query')

@@ -13,12 +13,12 @@ import { RequestWithJwtUserExtDto } from 'src/auth/interfaces/request-with-user-
 import { QueryDto } from 'src/global-interface/dto/query.dto';
 import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
 import { ArticleEntity } from '../entity/article.entity';
-import { ArticlesService } from '../service/articles.service';
+import { ArticleService } from '../service/article.service';
 
 @ApiTags('article')
 @Controller('api/article')
-export class ArticlesController {
-  constructor(private entityService: ArticlesService) {}
+export class ArticleController {
+  constructor(private entityService: ArticleService) {}
 
   @Get('get-by-id/:id')
   async getById(@Param('id') id: string): Promise<ArticleEntity> {

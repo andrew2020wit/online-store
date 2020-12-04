@@ -10,10 +10,11 @@ class WereObj {
   title?: FindOperator<string>;
   isActive?: boolean;
   createdOn?: FindOperator<Date>;
+  articleType?: string;
 }
 
 @Injectable()
-export class ArticlesService {
+export class ArticleService {
   constructor(
     @InjectRepository(ArticleEntity)
     private readonly repository: Repository<ArticleEntity>,
@@ -26,18 +27,21 @@ export class ArticlesService {
   }
 
   async query(queryDto: QueryDto): Promise<ArticleEntity[]> {
+    if (!queryDto.maxItemCount) {
+      queryDto.maxItemCount = 1;
+    }
+
     const whereObj: WereObj = {
       isActive: true,
     };
-
     if (queryDto.createdOnLessThan) {
       whereObj.createdOn = LessThan(queryDto.createdOnLessThan);
     }
     if (queryDto.pattern) {
       whereObj.title = Like(`%${queryDto.pattern}%`);
     }
-    if (!queryDto.maxItemCount) {
-      queryDto.maxItemCount = 1;
+    if (queryDto.entityType) {
+      whereObj.articleType = queryDto.entityType;
     }
 
     return this.repository.find({

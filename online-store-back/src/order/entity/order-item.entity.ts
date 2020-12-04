@@ -8,15 +8,15 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { OrdersEntity } from './orders.entity';
+import { OrderEntity } from './order.entity';
 
 @Entity()
-export class OrderItemsEntity {
+export class OrderItemEntity {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 
-  @ManyToOne(() => OrdersEntity, { onDelete: 'CASCADE' })
-  order?: OrdersEntity;
+  @ManyToOne(() => OrderEntity, { onDelete: 'CASCADE' })
+  order?: OrderEntity;
 
   @Column({
     nullable: false,

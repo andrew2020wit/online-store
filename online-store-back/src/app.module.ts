@@ -3,11 +3,11 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import { Connection } from 'typeorm';
-import { ArticlesModule } from './articles/articles.module';
+import { ArticleModule } from './article/article.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './auth/users/users.module';
 import { GoodsModule } from './goods/goods.module';
-import { OrdersModule } from './orders/orders.module';
+import { OrderModule } from './order/order.module';
 import { InitTestDataService } from './testing/init-test-data/init-test-data.service';
 import { TestController } from './testing/test.controller';
 
@@ -28,11 +28,11 @@ import { TestController } from './testing/test.controller';
       synchronize: true,
     }),
     AuthModule,
-    ArticlesModule,
+    ArticleModule,
     UsersModule,
-    ArticlesModule,
+    ArticleModule,
     GoodsModule,
-    OrdersModule,
+    OrderModule,
   ],
   providers: [InitTestDataService],
   controllers: [TestController],

@@ -3,19 +3,19 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { QueryDto } from 'src/global-interface/dto/query.dto';
 import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
 import { LessThan, Repository } from 'typeorm';
-import { OrderItemsEntity } from '../entity/order-items.entity';
-import { OrdersEntity } from '../entity/orders.entity';
+import { OrderItemEntity } from '../entity/order-item.entity';
+import { OrderEntity } from '../entity/order.entity';
 
 @Injectable()
-export class OrdersService {
+export class OrderService {
   constructor(
-    @InjectRepository(OrdersEntity)
-    private readonly ordersRepository: Repository<OrdersEntity>,
+    @InjectRepository(OrderEntity)
+    private readonly ordersRepository: Repository<OrderEntity>,
   ) {}
 
   async createOrder(
     userIdFromToken: string,
-    order: OrdersEntity,
+    order: OrderEntity,
   ): Promise<StatusMessageDto> {
     const returnMessage: StatusMessageDto = {
       ok: false,
@@ -38,7 +38,7 @@ export class OrdersService {
     }
 
     //create order header
-    const newOrder = new OrdersEntity();
+    const newOrder = new OrderEntity();
     newOrder.userId = userIdFromToken;
     newOrder.status = 'new';
     newOrder.deliverAddress = order.deliverAddress;
@@ -49,7 +49,7 @@ export class OrdersService {
     let orderSum = 0;
     order.items.forEach(item => {
       if (item.count > 0) {
-        const newItem = new OrderItemsEntity();
+        const newItem = new OrderItemEntity();
         newItem.count = item.count;
         newItem.goodsId = item.goodsId;
         newItem.price = item.price;

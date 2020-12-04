@@ -9,10 +9,10 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { OrderItemsEntity } from './order-items.entity';
+import { OrderItemEntity } from './order-item.entity';
 
 @Entity()
-export class OrdersEntity {
+export class OrderEntity {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 
@@ -26,7 +26,7 @@ export class OrdersEntity {
   user?: UserEntity;
 
   @OneToMany(
-    () => OrderItemsEntity,
+    () => OrderItemEntity,
     item => item.order,
     {
       eager: true,
@@ -34,7 +34,7 @@ export class OrdersEntity {
       nullable: false,
     },
   )
-  items?: OrderItemsEntity[];
+  items?: OrderItemEntity[];
 
   @Column({ nullable: true })
   orderSum?: number;

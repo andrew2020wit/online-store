@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { OrdersEntity } from '../entity/orders.entity';
+import { OrderEntity } from '../entity/order.entity';
 
 @Injectable()
-export class TestInitOrdersService {
+export class TestInitOrderService {
   constructor(
-    @InjectRepository(OrdersEntity)
-    private readonly ordersRepository: Repository<OrdersEntity>,
+    @InjectRepository(OrderEntity)
+    private readonly ordersRepository: Repository<OrderEntity>,
   ) {}
 
   async clearTables(): Promise<void> {
