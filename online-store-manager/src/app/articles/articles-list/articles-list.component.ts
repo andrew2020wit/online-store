@@ -90,6 +90,7 @@ export class ArticlesListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.infiniteScrollStatus.dataFinished = false;
     this.infiniteScrollStatus.errorLoading = false;
     this.infiniteScrollStatus.isLoading = false;
+    this.createOnCursor = new Date();
     this.autoLoader();
   }
 
@@ -98,11 +99,17 @@ export class ArticlesListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.entityService
       .getEntity(this.take, this.createOnCursor, this.pattern)
       .subscribe((entitys) => {
+        const length = entitys.length;
+        if (length < this.take) {
+          this.infiniteScrollStatus.dataFinished = true;
+        }
+        if (length > 0) {
+          this.createOnCursor = entitys[length - 1].createdOn;
+        }
         this.entitys.push(...entitys);
         this.infiniteScrollStatus.isLoading = false;
-        if (entitys.length < this.take) {
-          this.infiniteScrollStatus.dataFinished;
-        }
       });
+
+    console.log('');
   }
 }
