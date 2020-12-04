@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from 'src/auth/users/user.entity';
-import { QueryDto } from 'src/global-interface/dto/query.dto';
+import { QueryEntityDto } from 'src/global-interface/dto/query-entity.dto';
 import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
 import { FindOperator, LessThan, Like, Repository } from 'typeorm';
 import { ArticleEntity } from '../entity/article.entity';
@@ -26,7 +26,7 @@ export class ArticleService {
     return await this.repository.findOne(id);
   }
 
-  async query(queryDto: QueryDto): Promise<ArticleEntity[]> {
+  async query(queryDto: QueryEntityDto): Promise<ArticleEntity[]> {
     if (!queryDto.maxItemCount) {
       queryDto.maxItemCount = 1;
     }

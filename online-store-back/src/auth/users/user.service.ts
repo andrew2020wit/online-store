@@ -1,33 +1,60 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
+import { QueryEntityDto } from 'src/global-interface/dto/query-entity.dto';
 import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
-import { Repository } from 'typeorm';
+import { FindOperator, LessThan, Like, Repository } from 'typeorm';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UserAdminView } from '../dto/user-admin-view.dto';
 import { UserEntity } from './user.entity';
 
+class WereObj {
+  name?: FindOperator<string>;
+  isActive?: boolean;
+  createdOn?: FindOperator<Date>;
+  articleType?: string;
+}
+
 @Injectable()
-export class UsersService {
+export class UserService {
   constructor(
     @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
+    private readonly repository: Repository<UserEntity>,
   ) {}
 
-  private async findByLogin(login: string): Promise<UserEntity | undefined> {
-    return await this.userRepository.findOne({ where: { login } });
+  private async getByLogin(login: string): Promise<UserEntity | undefined> {
+    return await this.repository.findOne({ where: { login } });
   }
 
-  private async findById(userId: string): Promise<UserEntity | undefined> {
-    return await this.userRepository.findOne({ where: { id: userId } });
+  async getById(userId: string): Promise<UserEntity | undefined> {
+    return await this.repository.findOne({ where: { id: userId } });
+  }
+
+  async query(queryDto: QueryEntityDto): Promise<UserEntity[]> {
+    if (!queryDto.maxItemCount) {
+      queryDto.maxItemCount = 1;
+    }
+    const whereObj: WereObj = {};
+    if (queryDto.createdOnLessThan) {
+      whereObj.createdOn = LessThan(queryDto.createdOnLessThan);
+    }
+    if (queryDto.pattern) {
+      whereObj.name = Like(`%${queryDto.pattern}%`);
+    }
+
+    return this.repository.find({
+      take: queryDto.maxItemCount,
+      order: { createdOn: 'DESC' },
+      where: whereObj,
+    });
   }
 
   async findAllUsers(): Promise<UserAdminView[] | undefined> {
-    return await this.userRepository.find();
+    return await this.repository.find();
   }
 
   async createUser(createUserDto: CreateUserDto): Promise<StatusMessageDto> {
-    if (await this.findByLogin(createUserDto.login)) {
+    if (await this.getByLogin(createUserDto.login)) {
       return {
         message: `user ${createUserDto.login} already exist`,
         source: 'createUser',
@@ -36,7 +63,7 @@ export class UsersService {
     }
 
     if (
-      await this.userRepository.findOne({
+      await this.repository.findOne({
         where: { fullName: createUserDto.fullName },
       })
     ) {
@@ -53,7 +80,7 @@ export class UsersService {
 
     const password2 = await bcrypt.hash(createUserDto.password, 10);
 
-    await this.userRepository.save({
+    await this.repository.save({
       login: createUserDto.login,
       fullName: createUserDto.fullName,
       password: password2,
@@ -70,7 +97,7 @@ export class UsersService {
     userId: string,
     userEditDto: CreateUserDto,
   ): Promise<StatusMessageDto> {
-    if (!this.findById(userId)) {
+    if (!this.getById(userId)) {
       return {
         message: `not find user by userId ${userId}`,
         source: 'editUser',
@@ -80,7 +107,7 @@ export class UsersService {
 
     const password2 = await bcrypt.hash(userEditDto.password, 10);
     try {
-      await this.userRepository.save({
+      await this.repository.save({
         id: userId,
         login: userEditDto.login,
         fullName: userEditDto.fullName,

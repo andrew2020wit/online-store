@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { QueryDto } from 'src/global-interface/dto/query.dto';
+import { QueryEntityDto } from 'src/global-interface/dto/query-entity.dto';
 import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
 import { LessThan, Like, Repository } from 'typeorm';
 import { GoodsEntity } from '../entity/goods.entity';
@@ -16,7 +16,7 @@ export class GoodsService {
     return await this.repository.findOne(id);
   }
 
-  async query(queryDto: QueryDto): Promise<GoodsEntity[]> {
+  async query(queryDto: QueryEntityDto): Promise<GoodsEntity[]> {
     return this.repository.find({
       take: queryDto.maxItemCount,
       order: { createdOn: 'DESC' },

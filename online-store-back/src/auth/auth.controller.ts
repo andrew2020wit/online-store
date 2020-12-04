@@ -1,49 +1,16 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  Request,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
 import { AuthService } from './auth.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { JWTokenDTO } from './dto/token-object.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { RequestWithJwtUserExtDto } from './interfaces/request-with-user-ext.interface';
 import { RequestWithJwtUserDto } from './interfaces/request-with-user.interface';
-import { UsersService } from './users/users.service';
 
-@ApiTags('auth-users')
+@ApiTags('auth')
 @Controller('api/auth')
 export class AuthController {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly usersService: UsersService,
-  ) {}
-
-  // users registration
-  @Post('create-user')
-  async register(
-    @Body() createUserDto: CreateUserDto,
-  ): Promise<StatusMessageDto> {
-    return await this.usersService.createUser(createUserDto);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Post('edit-user')
-  async editUser(
-    @Request() req: RequestWithJwtUserExtDto,
-    @Body() createUserDto: CreateUserDto,
-  ): Promise<StatusMessageDto> {
-    // console.log('RequestWithJwtUserExtDto-user:', req.user);
-    // console.log('createUserDto:', createUserDto);
-
-    return await this.usersService.editUser(req.user.sub, createUserDto);
-  }
+  constructor(private readonly authService: AuthService) {}
 
   @UseGuards(LocalAuthGuard)
   @Post('get-token-obj')

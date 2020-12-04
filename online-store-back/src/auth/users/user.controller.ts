@@ -1,0 +1,106 @@
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryEntityDto } from 'src/global-interface/dto/query-entity.dto';
+import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
+import { Repository } from 'typeorm';
+import { CreateUserDto } from '../dto/create-user.dto';
+import { UserAdminView } from '../dto/user-admin-view.dto';
+import { AdminJwtAuthGuard } from '../guards/admin-jwt-auth.guard';
+import { JwtAuthGuard } from '../guards/jwt-auth.guard';
+import { RequestWithJwtUserExtDto } from '../interfaces/request-with-user-ext.interface';
+import { UserEntity, UserRole } from './user.entity';
+import { UserService } from './user.service';
+
+@ApiTags('user')
+@Controller('api/user')
+export class UserController {
+  constructor(
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
+    private entityService: UserService,
+  ) {}
+
+  @Get('get-by-id/:id')
+  @UseGuards(JwtAuthGuard)
+  async getUser(
+    @Param('id') id: string,
+    @Request() req: RequestWithJwtUserExtDto,
+  ): Promise<UserEntity> {
+    const user = req.user;
+    if (user.sub != 'id' && user.role != UserRole.admin) {
+      return null;
+    }
+    return await this.entityService.getById(id);
+  }
+
+  @Post('query-users')
+  @UseGuards(AdminJwtAuthGuard)
+  async usersList(@Body() queryDto: QueryEntityDto): Promise<UserEntity[]> {
+    return await this.entityService.query(queryDto);
+  }
+
+  @Post('query-change-user')
+  @UseGuards(AdminJwtAuthGuard)
+  async changeUser(
+    @Query() quer: { userId: string; property: string; value: string },
+  ): Promise<UserAdminView | undefined> {
+    const user = await this.userRepository.findOne(quer.userId);
+    let changed = false;
+    if (!user) {
+      return undefined;
+    }
+    if (user.role == 'admin') {
+      console.log('admin cannot be changed');
+      return undefined;
+    }
+    if (quer.property == `isActive`) {
+      if (quer.value == 'true') {
+        user.isActive = true;
+        changed = true;
+      }
+      if (quer.value == 'false') {
+        user.isActive = false;
+        changed = true;
+      }
+    }
+    if (quer.property == `role`) {
+      if (quer.value == 'manager') {
+        user.role = 'manager';
+        changed = true;
+      }
+      if (quer.value == 'client') {
+        user.role = 'client';
+        changed = true;
+      }
+    }
+    if (changed) {
+      return await this.userRepository.save(user);
+    } else return undefined;
+  }
+
+  @Post('create-user')
+  async register(
+    @Body() createUserDto: CreateUserDto,
+  ): Promise<StatusMessageDto> {
+    return await this.entityService.createUser(createUserDto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('edit-user')
+  async editUser(
+    @Request() req: RequestWithJwtUserExtDto,
+    @Body() createUserDto: CreateUserDto,
+  ): Promise<StatusMessageDto> {
+    return await this.entityService.editUser(req.user.sub, createUserDto);
+  }
+}

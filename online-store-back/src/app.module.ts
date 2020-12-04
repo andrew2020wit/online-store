@@ -5,7 +5,7 @@ import { join } from 'path';
 import { Connection } from 'typeorm';
 import { ArticleModule } from './article/article.module';
 import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './auth/users/users.module';
+import { UserModule } from './auth/users/user.module';
 import { GoodsModule } from './goods/goods.module';
 import { OrderModule } from './order/order.module';
 import { InitTestDataService } from './testing/init-test-data/init-test-data.service';
@@ -29,7 +29,7 @@ import { TestController } from './testing/test.controller';
     }),
     AuthModule,
     ArticleModule,
-    UsersModule,
+    UserModule,
     ArticleModule,
     GoodsModule,
     OrderModule,

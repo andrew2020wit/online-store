@@ -10,7 +10,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RequestWithJwtUserExtDto } from 'src/auth/interfaces/request-with-user-ext.interface';
 import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
-import { QueryDto } from '../../global-interface/dto/query.dto';
+import { QueryEntityDto } from '../../global-interface/dto/query-entity.dto';
 import { OrderEntity } from '../entity/order.entity';
 import { OrderService } from '../service/order.service';
 
@@ -32,7 +32,7 @@ export class OrderController {
   @UseGuards(JwtAuthGuard)
   async getOrders(
     @Request() req: RequestWithJwtUserExtDto,
-    @Body() queryOrdersDto: QueryDto,
+    @Body() queryOrdersDto: QueryEntityDto,
   ): Promise<OrderEntity[]> {
     return this.ordersService.getOrders(req.user.sub, queryOrdersDto);
   }

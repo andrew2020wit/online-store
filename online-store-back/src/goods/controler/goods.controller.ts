@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ManagerJwtAuthGuard } from 'src/auth/guards/manager-jwt-auth.guard';
-import { QueryDto } from 'src/global-interface/dto/query.dto';
+import { QueryEntityDto } from 'src/global-interface/dto/query-entity.dto';
 import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
 import { GoodsEntity } from '../entity/goods.entity';
 import { GoodsService } from '../service/goods.service';
@@ -26,7 +26,7 @@ export class GoodsController {
   }
 
   @Post('query')
-  async query(@Body() queryDto: QueryDto): Promise<GoodsEntity[]> {
+  async query(@Body() queryDto: QueryEntityDto): Promise<GoodsEntity[]> {
     return this.service.query(queryDto);
   }
 

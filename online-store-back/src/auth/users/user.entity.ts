@@ -7,6 +7,13 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+export enum UserRole {
+  admin = 'admin',
+  manager = 'manager',
+  user = 'user',
+  client = 'client',
+}
+
 @Entity()
 export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
