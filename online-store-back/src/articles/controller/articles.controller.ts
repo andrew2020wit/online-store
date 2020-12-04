@@ -20,15 +20,6 @@ import { ArticlesService } from '../service/articles.service';
 export class ArticlesController {
   constructor(private entityService: ArticlesService) {}
 
-  // @ApiOkResponse({
-  //   description: '`/api/article?id=${id}`',
-  //   type: ArticleEntity,
-  // })
-  // @ApiNotFoundResponse({ description: 'No task found for ID' })
-  // @ApiInternalServerErrorResponse({
-  //   description: 'Internal server error',
-  // })
-  // @ApiQuery
   @Get('get-by-id/:id')
   async getById(@Param('id') id: string): Promise<ArticleEntity> {
     return await this.entityService.getById(id);
