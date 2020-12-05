@@ -12,7 +12,7 @@ import { ArticleEntity } from './article.entity';
 export class ArticlesService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  getEntity(takeN: number, dateAfter: Date, pattern: string) {
+  queryEntitys(takeN: number, dateAfter: Date, pattern: string) {
     const endPoint = baseApiUrl + '/api/article/query-headers';
     const query: QueryDto = {
       maxItemCount: takeN,
@@ -27,7 +27,7 @@ export class ArticlesService {
     return this.http.get<ArticleEntity>(endPoint);
   }
 
-  edit$(entity: ArticleEntity) {
+  createOrEdit$(entity: ArticleEntity) {
     const endPoint = baseApiUrl + '/api/article/create-or-edit';
     return this.http.post<StatusMessageDto>(endPoint, entity);
   }

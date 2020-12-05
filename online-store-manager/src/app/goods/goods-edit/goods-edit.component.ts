@@ -76,43 +76,23 @@ export class GoodsEditComponent implements OnInit {
     });
   }
 
-  edit() {
-    if (!this.goodsId) {
-      return;
-    }
-
-    const newGoods: GoodsEntity = {
-      id: this.goodsId,
-      name: this.formModel.name,
-      description: this.formModel.description,
-      smallPhotoUrl: this.formModel.smallPhotoUrl,
-      bigPhotoUrl: this.formModel.bigPhotoUrl,
-      price: this.formModel.price,
-    };
-    this.service.edit$(newGoods).subscribe((x) => {
-      console.log('service.edit', x);
-    });
-  }
-
-  create() {
+  createOrEdit() {
+    let newGoods: GoodsEntity;
     if (this.goodsId) {
-      return;
+      // edit
+      newGoods.id = this.goodsId;
+    } else {
+      //create
     }
-    const newGoods: GoodsEntity = {
-      name: this.formModel.name,
-      description: this.formModel.description,
-      smallPhotoUrl: this.formModel.smallPhotoUrl,
-      bigPhotoUrl: this.formModel.bigPhotoUrl,
-      price: this.formModel.price,
-    };
-    this.service.create$(newGoods).subscribe((x) => {
-      console.log('service.create', x);
-    });
-  }
 
-  disActivate() {
-    this.service.activate$(this.goodsId, false).subscribe((x) => {
-      console.log('service.create', x);
+    newGoods.name = this.formModel.name;
+    newGoods.description = this.formModel.description;
+    newGoods.smallPhotoUrl = this.formModel.smallPhotoUrl;
+    newGoods.bigPhotoUrl = this.formModel.bigPhotoUrl;
+    newGoods.price = this.formModel.price;
+
+    this.service.createOrEdit$(newGoods).subscribe((x) => {
+      console.log('createOrEdit:', x);
     });
   }
 

@@ -115,12 +115,12 @@ export class OrderService {
   }
 
   sendOrder(order: OrdersEntity) {
-    const endPoint = baseApiUrl + '/api/orders';
+    const endPoint = baseApiUrl + '/api/order';
     return this.httpClient.put<StatusMessageDto>(endPoint, order);
   }
 
   getOrders(takeN, dateAfter) {
-    const endPoint = baseApiUrl + '/api/orders/query';
+    const endPoint = baseApiUrl + '/api/order/query';
     const query: QueryDto = {
       maxItemCount: takeN,
       createdOnLessThan: dateAfter,

@@ -56,7 +56,7 @@ export class EditArticleComponent implements OnInit {
   }
 
   sendEntity() {
-    this.entityService.edit$(this.formModel).subscribe((x) => {
+    this.entityService.createOrEdit$(this.formModel).subscribe((x) => {
       console.log('sendEntity', x);
     });
   }

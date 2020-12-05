@@ -9,14 +9,3 @@ export class UserEntity {
   createdOn?: Date;
   updatedOn?: Date;
 }
-
-export const selectAllUserEntity = [
-  'id',
-  'login',
-  'fullName',
-  'password',
-  'role',
-  'isActive',
-  'createdOn',
-  'updatedOn',
-];

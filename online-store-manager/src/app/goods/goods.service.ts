@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { QueryDto } from '../global-interface/dto/query.dto';
 import { baseApiUrl } from './../../environments/environment';
@@ -12,7 +12,7 @@ import { GoodsEntity } from './goods.entity';
 export class GoodsService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  getEntity(takeN: number, dateAfter: Date, pattern: string) {
+  queryEntitys(takeN: number, dateAfter: Date, pattern: string) {
     const endPoint = baseApiUrl + '/api/goods/query';
     const query: QueryDto = {
       maxItemCount: takeN,
@@ -23,48 +23,12 @@ export class GoodsService {
   }
 
   getById(id: string) {
-    const endPoint = baseApiUrl + '/api/goods' + `?id=${id}`;
+    const endPoint = baseApiUrl + '/api/goods/get-by-id/' + id;
     return this.http.get<GoodsEntity>(endPoint);
   }
 
-  create$(entity: GoodsEntity) {
-    const endPoint = baseApiUrl + '/api/goods';
-    const userId = this.authService.appUser.id;
-    if (!userId) {
-      console.log('this.authService.appUser.sub false');
-      return;
-    }
-    return this.http.put<StatusMessageDto>(endPoint, entity);
-  }
-
-  edit$(entity: GoodsEntity) {
-    const endPoint = baseApiUrl + '/api/goods';
-    const userId = this.authService.appUser.id;
-    if (!userId) {
-      console.log('this.authService.appUser.sub false');
-      return;
-    }
+  createOrEdit$(entity: GoodsEntity) {
+    const endPoint = baseApiUrl + '/api/goods/create-or-update';
     return this.http.post<StatusMessageDto>(endPoint, entity);
-  }
-
-  activate$(articleId: string, status: boolean) {
-    const endPoint = baseApiUrl + '/api/goods';
-
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-      body: {
-        id: articleId,
-        status: status,
-      },
-    };
-
-    const userId = this.authService.appUser.id;
-    if (!userId) {
-      console.log('this.authService.appUser.sub false');
-      return;
-    }
-    return this.http.delete<StatusMessageDto>(endPoint, httpOptions);
   }
 }

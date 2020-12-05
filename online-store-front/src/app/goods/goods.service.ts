@@ -10,7 +10,7 @@ import { GoodsEntity } from './goods.entity';
 export class GoodsService {
   constructor(private http: HttpClient) {}
 
-  getEntity(takeN: number, dateAfter: Date, pattern: string) {
+  queryEntitys(takeN: number, dateAfter: Date, pattern: string) {
     const endPoint = baseApiUrl + '/api/goods/query';
     const query: QueryDto = {
       maxItemCount: takeN,
@@ -21,7 +21,7 @@ export class GoodsService {
   }
 
   getById(id: string) {
-    const endPoint = baseApiUrl + '/api/goods' + `?id=${id}`;
+    const endPoint = baseApiUrl + '/api/goods/get-by-id/' + id;
     return this.http.get<GoodsEntity>(endPoint);
   }
 }

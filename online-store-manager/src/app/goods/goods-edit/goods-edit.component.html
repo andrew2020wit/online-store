@@ -1,27 +1,22 @@
 <p>goods-edit works!</p>
-  <form [formGroup]="form">
-    <formly-form
-      [form]="form"
-      [fields]="formFields"
-      [model]="formModel"
-    ></formly-form>
-  </form>
+<form [formGroup]="form">
+  <formly-form
+    [form]="form"
+    [fields]="formFields"
+    [model]="formModel"
+  ></formly-form>
+</form>
+<button
+  mat-button
+  color="primary"
+  (click)="createOrEdit()"
+  [disabled]="!form.valid"
+>
+  Edit
+</button>
 
-<ng-container *ngIf="goodsId; else elseTemplate">
-  <button mat-button color="primary" (click)="edit()" [disabled]="!form.valid">
-    Edit
-  </button>
-  <button
-    mat-button
-    color="error"
-    (click)="disActivate()"
-    [disabled]="!form.valid"
-  >
-    DisActivate this goods
-  </button>
-
+<ng-container *ngIf="goodsId">
   <mat-card
-    class="example-card"
     *ngIf="formModel.bigPhotoUrl"
     style="width: 300px; float: left; margin: 0.5rem;"
   >
@@ -65,14 +60,3 @@
     (onDone)="doneSmallImgUpload($event)"
   ></app-upload>
 </ng-container>
-
-<ng-template #elseTemplate>
-  <button
-    mat-button
-    color="primary"
-    (click)="create()"
-    [disabled]="!form.valid"
-  >
-    Create
-  </button>
-</ng-template>

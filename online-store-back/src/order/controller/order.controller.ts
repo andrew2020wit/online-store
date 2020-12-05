@@ -15,7 +15,7 @@ import { OrderEntity } from '../entity/order.entity';
 import { OrderService } from '../service/order.service';
 
 @ApiTags('order')
-@Controller('api/orders')
+@Controller('api/order')
 export class OrderController {
   constructor(private ordersService: OrderService) {}
 
