@@ -1,11 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import * as bcrypt from 'bcrypt';
 import { QueryEntityDto } from 'src/global-interface/dto/query-entity.dto';
 import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
 import { FindOperator, LessThan, Like, Repository } from 'typeorm';
-import { CreateUserDto } from '../dto/create-user.dto';
-import { UserAdminView } from '../dto/user-admin-view.dto';
+import { getPassWordHash } from '../utils/getPassWordHash';
 import { UserEntity, UserRole } from './user.entity';
 
 class WereObj {
@@ -58,7 +56,7 @@ export class UserService {
   async adminChangeUser(
     adminUserQueryDTO: AdminUserQueryDTO,
   ): Promise<StatusMessageDto> {
-    const resp = new StatusMessageDto('adminChangeUser');
+    const resp = new StatusMessageDto('UserService.adminChangeUser');
     resp.resultId = adminUserQueryDTO.userId;
 
     const user = await this.repository.findOne(adminUserQueryDTO.userId);
@@ -68,7 +66,7 @@ export class UserService {
       return resp;
     }
     if (user.role == UserRole.admin) {
-      resp.message = 'admin can not change!';
+      resp.message = 'admin can not be changed!';
       return resp;
     }
 
@@ -84,82 +82,44 @@ export class UserService {
     return resp;
   }
 
-  async findAllUsers(): Promise<UserAdminView[] | undefined> {
-    return await this.repository.find();
-  }
-
-  async createUser(createUserDto: CreateUserDto): Promise<StatusMessageDto> {
-    if (await this.getByLogin(createUserDto.login)) {
-      return {
-        message: `user ${createUserDto.login} already exist`,
-        source: 'createUser',
-        ok: false,
-      };
-    }
-
-    if (
-      await this.repository.findOne({
-        where: { fullName: createUserDto.fullName },
-      })
-    ) {
-      return {
-        message: `fullName ${createUserDto.fullName} already exist`,
-        source: 'createUser',
-        ok: false,
-      };
-    }
-
-    if (!createUserDto.password && createUserDto.password.length < 2) {
-      return { message: 'password incorrect', source: 'createUser', ok: false };
-    }
-
-    const password2 = await bcrypt.hash(createUserDto.password, 10);
-
-    await this.repository.save({
-      login: createUserDto.login,
-      fullName: createUserDto.fullName,
-      password: password2,
-    });
-
-    return {
-      message: `user ${createUserDto.login} created`,
-      source: 'createUser',
-      ok: true,
-    };
-  }
-
-  async editUser(
-    userId: string,
-    userEditDto: CreateUserDto,
+  async createOrEdit(
+    entity: UserEntity,
+    userIdFromToken?: string,
   ): Promise<StatusMessageDto> {
-    if (!this.getById(userId)) {
-      return {
-        message: `not find user by userId ${userId}`,
-        source: 'editUser',
-        ok: false,
-      };
+    const result = new StatusMessageDto('UserService.createOrEdit');
+
+    let newEntity: UserEntity;
+
+    if (entity.id) {
+      // edit user
+      if (!userIdFromToken) {
+        result.message = 'user undefined';
+        return result;
+      }
+      newEntity = await this.repository.findOne(entity.id);
+      if (!newEntity) {
+        result.message = 'entityId not exist';
+        return result;
+      }
+      if (userIdFromToken != newEntity.id) {
+        result.message = 'wrong user';
+        return result;
+      }
+    } else {
+      // create user
+      newEntity = new UserEntity();
+      newEntity.isActive = true;
+      newEntity.role = UserRole.user;
     }
 
-    const password2 = await bcrypt.hash(userEditDto.password, 10);
-    try {
-      await this.repository.save({
-        id: userId,
-        login: userEditDto.login,
-        fullName: userEditDto.fullName,
-        password: password2,
-      });
-    } catch (err) {
-      return {
-        message: err,
-        source: 'editUser',
-        ok: false,
-      };
-    }
+    newEntity.fullName = entity.fullName;
+    newEntity.login = entity.login;
+    newEntity.password = await getPassWordHash(entity.password);
 
-    return {
-      message: `user ${userEditDto.login} save`,
-      source: 'editUser',
-      ok: true,
-    };
+    const resultEntity = await this.repository.save(newEntity);
+    result.ok = true;
+    result.resultId = resultEntity.id;
+
+    return result;
   }
 }

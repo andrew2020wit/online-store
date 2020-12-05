@@ -56,10 +56,8 @@ export class UserController {
   }
 
   @Post('create-user')
-  async register(
-    @Body() createUserDto: CreateUserDto,
-  ): Promise<StatusMessageDto> {
-    return await this.entityService.createUser(createUserDto);
+  async register(@Body() createUserDto: UserEntity): Promise<StatusMessageDto> {
+    return await this.entityService.createOrEdit(createUserDto);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -68,6 +66,6 @@ export class UserController {
     @Request() req: RequestWithJwtUserExtDto,
     @Body() createUserDto: CreateUserDto,
   ): Promise<StatusMessageDto> {
-    return await this.entityService.editUser(req.user.sub, createUserDto);
+    return await this.entityService.createOrEdit(createUserDto, req.user.sub);
   }
 }
