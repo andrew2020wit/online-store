@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { QueryEntityDto } from 'src/global-interface/dto/query-entity.dto';
-import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
+import { QueryEntityDto } from 'src/global-interface/query-entity.dto';
+import { StatusMessageDto } from 'src/global-interface/status-message.dto';
 import { LessThan, Repository } from 'typeorm';
 import { OrderItemEntity } from '../entity/order-item.entity';
 import { OrderEntity } from '../entity/order.entity';

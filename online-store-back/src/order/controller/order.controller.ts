@@ -9,8 +9,8 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RequestWithJwtUserExtDto } from 'src/auth/interfaces/request-with-user-ext.interface';
-import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
-import { QueryEntityDto } from '../../global-interface/dto/query-entity.dto';
+import { StatusMessageDto } from 'src/global-interface/status-message.dto';
+import { QueryEntityDto } from '../../global-interface/query-entity.dto';
 import { OrderEntity } from '../entity/order.entity';
 import { OrderService } from '../service/order.service';
 

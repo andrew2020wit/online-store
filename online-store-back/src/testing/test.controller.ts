@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
+import { StatusMessageDto } from 'src/global-interface/status-message.dto';
 import { TestInitGoodsService } from 'src/goods/service/test-init-goods.service';
 import { TestInitOrderService } from 'src/order/service/test-init-order.service';
 import { InitTestDataService } from './init-test-data/init-test-data.service';

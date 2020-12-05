@@ -9,13 +9,13 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
-import { QueryEntityDto } from 'src/global-interface/dto/query-entity.dto';
-import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
+import { QueryEntityDto } from 'src/global-interface/query-entity.dto';
+import { StatusMessageDto } from 'src/global-interface/status-message.dto';
 import { Repository } from 'typeorm';
-import { CreateUserDto } from '../dto/create-user.dto';
-import { AdminJwtAuthGuard } from '../guards/admin-jwt-auth.guard';
-import { JwtAuthGuard } from '../guards/jwt-auth.guard';
-import { RequestWithJwtUserExtDto } from '../interfaces/request-with-user-ext.interface';
+import { CreateUserDto } from '../auth/dto/create-user.dto';
+import { AdminJwtAuthGuard } from '../auth/guards/admin-jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RequestWithJwtUserExtDto } from '../auth/interfaces/request-with-user-ext.interface';
 import { UserEntity, UserRole } from './user.entity';
 import { AdminUserQueryDTO, UserService } from './user.service';
 

@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { ArticleEntity, ArticleTypes } from 'src/article/entity/article.entity';
 import { CreateUserDto } from 'src/auth/dto/create-user.dto';
-import { UserEntity } from 'src/auth/users/user.entity';
-import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
+import { StatusMessageDto } from 'src/global-interface/status-message.dto';
+import { UserEntity } from 'src/user/user.entity';
 import { getConnection, Repository } from 'typeorm';
 
 @Injectable()

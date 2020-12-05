@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { QueryEntityDto } from 'src/global-interface/dto/query-entity.dto';
-import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
+import { QueryEntityDto } from 'src/global-interface/query-entity.dto';
+import { StatusMessageDto } from 'src/global-interface/status-message.dto';
 import { FindOperator, LessThan, Like, Repository } from 'typeorm';
-import { getPassWordHash } from '../utils/getPassWordHash';
+import { getPassWordHash } from '../auth/utils/getPassWordHash';
 import { UserEntity, UserRole } from './user.entity';
 
 class WereObj {
@@ -26,9 +26,9 @@ export class UserService {
     private readonly repository: Repository<UserEntity>,
   ) {}
 
-  private async getByLogin(login: string): Promise<UserEntity | undefined> {
-    return await this.repository.findOne({ where: { login } });
-  }
+  // private async getByLogin(login: string): Promise<UserEntity | undefined> {
+  //   return await this.repository.findOne({ where: { login } });
+  // }
 
   async getById(userId: string): Promise<UserEntity | undefined> {
     return await this.repository.findOne({ where: { id: userId } });

@@ -10,8 +10,8 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import { ManagerJwtAuthGuard } from 'src/auth/guards/manager-jwt-auth.guard';
 import { RequestWithJwtUserExtDto } from 'src/auth/interfaces/request-with-user-ext.interface';
-import { QueryEntityDto } from 'src/global-interface/dto/query-entity.dto';
-import { StatusMessageDto } from 'src/global-interface/dto/status-message.dto';
+import { QueryEntityDto } from 'src/global-interface/query-entity.dto';
+import { StatusMessageDto } from 'src/global-interface/status-message.dto';
 import { ArticleEntity } from '../entity/article.entity';
 import { ArticleService } from '../service/article.service';
 
