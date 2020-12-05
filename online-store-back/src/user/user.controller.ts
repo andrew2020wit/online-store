@@ -11,8 +11,6 @@ import { ApiTags } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryEntityDto } from 'src/global-interface/query-entity.dto';
 import { StatusMessageDto } from 'src/global-interface/status-message.dto';
-import { Repository } from 'typeorm';
-import { CreateUserDto } from '../auth/dto/create-user.dto';
 import { AdminJwtAuthGuard } from '../auth/guards/admin-jwt-auth.guard';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RequestWithJwtUserExtDto } from '../auth/interfaces/request-with-user-ext.interface';
@@ -24,7 +22,6 @@ import { AdminUserQueryDTO, UserService } from './user.service';
 export class UserController {
   constructor(
     @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
     private entityService: UserService,
   ) {}
 
@@ -56,16 +53,16 @@ export class UserController {
   }
 
   @Post('create-user')
-  async register(@Body() createUserDto: UserEntity): Promise<StatusMessageDto> {
-    return await this.entityService.createOrEdit(createUserDto);
+  async register(@Body() user: UserEntity): Promise<StatusMessageDto> {
+    return await this.entityService.createOrEdit(user);
   }
 
   @UseGuards(JwtAuthGuard)
   @Post('edit-user')
   async editUser(
     @Request() req: RequestWithJwtUserExtDto,
-    @Body() createUserDto: CreateUserDto,
+    @Body() user: UserEntity,
   ): Promise<StatusMessageDto> {
-    return await this.entityService.createOrEdit(createUserDto, req.user.sub);
+    return await this.entityService.createOrEdit(user, req.user.sub);
   }
 }

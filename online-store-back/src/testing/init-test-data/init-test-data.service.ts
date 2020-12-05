@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import * as bcrypt from 'bcrypt';
 import { ArticleEntity, ArticleTypes } from 'src/article/entity/article.entity';
-import { CreateUserDto } from 'src/auth/dto/create-user.dto';
+import { getPassWordHash } from 'src/auth/utils/getPassWordHash';
 import { StatusMessageDto } from 'src/global-interface/status-message.dto';
-import { UserEntity } from 'src/user/user.entity';
+import { UserEntity, UserRole } from 'src/user/user.entity';
 import { getConnection, Repository } from 'typeorm';
+import { UserService } from './../../user/user.service';
 
 @Injectable()
 export class InitTestDataService {
-  users: CreateUserDto[] = [];
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
+    private userService: UserService,
   ) {}
   initData(): StatusMessageDto {
     this.clearTables();
@@ -21,15 +21,20 @@ export class InitTestDataService {
   }
 
   async usersGenerator(): Promise<void> {
-    const password2 = await bcrypt.hash('12', 10);
     // managers + articles
     for (let n = 1; n <= 3; n++) {
-      const author = await this.userRepository.save({
+      const { resultId } = await this.userService.createOrEdit({
         login: 'manager' + n,
         fullName: 'Manager N' + n,
-        password: password2,
-        role: 'manager',
+        password: '12',
       });
+
+      await this.userService.adminChangeUser({
+        userId: resultId,
+        role: UserRole.manager,
+      });
+
+      const author = await this.userService.getById(resultId);
 
       // create articles
       const connection = getConnection();
@@ -66,31 +71,34 @@ export class InitTestDataService {
         await connection.manager.save(newArt);
       }
     }
+    const password2 = await getPassWordHash('12');
     // create admins
+
     await this.userRepository.save({
       login: 'admin',
       fullName: 'Admin N1',
       password: password2,
-      role: 'admin',
+      role: UserRole.admin,
     });
+
     await this.userRepository.save({
       login: 'admin2',
       fullName: 'Admin N2',
       password: password2,
-      role: 'admin',
+      role: UserRole.admin,
     });
     // create clients
     await this.userRepository.save({
       login: 'user',
       fullName: 'Hugo Boss',
       password: password2,
-      role: 'client',
+      role: UserRole.user,
     });
     await this.userRepository.save({
       login: 'user2',
       fullName: 'Secret bayer',
       password: password2,
-      role: 'client',
+      role: UserRole.user,
     });
   }
 

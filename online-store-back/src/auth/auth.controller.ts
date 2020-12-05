@@ -23,7 +23,6 @@ export class AuthController {
   async updateToken(
     @Request() req: RequestWithJwtUserExtDto,
   ): Promise<JWTokenDTO> {
-    console.log('RequestWithJwtUserExtDto-user:', req.user);
     return await this.authService.updateToken(req.user);
   }
 }
