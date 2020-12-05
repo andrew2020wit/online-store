@@ -1,13 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ManagerJwtAuthGuard } from 'src/auth/guards/manager-jwt-auth.guard';
 import { QueryEntityDto } from 'src/global-interface/query-entity.dto';
@@ -31,22 +22,8 @@ export class GoodsController {
   }
 
   @UseGuards(ManagerJwtAuthGuard)
-  @Put()
-  async create(@Body() entity: GoodsEntity): Promise<StatusMessageDto> {
-    return this.service.create(entity);
-  }
-
-  @UseGuards(ManagerJwtAuthGuard)
-  @Post()
+  @Post('create-or-update')
   async update(@Body() entity: GoodsEntity): Promise<StatusMessageDto> {
-    return this.service.update(entity);
-  }
-
-  @UseGuards(ManagerJwtAuthGuard)
-  @Delete()
-  async activate(
-    @Body() query: { id: string; status: boolean },
-  ): Promise<StatusMessageDto> {
-    return this.service.activate(query.id, query.status);
+    return this.service.createOrEdit(entity);
   }
 }

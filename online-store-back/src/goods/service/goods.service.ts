@@ -28,73 +28,65 @@ export class GoodsService {
     });
   }
 
-  async create(entity: GoodsEntity) {
-    const response = new StatusMessageDto('GoodsService:create');
-    response.ok = false;
+  async createOrEdit(entity: GoodsEntity) {
+    const result = new StatusMessageDto('GoodsService.createOrEdit');
 
-    // Validation
-    if (!entity || entity.id || !entity.name || !entity.price) {
-      response.message = 'bad entity';
-      return response;
+    if (!entity) {
+      result.message = 'entity empty';
+      return result;
     }
 
-    const newEntity = new GoodsEntity();
-    newEntity.bigPhotoUrl = entity.bigPhotoUrl;
-    newEntity.description = entity.description;
-    newEntity.name = entity.name;
-    newEntity.price = entity.price;
-    newEntity.smallPhotoUrl = entity.smallPhotoUrl;
+    let newEntity: GoodsEntity;
 
-    const resEntity = await this.repository.save(newEntity);
-    response.ok = true;
-    response.message = 'Ok';
-    response.resultId = resEntity.id;
-  }
-
-  async update(entity: GoodsEntity) {
-    const response = new StatusMessageDto('GoodsService:update');
-    response.ok = false;
-    // Validation
-    if (!entity || !entity.id || !entity.name || !entity.price) {
-      response.message = 'bad entity';
-      return response;
+    if (entity.id) {
+      // edit
+      newEntity = await this.repository.findOne(entity.id);
+      if (!newEntity) {
+        result.message = 'entityId not exist';
+        return result;
+      }
+    } else {
+      // create
+      newEntity = new GoodsEntity();
+      // Validation
+      if (!entity.name || !entity.price) {
+        result.message = 'entity without name or price';
+        return result;
+      }
     }
 
-    const newEntity = await this.getById(entity.id);
-
-    if (!newEntity) {
-      response.message = 'entity not exist';
-      return response;
+    if ('bigPhotoUrl' in entity) {
+      newEntity.bigPhotoUrl = entity.bigPhotoUrl;
+    }
+    if ('smallPhotoUrl' in entity) {
+      newEntity.smallPhotoUrl = entity.smallPhotoUrl;
+    }
+    if ('currency' in entity) {
+      newEntity.currency = entity.currency;
+    }
+    if ('description' in entity) {
+      newEntity.description = entity.description;
+    }
+    if ('isActive' in entity) {
+      newEntity.isActive = entity.isActive;
+    }
+    if ('maxOrderCount' in entity) {
+      newEntity.maxOrderCount = entity.maxOrderCount;
+    }
+    if ('name' in entity) {
+      newEntity.name = entity.name;
+    }
+    if ('price' in entity) {
+      newEntity.price = entity.price;
+    }
+    if ('stockCount' in entity) {
+      newEntity.stockCount = entity.stockCount;
     }
 
-    newEntity.bigPhotoUrl = entity.bigPhotoUrl;
-    newEntity.description = entity.description;
-    newEntity.name = entity.name;
-    newEntity.price = entity.price;
-    newEntity.smallPhotoUrl = entity.smallPhotoUrl;
+    const resultEntity = await this.repository.save(newEntity);
+    result.ok = true;
+    result.resultId = resultEntity.id;
 
-    const resEntity = await this.repository.save(newEntity);
-    response.ok = true;
-    response.message = 'Ok';
-    response.resultId = resEntity.id;
-  }
-
-  async activate(id: string, status: boolean) {
-    const response = new StatusMessageDto('GoodsService:delete');
-    response.ok = false;
-
-    const newEntity = await this.getById(id);
-
-    if (!newEntity) {
-      response.message = 'entity not exist';
-      return response;
-    }
-
-    newEntity.isActive = status;
-
-    const resEntity = await this.repository.save(newEntity);
-    response.ok = true;
-    response.message = `Status: ${status}`;
-    response.resultId = resEntity.id;
+    return result;
   }
 }
