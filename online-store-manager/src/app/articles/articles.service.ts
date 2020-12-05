@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { baseApiUrl } from '../../environments/environment';
-import { QueryDto } from '../global-interface/dto/query.dto';
+import { QueryEntityDto } from '../global-interface/dto/query-entity.dto';
 import { AuthService } from './../auth-module/auth.service';
 import { StatusMessageDto } from './../global-interface/dto/status-message.dto';
 import { ArticleEntity } from './article.entity';
@@ -14,7 +14,7 @@ export class ArticlesService {
 
   queryEntitys(takeN: number, dateAfter: Date, pattern: string) {
     const endPoint = baseApiUrl + '/api/article/query-headers';
-    const query: QueryDto = {
+    const query: QueryEntityDto = {
       maxItemCount: takeN,
       createdOnLessThan: dateAfter,
       pattern: pattern,

@@ -38,7 +38,7 @@ export class InitTestDataService {
 
       // create articles
       const connection = getConnection();
-      for (let m = 1; m <= 40; m++) {
+      for (let m = 1; m <= 200; m++) {
         const newArt = new ArticleEntity();
         newArt.author = author;
         newArt.title = 'News N' + m + ' from: ' + author.fullName;
@@ -54,7 +54,7 @@ export class InitTestDataService {
 
         await connection.manager.save(newArt);
       }
-      for (let m = 1; m <= 40; m++) {
+      for (let m = 1; m <= 200; m++) {
         const newArt = new ArticleEntity();
         newArt.author = author;
         newArt.title = 'Review N' + m + ' from: ' + author.fullName;

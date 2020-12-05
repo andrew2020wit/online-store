@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { baseApiUrl } from '../../environments/environment';
-import { QueryDto } from '../global-interface/dto/query.dto';
+import { QueryEntityDto } from '../global-interface/dto/query-entity.dto';
 import { ArticleEntity } from './article.entity';
 
 @Injectable({
@@ -9,19 +9,13 @@ import { ArticleEntity } from './article.entity';
 })
 export class ArticlesService {
   constructor(private http: HttpClient) {}
-
-  queryEntitys(takeN: number, dateAfter: Date, pattern: string) {
+  queryEntitys(queryDto: QueryEntityDto) {
     const endPoint = baseApiUrl + '/api/article/query-headers';
-    const query: QueryDto = {
-      maxItemCount: takeN,
-      createdOnLessThan: dateAfter,
-      pattern: pattern,
-    };
-    return this.http.post<ArticleEntity[]>(endPoint, query);
+    return this.http.post<ArticleEntity[]>(endPoint, queryDto);
   }
 
   getById(id: string) {
-    const endPoint = baseApiUrl + '/api/article/' + id;
+    const endPoint = baseApiUrl + '/api/article/get-by-id/' + id;
     return this.http.get<ArticleEntity>(endPoint);
   }
 }

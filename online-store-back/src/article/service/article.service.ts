@@ -3,13 +3,19 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { QueryEntityDto } from 'src/global-interface/query-entity.dto';
 import { StatusMessageDto } from 'src/global-interface/status-message.dto';
 import { UserEntity } from 'src/user/user.entity';
-import { FindOperator, LessThan, Like, Repository } from 'typeorm';
+import {
+  FindConditions,
+  FindOperator,
+  LessThan,
+  Like,
+  Repository,
+} from 'typeorm';
 import { ArticleEntity } from '../entity/article.entity';
 
 class WereObj {
-  title?: FindOperator<string>;
+  title?: FindOperator<FindConditions<string>>;
   isActive?: boolean;
-  createdOn?: FindOperator<Date>;
+  createdOn?: FindOperator<FindConditions<Date>>;
   articleType?: string;
 }
 
@@ -34,8 +40,9 @@ export class ArticleService {
     const whereObj: WereObj = {
       isActive: true,
     };
+
     if (queryDto.createdOnLessThan) {
-      whereObj.createdOn = LessThan(queryDto.createdOnLessThan);
+      whereObj.createdOn = LessThan(new Date(queryDto.createdOnLessThan));
     }
     if (queryDto.pattern) {
       whereObj.title = Like(`%${queryDto.pattern}%`);
@@ -44,13 +51,14 @@ export class ArticleService {
       whereObj.articleType = queryDto.entityType;
     }
 
-    return this.repository.find({
+    const res = await this.repository.find({
       select: ['id', 'title', 'description', 'createdOn', 'updatedOn'],
       relations: ['author'],
       take: queryDto.maxItemCount,
       order: { createdOn: 'DESC' },
       where: whereObj,
     });
+    return res;
   }
 
   async createOrEdit(

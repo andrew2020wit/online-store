@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { IUser } from '../auth-module/auth.service';
-import { QueryDto } from '../global-interface/dto/query.dto';
+import { QueryEntityDto } from '../global-interface/dto/query-entity.dto';
 import { baseApiUrl } from './../../environments/environment';
 import { AuthService } from './../auth-module/auth.service';
 import { StatusMessageDto } from './../global-interface/dto/status-message.dto';
@@ -121,7 +121,7 @@ export class OrderService {
 
   getOrders(takeN, dateAfter) {
     const endPoint = baseApiUrl + '/api/order/query';
-    const query: QueryDto = {
+    const query: QueryEntityDto = {
       maxItemCount: takeN,
       createdOnLessThan: dateAfter,
     };

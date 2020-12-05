@@ -1,13 +1,21 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { fromEvent, Observable } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { ArticleEntity } from './../article.entity';
+import { QueryEntityDto } from '../../global-interface/dto/query-entity.dto';
+import { ArticleEntity, ArticleTypes } from './../article.entity';
 import { ArticlesService } from './../articles.service';
 class InfiniteScrollStatus {
   isIntersecting: boolean;
   dataFinished: boolean;
   errorLoading: boolean;
   isLoading: boolean;
+  intersectId: string;
 }
 
 @Component({
@@ -16,39 +24,45 @@ class InfiniteScrollStatus {
   styleUrls: ['./articles-list.component.scss'],
 })
 export class ArticlesListComponent implements OnInit, AfterViewInit, OnDestroy {
+  @Input() articleType: ArticleTypes;
+
   private intersectionObserver: IntersectionObserver;
   infiniteScrollStatus: InfiniteScrollStatus = {
     isIntersecting: true,
     dataFinished: false,
     errorLoading: false,
     isLoading: false,
+    intersectId: '',
   };
 
   entitys: ArticleEntity[] = [];
 
-  //QueryDto
-  take = 20;
-  pattern = '';
-  createOnCursor: Date = new Date();
+  queryEntityDto: QueryEntityDto = {
+    maxItemCount: 20,
+  };
 
   filterInput: Element;
   filterInputKeyUp: Observable<Event>;
 
   constructor(private entityService: ArticlesService) {
+    this.queryEntityDto.createdOnLessThan = new Date();
     this.intersectionObserver = new IntersectionObserver(
       (entries) => {
         this.infiniteScrollStatus.isIntersecting = entries[0].isIntersecting;
       },
       { rootMargin: '0px 0px 1000px 0px' }
     );
+  }
+
+  ngOnInit() {
+    this.queryEntityDto.entityType = this.articleType;
+    this.infiniteScrollStatus.intersectId = 'intersectId' + this.articleType;
     this.autoLoader();
   }
 
-  ngOnInit() {}
-
   ngAfterViewInit(): void {
     this.intersectionObserver.observe(
-      document.getElementById('IntersectionTarget')
+      document.getElementById(this.infiniteScrollStatus.intersectId)
     );
     this.filterInput = document.querySelector('#filterInput');
     this.filterInputKeyUp = fromEvent(this.filterInput, 'keyup') as Observable<
@@ -90,24 +104,30 @@ export class ArticlesListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.infiniteScrollStatus.dataFinished = false;
     this.infiniteScrollStatus.errorLoading = false;
     this.infiniteScrollStatus.isLoading = false;
-    this.createOnCursor = new Date();
+    this.queryEntityDto.createdOnLessThan = new Date();
     this.autoLoader();
   }
 
   getEntity() {
     this.infiniteScrollStatus.isLoading = true;
+
+    console.log('this.queryEntityDto', this.queryEntityDto);
+
     this.entityService
-      .queryEntitys(this.take, this.createOnCursor, this.pattern)
+      .queryEntitys(this.queryEntityDto)
       .subscribe((entitys) => {
+        console.log('entitys', entitys);
+
         const length = entitys.length;
-        if (length < this.take) {
+        if (length < this.queryEntityDto.maxItemCount) {
           this.infiniteScrollStatus.dataFinished = true;
         }
         if (length > 0) {
-          this.createOnCursor = entitys[length - 1].createdOn;
+          this.queryEntityDto.createdOnLessThan = entitys[length - 1].createdOn;
         }
         this.entitys.push(...entitys);
         this.infiniteScrollStatus.isLoading = false;
+        console.log('this.infiniteScrollStatus', this.infiniteScrollStatus);
       });
   }
 }

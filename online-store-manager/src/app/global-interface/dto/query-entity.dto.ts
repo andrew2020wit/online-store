@@ -1,4 +1,4 @@
-export class QueryDto {
+export class QueryEntityDto {
   maxItemCount?: number;
   createdOnLessThan?: Date;
   pattern?: string;

@@ -1,13 +1,18 @@
 <mat-form-field>
   <mat-label>Title - Filter</mat-label>
-  <input id="filterInput" matInput type="text" [(ngModel)]="pattern" />
+  <input
+    id="filterInput"
+    matInput
+    type="text"
+    [(ngModel)]="queryEntityDto.pattern"
+  />
   <button
     mat-button
-    *ngIf="pattern"
+    *ngIf="queryEntityDto.pattern"
     matSuffix
     mat-icon-button
     aria-label="Clear"
-    (click)="pattern = ''; titleFilterReLoad()"
+    (click)="queryEntityDto.pattern = ''; titleFilterReLoad()"
   >
     <mat-icon>close</mat-icon>
   </button>
@@ -18,4 +23,4 @@
   [entity]="entity"
 ></app-article-header-card>
 
-<div id="IntersectionTarget" style="height: 5px;"></div>
+<div [id]="infiniteScrollStatus.intersectId" style="height: 5px;"></div>
