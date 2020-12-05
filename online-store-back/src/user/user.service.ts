@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ApiProperty } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryEntityDto } from 'src/global-interface/query-entity.dto';
 import { StatusMessageDto } from 'src/global-interface/status-message.dto';
@@ -14,8 +15,11 @@ class WereObj {
 }
 
 export class AdminUserQueryDTO {
+  @ApiProperty()
   userId: string;
+  @ApiProperty()
   role?: UserRole;
+  @ApiProperty()
   isActive?: boolean;
 }
 
