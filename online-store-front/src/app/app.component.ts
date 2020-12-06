@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { GeneralService } from './app-common/general.service';
 import { AuthService } from './auth-module/auth.service';
@@ -17,12 +18,14 @@ export class AppComponent implements OnInit {
   cartIsOpen = false;
   itemCount = 0;
   orderSum = 0;
+  userNameForWelcome = '';
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private generalService: GeneralService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private _snackBar: MatSnackBar
   ) {
     this.authService.loadLocalToken();
     this.generalService.isLoading$.subscribe((x) => (this.isLoading = x));
@@ -36,6 +39,11 @@ export class AppComponent implements OnInit {
       );
       this.itemCount = itemCount;
       this.orderSum = orderSum;
+    });
+    this.generalService.snackBarMessages.subscribe((message) => {
+      if (message) {
+        this._snackBar.open(message, null, { duration: 1000 });
+      }
     });
   }
   ngOnInit(): void {

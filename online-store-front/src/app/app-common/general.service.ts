@@ -7,5 +7,6 @@ import { BehaviorSubject } from 'rxjs';
 export class GeneralService {
   isLoading$ = new BehaviorSubject<boolean>(false);
   errorMessage$ = new BehaviorSubject<string>('');
+  snackBarMessages = new BehaviorSubject<string>('');
   constructor() {}
 }

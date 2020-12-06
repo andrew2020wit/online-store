@@ -5,12 +5,14 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject } from 'rxjs';
 import { baseApiUrl } from '../../environments/environment';
 import { StatusMessageDto } from '../global-interface/dto/status-message.dto';
+import { GeneralService } from './../app-common/general.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
 import { JWTokenDTO } from './dto/token-object.dto';
 
 const jwtHelperService = new JwtHelperService();
 const keyLocalStorToken = 'keyLocalStorToken';
+const keyLocalStorSayWelcome = 'keyLocalStorSayWelcome';
 
 export interface IToken {
   login: string;
@@ -33,6 +35,7 @@ export interface IUser {
 })
 export class AuthService {
   private _appUser$ = new BehaviorSubject<IUser | null>(null);
+  // userHasLogged$ = new BehaviorSubject<boolean>(false);
   appUser$ = this._appUser$.asObservable();
 
   appUser: IUser = null;
@@ -44,7 +47,11 @@ export class AuthService {
 
   loginFrameOpened$ = new BehaviorSubject<boolean>(false);
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private generalService: GeneralService
+  ) {
     this.appUser$.subscribe((user) => {
       if (user) {
         this.loginFrameOpened$.next(false);
@@ -82,6 +89,7 @@ export class AuthService {
       this.setTimeoutOfTokenUpdate = setTimeout(() => {
         this.getUpdateToken();
       }, 3600000);
+      this.sendWelcome();
     }
   }
 
@@ -99,12 +107,26 @@ export class AuthService {
     );
   }
 
+  sendWelcome() {
+    const say = localStorage.getItem(keyLocalStorSayWelcome);
+    if (!say) {
+      return;
+    }
+    if (this.appUser && this.appUser.fullName) {
+      this.generalService.snackBarMessages.next(
+        `Welcome, ${this.appUser.fullName}!`
+      );
+      localStorage.removeItem(keyLocalStorSayWelcome);
+    }
+  }
+
   async getToken(user: LoginDto) {
     this.http
       .post<JWTokenDTO>(baseApiUrl + '/api/auth/get-token-obj', user)
       .subscribe((tokenObj) => {
         localStorage.setItem(keyLocalStorToken, tokenObj.access_token);
         this.loadLocalToken();
+        localStorage.setItem(keyLocalStorSayWelcome, 'yes');
         this.router.navigate(['']);
         setTimeout(() => location.reload());
       });
