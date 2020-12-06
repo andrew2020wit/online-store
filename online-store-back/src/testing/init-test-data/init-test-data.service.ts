@@ -93,6 +93,7 @@ export class InitTestDataService {
       fullName: 'Hugo Boss',
       password: password2,
       role: UserRole.user,
+      defaultDeliverAddress: 'some defaultDeliverAddress of Hugo Boss',
     });
     await this.userRepository.save({
       login: 'user2',

@@ -21,7 +21,7 @@ export class GoodsService {
       take: queryDto.maxItemCount,
       order: { createdOn: 'DESC' },
       where: {
-        createdOn: LessThan(queryDto.createdOnLessThan),
+        createdOn: LessThan(new Date(queryDto.createdOnLessThan)),
         name: Like(`%${queryDto.pattern}%`),
         isActive: true,
       },
