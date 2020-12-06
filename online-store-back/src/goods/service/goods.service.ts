@@ -28,7 +28,7 @@ export class GoodsService {
     });
   }
 
-  async createOrEdit(entity: GoodsEntity) {
+  async createOrEdit(entity: GoodsEntity): Promise<StatusMessageDto> {
     const result = new StatusMessageDto('GoodsService.createOrEdit');
 
     if (!entity) {
@@ -87,6 +87,34 @@ export class GoodsService {
     result.ok = true;
     result.resultId = resultEntity.id;
 
+    return result;
+  }
+
+  async savePhotoUrl(
+    entityId: string,
+    photoType: string,
+    filename: string,
+  ): Promise<StatusMessageDto> {
+    const result = new StatusMessageDto('GoodsService.savePhotoUrl');
+    const newEntity = await this.repository.findOne(entityId);
+    if (!newEntity) {
+      result.message = 'entityId not exist';
+      return result;
+    }
+
+    if (photoType === 'bigPhotoUrl') {
+      await this.repository.update(entityId, {
+        bigPhotoUrl: `/photos/${filename}`,
+      });
+    } else if (photoType === 'smallPhotoUrl') {
+      await this.repository.update(entityId, {
+        smallPhotoUrl: `/photos/${filename}`,
+      });
+    } else {
+      result.message = 'wrong type';
+      return result;
+    }
+    result.ok = true;
     return result;
   }
 }

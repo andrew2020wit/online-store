@@ -45,7 +45,7 @@ export class GoodsController {
     return this.service.createOrEdit(entity);
   }
 
-  @Post('upload/:type/:id')
+  @Post('upload/:photoType/:id')
   @UseGuards(ManagerJwtAuthGuard)
   @UseInterceptors(
     FileInterceptor('file', {
@@ -57,26 +57,10 @@ export class GoodsController {
     }),
   )
   async uploadFile(@UploadedFile() file, @Param() params) {
-    if (params.type === 'bigPhotoUrl') {
-      await this.goodsRepository.update(params.id, {
-        bigPhotoUrl: `/photos/${file.filename}`,
-      });
-    } else if (params.type === 'smallPhotoUrl') {
-      await this.goodsRepository.update(params.id, {
-        smallPhotoUrl: `/photos/${file.filename}`,
-      });
-    } else {
-      return {
-        Ok: false,
-        originalName: file.originalName,
-        filename: file.filename,
-      };
-    }
-    const response = {
-      Ok: true,
-      originalName: file.originalName,
-      filename: file.filename,
-    };
-    return response;
+    return await this.service.savePhotoUrl(
+      params.id,
+      params.photoType,
+      file.filename,
+    );
   }
 }

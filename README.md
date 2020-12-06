@@ -10,8 +10,10 @@ project in development...
 
 ## Technics
 
-Static Server, Authentication, JWT, Passport, TypeORM, validation, environment, dotenv, interceptors, guards, Reactive forms, RxJS, Subject-state, Angular-Material, Material custom theme, infinite scroll, ngx-formly, Upload Files
-GraphQL: removed 30-11-2020
+Back: NestJS, RestAPI, OpenAPI/Swagger, Static Server, Passport, TypeORM/PostgreSQL, environment, dotenv.
+Front: Angular, RxJS, Subject-state, Material, Material custom theme, infinite scroll, interceptors, Reactive forms, ngx-formly, validation.
+All: Authentication, JWT, guards, Upload Files
+Removed: GraphQL: removed 30-11-2020
 
 ## Features
 
@@ -28,8 +30,6 @@ create/edit
 1. shopwindow
 2. order, cart
 3. edit price/goods
-
-## Based on NestJS, Angular, PostgreSQL
 
 ## "author": "andrew2020wit"
 
