@@ -4,7 +4,7 @@ import { ArticleViewComponent } from './articles/article-view/article-view.compo
 import { NewsPageComponent } from './articles/news-page/news-page.component';
 import { ReviewsPageComponent } from './articles/reviews-page/reviews-page.component';
 import { AuthGuard } from './auth-module/guards/auth.guard';
-import { UserProfileComponent } from './auth-module/view/user-profile/user-profile.component';
+import { EditUserProfilePageComponent } from './auth-module/view/edit-user-profile-page/edit-user-profile-page.component';
 import { UserRegisterFormComponent } from './auth-module/view/user-register-form/user-register-form.component';
 import { GoodsPageComponent } from './goods/goods-page/goods-page.component';
 import { GoodsViewComponent } from './goods/goods-view/goods-view.component';
@@ -32,8 +32,8 @@ const appRoutes: Routes = [
 
   { path: 'new-user', component: UserRegisterFormComponent },
   {
-    path: 'user-profile',
-    component: UserProfileComponent,
+    path: 'edit-user-profile',
+    component: EditUserProfilePageComponent,
     canActivate: [AuthGuard],
   },
 
