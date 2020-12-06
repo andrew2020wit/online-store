@@ -13,6 +13,12 @@ export enum UserRole {
   user = 'user',
 }
 
+export enum UserGender {
+  man = 'man',
+  woman = 'woman',
+  notIndicated = '',
+}
+
 @Entity()
 export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -40,10 +46,25 @@ export class UserEntity {
   password?: string;
 
   @Column({ nullable: false, default: 'user' })
-  role?: string;
+  role?: UserRole;
 
   @Column({ nullable: true, default: '' })
   defaultDeliverAddress?: string;
+
+  @Column({ nullable: true, default: '' })
+  email?: string;
+
+  @Column({ nullable: true, default: '' })
+  phone?: string;
+
+  @Column({ nullable: true, default: '' })
+  gender?: UserGender;
+
+  @Column({ nullable: true, default: '' })
+  language?: string;
+
+  @Column({ nullable: true, default: null })
+  birthday?: Date;
 
   @Column({ type: 'boolean', nullable: false, default: true })
   isActive?: boolean;
@@ -55,13 +76,13 @@ export class UserEntity {
   updatedOn?: Date;
 }
 
-export const selectAllUserEntity = [
-  'id',
-  'login',
-  'fullName',
-  'password',
-  'role',
-  'isActive',
-  'createdOn',
-  'updatedOn',
-];
+// export const selectAllUserEntity = [
+//   'id',
+//   'login',
+//   'fullName',
+//   'password',
+//   'role',
+//   'isActive',
+//   'createdOn',
+//   'updatedOn',
+// ];
