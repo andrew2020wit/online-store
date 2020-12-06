@@ -4,10 +4,16 @@ import { OrderModule } from './../order/order.module';
 import { ShareModule } from './../share.module';
 import { GoodsCardComponent } from './goods-card/goods-card.component';
 import { GoodsListComponent } from './goods-list/goods-list.component';
+import { GoodsPageComponent } from './goods-page/goods-page.component';
 import { GoodsViewComponent } from './goods-view/goods-view.component';
 
 @NgModule({
-  declarations: [GoodsListComponent, GoodsCardComponent, GoodsViewComponent],
+  declarations: [
+    GoodsListComponent,
+    GoodsCardComponent,
+    GoodsPageComponent,
+    GoodsViewComponent,
+  ],
   exports: [GoodsListComponent, GoodsCardComponent],
   imports: [CommonModule, ShareModule, OrderModule],
 })
