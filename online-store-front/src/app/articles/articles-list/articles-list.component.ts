@@ -5,7 +5,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { fromEvent, Observable } from 'rxjs';
+import { fromEvent, Observable, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { QueryEntityDto } from '../../global-interface/dto/query-entity.dto';
 import { ArticleEntity, ArticleTypes } from './../article.entity';
@@ -41,10 +41,16 @@ export class ArticlesListComponent implements OnInit, AfterViewInit, OnDestroy {
     maxItemCount: 20,
   };
 
+  labelFilterInput = '';
   filterInput: Element;
   filterInputKeyUp: Observable<Event>;
+  subscriptionFilterInputKeyUp: Subscription;
 
   constructor(private entityService: ArticlesService) {
+    this.labelFilterInput =
+      'labelFilterInput-' + Math.random().toString(36).substring(2);
+    console.log('this.labelFilterInput ', this.labelFilterInput);
+
     this.queryEntityDto.createdOnLessThan = new Date();
     this.intersectionObserver = new IntersectionObserver(
       (entries) => {
@@ -57,6 +63,7 @@ export class ArticlesListComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.queryEntityDto.entityType = this.articleType;
     this.infiniteScrollStatus.intersectId = 'intersectId' + this.articleType;
+
     this.autoLoader();
   }
 
@@ -64,11 +71,11 @@ export class ArticlesListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.intersectionObserver.observe(
       document.getElementById(this.infiniteScrollStatus.intersectId)
     );
-    this.filterInput = document.querySelector('#filterInput');
+    this.filterInput = document.querySelector('#' + this.labelFilterInput);
     this.filterInputKeyUp = fromEvent(this.filterInput, 'keyup') as Observable<
       Event
     >;
-    this.filterInputKeyUp
+    this.subscriptionFilterInputKeyUp = this.filterInputKeyUp
       .pipe(debounceTime(1000))
       .subscribe(() => this.titleFilterReLoad());
   }
@@ -79,6 +86,7 @@ export class ArticlesListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     this.intersectionObserver.disconnect();
+    this.subscriptionFilterInputKeyUp.unsubscribe();
   }
 
   autoLoader() {
