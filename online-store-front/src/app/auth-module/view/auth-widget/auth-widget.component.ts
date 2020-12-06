@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from './../../auth.service';
+import { AuthService } from '../../auth.service';
 
 @Component({
-  selector: 'app-auth',
-  templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.scss'],
+  selector: 'app-auth-widget',
+  templateUrl: './auth-widget.component.html',
+  styleUrls: ['./auth-widget.component.scss'],
 })
-export class AuthComponent implements OnInit {
+export class AuthWidgetComponent implements OnInit {
   isLogged = false;
   constructor(private authService: AuthService) {
     this.authService.appUser$.subscribe((user) => {

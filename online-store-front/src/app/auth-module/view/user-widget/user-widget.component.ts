@@ -20,4 +20,7 @@ export class UserWidgetComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+  logOut() {
+    this.authService.logout();
+  }
 }

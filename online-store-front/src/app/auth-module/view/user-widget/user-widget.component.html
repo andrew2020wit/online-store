@@ -1,5 +1,20 @@
 <span>
-  <button mat-button color="accent" routerLink="/user-profile">
+  <button mat-button color="accent" [matMenuTriggerFor]="menu">
     {{ userName }}
   </button>
+  <!-- UserMenu -->
+  <mat-menu #menu="matMenu">
+    <!-- MyOrders -->
+    <button mat-menu-item routerLink="/orders-list">
+      MyOrders
+    </button>
+    <!-- MyProfile -->
+    <button mat-menu-item routerLink="/user-profile">
+      MyProfile
+    </button>
+    <!-- LogOut -->
+    <button mat-menu-item (click)="logOut()" style="color: red;">
+      LogOut
+    </button>
+  </mat-menu>
 </span>

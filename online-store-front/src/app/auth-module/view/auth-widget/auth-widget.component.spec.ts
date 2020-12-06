@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { UserRegisterFormComponent } from './user-register-form.component';
+import { AuthWidgetComponent } from './auth-widget.component';
 
-describe('NewLoginComponent', () => {
-  let component: UserRegisterFormComponent;
-  let fixture: ComponentFixture<UserRegisterFormComponent>;
+describe('AuthComponent', () => {
+  let component: AuthWidgetComponent;
+  let fixture: ComponentFixture<AuthWidgetComponent>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [UserRegisterFormComponent],
+        declarations: [AuthWidgetComponent],
       }).compileComponents();
     })
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UserRegisterFormComponent);
+    fixture = TestBed.createComponent(AuthWidgetComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

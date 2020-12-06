@@ -1,7 +1,9 @@
 <div *ngIf="isOpen">
   <mat-tab-group>
     <mat-tab label="Login"> <app-login></app-login> </mat-tab>
-    <mat-tab label="Register"> <app-new-user></app-new-user> </mat-tab>
+    <mat-tab label="Register">
+      <app-user-register-form></app-user-register-form>
+    </mat-tab>
   </mat-tab-group>
   <button mat-button color="primary" (click)="hideLoginFrame()">
     hideLoginFrame
