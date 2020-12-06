@@ -5,6 +5,7 @@ import { GeneralService } from './app-common/general.service';
 import { AuthService } from './auth-module/auth.service';
 import { OrderService } from './order/order.service';
 import { menuList } from './site-menu';
+import { CustomSnackBarComponent } from './view/custom-snack-bar/custom-snack-bar.component';
 
 @Component({
   selector: 'app-root',
@@ -42,7 +43,10 @@ export class AppComponent implements OnInit {
     });
     this.generalService.snackBarMessages.subscribe((message) => {
       if (message) {
-        this._snackBar.open(message, null, { duration: 1000 });
+        this._snackBar.openFromComponent(CustomSnackBarComponent, {
+          data: message,
+          duration: 1000,
+        });
       }
     });
   }

@@ -10,6 +10,7 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { NewsComponent } from './pages/news/news.component';
 import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
 import { ReviewsComponent } from './pages/reviews/reviews.component';
+import { CustomSnackBarComponent } from './custom-snack-bar/custom-snack-bar.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { ReviewsComponent } from './pages/reviews/reviews.component';
     NewsComponent,
     ReviewsComponent,
     GoodsComponent,
+    CustomSnackBarComponent,
   ],
   imports: [
     CommonModule,
