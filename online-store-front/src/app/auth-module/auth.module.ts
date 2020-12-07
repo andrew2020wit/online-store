@@ -8,6 +8,7 @@ import { EditUserProfilePageComponent } from './view/edit-user-profile-page/edit
 import { LoginFormComponent } from './view/login-form/login-form.component';
 import { LoginPageComponent } from './view/login-page/login-page.component';
 import { UserRegisterFormComponent } from './view/user-register-form/user-register-form.component';
+import { UserRegisterPageComponent } from './view/user-register-page/user-register-page.component';
 import { UserWidgetComponent } from './view/user-widget/user-widget.component';
 
 @NgModule({
@@ -19,6 +20,7 @@ import { UserWidgetComponent } from './view/user-widget/user-widget.component';
     LoginPageComponent,
     EditUserProfilePageComponent,
     EditUserProfileFormComponent,
+    UserRegisterPageComponent,
   ],
   imports: [CommonModule, ShareModule, MatDialogModule],
   exports: [
@@ -27,6 +29,7 @@ import { UserWidgetComponent } from './view/user-widget/user-widget.component';
     UserRegisterFormComponent,
     UserWidgetComponent,
     LoginPageComponent,
+    UserRegisterPageComponent,
   ],
 })
 export class AuthModule {}

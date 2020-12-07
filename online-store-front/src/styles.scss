@@ -70,3 +70,26 @@ body {
 .borderOfOnButton {
   border: 1px solid black;
 }
+
+$maxAppWidth: 1200px;
+$maxFormWidth: 600px;
+
+.app-container-flex {
+  display: flex;
+  width: 100%;
+  max-width: $maxAppWidth;
+  margin: auto;
+  // border: black 1px solid;
+}
+
+.app-container {
+  width: 100%;
+  max-width: $maxAppWidth;
+  margin: auto;
+  // border: black 1px solid;
+}
+
+.app-form-container {
+  max-width: $maxFormWidth;
+  margin: auto;
+}

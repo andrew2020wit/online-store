@@ -75,14 +75,3 @@ export class UserEntity {
   @UpdateDateColumn()
   updatedOn?: Date;
 }
-
-// export const selectAllUserEntity = [
-//   'id',
-//   'login',
-//   'fullName',
-//   'password',
-//   'role',
-//   'isActive',
-//   'createdOn',
-//   'updatedOn',
-// ];

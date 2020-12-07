@@ -1,6 +1,7 @@
 import { LayoutModule } from '@angular/cdk/layout';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { ArticlesModule } from './articles/articles.module';
 import { AuthModule } from './auth-module/auth.module';
@@ -22,6 +23,7 @@ import { ViewModule } from './view/view.module';
     HttpClientModule,
     GoodsModule,
     OrderModule,
+    ReactiveFormsModule,
   ],
   providers: [errorInterceptorProvider, jwtInterceptorProvider],
   bootstrap: [AppComponent],

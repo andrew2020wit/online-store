@@ -8,7 +8,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { InjectRepository } from '@nestjs/typeorm';
 import { QueryEntityDto } from 'src/global-interface/query-entity.dto';
 import { StatusMessageDto } from 'src/global-interface/status-message.dto';
 import { AdminJwtAuthGuard } from '../auth/guards/admin-jwt-auth.guard';
@@ -20,10 +19,7 @@ import { AdminUserQueryDTO, UserService } from './user.service';
 @ApiTags('user')
 @Controller('api/user')
 export class UserController {
-  constructor(
-    @InjectRepository(UserEntity)
-    private entityService: UserService,
-  ) {}
+  constructor(private entityService: UserService) {}
 
   @Get('get-by-id/:id')
   @UseGuards(JwtAuthGuard)
@@ -54,6 +50,8 @@ export class UserController {
 
   @Post('create-user')
   async register(@Body() user: UserEntity): Promise<StatusMessageDto> {
+    console.log('user: ', user);
+
     return await this.entityService.createOrEdit(user);
   }
 

@@ -9,6 +9,7 @@ import { GeneralService } from './../app-common/general.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
 import { JWTokenDTO } from './dto/token-object.dto';
+import { UserEntity } from './user.entity';
 
 const jwtHelperService = new JwtHelperService();
 const keyLocalStorToken = 'keyLocalStorToken';
@@ -93,9 +94,9 @@ export class AuthService {
     }
   }
 
-  createUser$(newUser: CreateUserDto) {
+  createUser$(newUser: UserEntity) {
     return this.http.post<StatusMessageDto>(
-      baseApiUrl + '/api/auth/create-user',
+      baseApiUrl + '/api/user/create-user',
       newUser
     );
   }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../../auth.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { AuthService } from '../../auth.service';
 export class LoginPageComponent implements OnInit {
   isOpen = true;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router) {
     this.authService.loginFrameOpened$.subscribe((x) => {
       this.isOpen = x;
     });
@@ -19,5 +20,9 @@ export class LoginPageComponent implements OnInit {
 
   hideLoginFrame() {
     this.authService.loginFrameOpened$.next(false);
+  }
+  register() {
+    this.hideLoginFrame();
+    this.router.navigate(['/user-register']);
   }
 }

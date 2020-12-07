@@ -17,6 +17,8 @@ export class UserEntity {
   role?: UserRole;
   defaultDeliverAddress?: string;
   gender?: UserGender;
+  email?: string;
+  phone?: string;
   language?: string;
   birthday?: Date;
   isActive?: boolean;

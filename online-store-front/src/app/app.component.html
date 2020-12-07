@@ -2,36 +2,41 @@
   <header class="header">
     <mat-toolbar color="primary">
       <mat-toolbar-row>
-        <button mat-button color="accent" routerLink="/">
-          <h1>OnlineStore</h1>
-        </button>
-        <span style="flex: 1 1 auto;"></span>
-
-        <div [ngClass]="{ borderOfOnButton: cartIsOpen }">
-          <button mat-button color="accent" (click)="switchCart()">
-            <mat-icon>shopping_cart</mat-icon> {{ itemCount }} : {{ orderSum }}
+        <div class="app-container-flex">
+          <button mat-button color="accent" routerLink="/">
+            <h1>OnlineStore</h1>
           </button>
+          <span style="flex: 1 1 auto;"></span>
+
+          <div [ngClass]="{ borderOfOnButton: cartIsOpen }">
+            <button mat-button color="accent" (click)="switchCart()">
+              <mat-icon>shopping_cart</mat-icon> {{ itemCount }} :
+              {{ orderSum }}
+            </button>
+          </div>
+          <app-auth-widget></app-auth-widget>
         </div>
-        <app-auth-widget></app-auth-widget>
       </mat-toolbar-row>
 
       <mat-toolbar-row>
-        <button
-          mat-button
-          routerLinkActive="active-link-background"
-          [routerLinkActiveOptions]="{ exact: true }"
-          *ngFor="let link of links"
-          color="accent"
-          routerLink="{{ link.link }}"
-        >
-          {{ link.name }}
-        </button>
+        <div class="app-container-flex">
+          <button
+            mat-button
+            routerLinkActive="active-link-background"
+            [routerLinkActiveOptions]="{ exact: true }"
+            *ngFor="let link of links"
+            color="accent"
+            routerLink="{{ link.link }}"
+          >
+            {{ link.name }}
+          </button>
+        </div>
       </mat-toolbar-row>
     </mat-toolbar>
   </header>
 
   <main class="main">
-    <div class="main-content">
+    <div class="main-content app-container">
       <!-- login hide frame -->
       <app-login-page></app-login-page>
       <!-- error hide frame -->
@@ -54,16 +59,18 @@
 
   <footer class="footer">
     <mat-toolbar color="primary" class="bottom-toolbar">
-      <a (click)="toHome()">
-        <button mat-button color="accent" title="to home">
-          <h1 id="homeTitle" class="mat-h4">andrew2020wit</h1>
+      <div class="app-container-flex">
+        <a (click)="toHome()">
+          <button mat-button color="accent" title="to home">
+            <h1 id="homeTitle" class="mat-h4">andrew2020wit</h1>
+          </button>
+        </a>
+        <span></span>
+        <span style="flex: 1 1 auto;"></span>
+        <button mat-button color="accent" routerLink="/about">
+          About
         </button>
-      </a>
-      <span></span>
-      <span style="flex: 1 1 auto;"></span>
-      <button mat-button color="accent" routerLink="/about">
-        About
-      </button>
+      </div>
     </mat-toolbar>
   </footer>
 

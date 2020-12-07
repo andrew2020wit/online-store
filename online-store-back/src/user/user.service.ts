@@ -90,24 +90,24 @@ export class UserService {
     entity: UserEntity,
     userIdFromToken?: string,
   ): Promise<StatusMessageDto> {
-    const result = new StatusMessageDto('UserService.createOrEdit');
+    const statusMessage = new StatusMessageDto('UserService.createOrEdit');
 
     let newEntity: UserEntity;
 
     if (entity.id) {
       // edit user
       if (!userIdFromToken) {
-        result.message = 'user undefined';
-        return result;
+        statusMessage.message = 'user undefined';
+        return statusMessage;
       }
       newEntity = await this.repository.findOne(entity.id);
       if (!newEntity) {
-        result.message = 'entityId not exist';
-        return result;
+        statusMessage.message = 'entityId not exist';
+        return statusMessage;
       }
       if (userIdFromToken != newEntity.id) {
-        result.message = 'wrong user';
-        return result;
+        statusMessage.message = 'wrong user';
+        return statusMessage;
       }
     } else {
       // create user
@@ -115,15 +115,14 @@ export class UserService {
       newEntity.isActive = true;
       newEntity.role = UserRole.user;
     }
+    Object.assign(newEntity, entity);
 
-    newEntity.fullName = entity.fullName;
-    newEntity.login = entity.login;
     newEntity.password = await getPassWordHash(entity.password);
 
     const resultEntity = await this.repository.save(newEntity);
-    result.ok = true;
-    result.resultId = resultEntity.id;
+    statusMessage.ok = true;
+    statusMessage.resultId = resultEntity.id;
 
-    return result;
+    return statusMessage;
   }
 }

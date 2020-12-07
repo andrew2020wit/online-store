@@ -30,10 +30,17 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormlyModule } from '@ngx-formly/core';
+import { FormlyMaterialModule } from '@ngx-formly/material';
+import { FormlyMatDatepickerModule } from '@ngx-formly/material/datepicker';
 import { AppRoutingModule } from './app-routing.module';
 import { UtcToLocalTimePipe } from './utils/utc-to-localtime.pipe';
 
-const customModules = [AppRoutingModule];
+const customModules = [
+  AppRoutingModule,
+  FormlyMaterialModule,
+  FormlyMatDatepickerModule,
+];
 const angularModules = [
   BrowserAnimationsModule,
   HttpClientModule,
@@ -72,12 +79,27 @@ const materialModules = [
 ];
 
 @NgModule({
-  imports: [...materialModules, ...angularModules, ...customModules],
+  imports: [
+    ...materialModules,
+    ...angularModules,
+    ...customModules,
+    FormlyModule.forRoot({
+      extras: { lazyRender: true },
+      validationMessages: [
+        { name: 'required', message: 'This field is required!' },
+        { name: 'minlength', message: 'need more long' },
+        { name: 'maxlength', message: 'it is to long' },
+        { name: 'min', message: 'it must be bigger' },
+        { name: 'max', message: 'it is to bigger' },
+      ],
+    }),
+  ],
   exports: [
     ...materialModules,
     ...angularModules,
     ...customModules,
     UtcToLocalTimePipe,
+    FormlyModule,
   ],
   declarations: [UtcToLocalTimePipe],
 })

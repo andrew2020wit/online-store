@@ -5,7 +5,7 @@ import { NewsPageComponent } from './articles/news-page/news-page.component';
 import { ReviewsPageComponent } from './articles/reviews-page/reviews-page.component';
 import { AuthGuard } from './auth-module/guards/auth.guard';
 import { EditUserProfilePageComponent } from './auth-module/view/edit-user-profile-page/edit-user-profile-page.component';
-import { UserRegisterFormComponent } from './auth-module/view/user-register-form/user-register-form.component';
+import { UserRegisterPageComponent } from './auth-module/view/user-register-page/user-register-page.component';
 import { GoodsPageComponent } from './goods/goods-page/goods-page.component';
 import { GoodsViewComponent } from './goods/goods-view/goods-view.component';
 import { OrdersListComponent } from './order/orders-list/orders-list.component';
@@ -30,7 +30,7 @@ const appRoutes: Routes = [
 
   { path: 'about', component: AboutComponent },
 
-  { path: 'new-user', component: UserRegisterFormComponent },
+  { path: 'user-register', component: UserRegisterPageComponent },
   {
     path: 'edit-user-profile',
     component: EditUserProfilePageComponent,
