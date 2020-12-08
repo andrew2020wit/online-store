@@ -21,10 +21,15 @@ export class UserRegisterFormComponent implements OnInit {
 
   registerUser() {
     console.log(this.model);
+    const login = this.model.login;
+    const password = this.model.password;
     this.authService.createUser$(this.model).subscribe((message) => {
       console.log('createUser: ', message);
-
       if (message.ok) {
+        this.authService.getToken({
+          login,
+          password,
+        });
       }
     });
   }
