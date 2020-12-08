@@ -7,8 +7,8 @@ export function phoneValidat2or(control: FormControl): ValidationErrors {
 }
 
 const phoneValidator = {
-  expression: (c) => /^([0-9]-?){9}$/.test(c.value),
-  message: 'phone number must be like 12-123-1234',
+  expression: (c) => /^(\+?[0-9]-?){9,12}$/.test(c.value),
+  message: 'phone number must be like +380-12-123-1234',
 };
 
 const emailValidator = {
@@ -68,6 +68,9 @@ export const formFieldsUserRegisterForm: FormlyFieldConfig[] = [
     type: 'input',
     templateOptions: {
       label: 'phone',
+      addonLeft: {
+        icon: 'face',
+      },
       placeholder: 'phone',
       required: true,
       minLength: 9,
