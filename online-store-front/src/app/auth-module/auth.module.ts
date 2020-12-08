@@ -30,6 +30,8 @@ import { UserWidgetComponent } from './view/user-widget/user-widget.component';
     UserWidgetComponent,
     LoginPageComponent,
     UserRegisterPageComponent,
+    EditUserProfilePageComponent,
+    EditUserProfileFormComponent,
   ],
 })
 export class AuthModule {}

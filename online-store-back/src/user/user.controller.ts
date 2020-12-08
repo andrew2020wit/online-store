@@ -21,17 +21,22 @@ import { AdminUserQueryDTO, UserService } from './user.service';
 export class UserController {
   constructor(private entityService: UserService) {}
 
-  @Get('get-by-id/:id')
+  @Get('get-user-entity/:id')
   @UseGuards(JwtAuthGuard)
   async getById(
     @Param('id') id: string,
     @Request() req: RequestWithJwtUserExtDto,
   ): Promise<UserEntity> {
+    console.log('id', id);
+
     const user = req.user;
-    if (user.sub != 'id' && user.role != UserRole.admin) {
+    if (user.sub !== id && user.role !== UserRole.admin) {
       return null;
     }
-    return await this.entityService.getById(id);
+    const result = await this.entityService.getById(id);
+    console.log('result', result);
+
+    return result;
   }
 
   @Post('query-users')
@@ -52,7 +57,7 @@ export class UserController {
   async register(@Body() user: UserEntity): Promise<StatusMessageDto> {
     console.log('user: ', user);
 
-    return await this.entityService.createOrEdit(user);
+    return await this.entityService.create(user);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -61,6 +66,6 @@ export class UserController {
     @Request() req: RequestWithJwtUserExtDto,
     @Body() user: UserEntity,
   ): Promise<StatusMessageDto> {
-    return await this.entityService.createOrEdit(user, req.user.sub);
+    return await this.entityService.edit(user, req.user.sub);
   }
 }

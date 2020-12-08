@@ -36,7 +36,7 @@ export interface IUser {
 })
 export class AuthService {
   private _appUser$ = new BehaviorSubject<IUser | null>(null);
-  // userHasLogged$ = new BehaviorSubject<boolean>(false);
+
   appUser$ = this._appUser$.asObservable();
 
   appUser: IUser = null;
@@ -106,6 +106,12 @@ export class AuthService {
       baseApiUrl + '/api/auth/edit-user',
       editUser
     );
+  }
+
+  getUserEntity$(id: string) {
+    const endPoint = baseApiUrl + '/api/user/get-user-entity/' + id;
+
+    return this.http.get<UserEntity>(endPoint);
   }
 
   sendWelcome() {

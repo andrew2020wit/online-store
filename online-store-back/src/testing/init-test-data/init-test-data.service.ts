@@ -23,7 +23,7 @@ export class InitTestDataService {
   async usersGenerator(): Promise<void> {
     // managers + articles
     for (let n = 1; n <= 3; n++) {
-      const { resultId } = await this.userService.createOrEdit({
+      const { resultId } = await this.userService.create({
         login: 'manager' + n,
         fullName: 'Manager N' + n,
         password: '12',

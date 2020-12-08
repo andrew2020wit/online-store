@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
@@ -6,6 +6,7 @@ import { Connection } from 'typeorm';
 import { ArticleModule } from './article/article.module';
 import { AuthModule } from './auth/auth.module';
 import { GoodsModule } from './goods/goods.module';
+import { LoggerMiddleware } from './logger.middleware';
 import { OrderModule } from './order/order.module';
 import { InitTestDataService } from './testing/init-test-data/init-test-data.service';
 import { TestController } from './testing/test.controller';
@@ -37,6 +38,9 @@ import { UserModule } from './user/user.module';
   providers: [InitTestDataService],
   controllers: [TestController],
 })
-export class AppModule {
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
   constructor(private connection: Connection) {}
 }

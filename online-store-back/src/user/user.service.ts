@@ -30,12 +30,8 @@ export class UserService {
     private readonly repository: Repository<UserEntity>,
   ) {}
 
-  // private async getByLogin(login: string): Promise<UserEntity | undefined> {
-  //   return await this.repository.findOne({ where: { login } });
-  // }
-
-  async getById(userId: string): Promise<UserEntity | undefined> {
-    return await this.repository.findOne({ where: { id: userId } });
+  async getById(userId: string): Promise<UserEntity> {
+    return await this.repository.findOne(userId);
   }
 
   async query(queryDto: QueryEntityDto): Promise<UserEntity[]> {
@@ -86,40 +82,54 @@ export class UserService {
     return resp;
   }
 
-  async createOrEdit(
+  async create(entity: UserEntity): Promise<StatusMessageDto> {
+    const statusMessage = new StatusMessageDto('UserService.createOrEdit');
+
+    const sameLogin = await this.repository.findOne({ login: entity.login });
+
+    if (!sameLogin) {
+      statusMessage.message = 'login already exist';
+      return statusMessage;
+    }
+
+    delete entity.id;
+    delete entity.createdOn;
+    delete entity.updatedOn;
+    delete entity.isActive;
+    delete entity.role;
+
+    entity.password = await getPassWordHash(entity.password);
+
+    const resultEntity = await this.repository.save(entity);
+    statusMessage.ok = true;
+    statusMessage.resultId = resultEntity.id;
+
+    return statusMessage;
+  }
+
+  async edit(
     entity: UserEntity,
-    userIdFromToken?: string,
+    userIdFromToken: string,
   ): Promise<StatusMessageDto> {
     const statusMessage = new StatusMessageDto('UserService.createOrEdit');
 
-    let newEntity: UserEntity;
-
-    if (entity.id) {
-      // edit user
-      if (!userIdFromToken) {
-        statusMessage.message = 'user undefined';
-        return statusMessage;
-      }
-      newEntity = await this.repository.findOne(entity.id);
-      if (!newEntity) {
-        statusMessage.message = 'entityId not exist';
-        return statusMessage;
-      }
-      if (userIdFromToken != newEntity.id) {
-        statusMessage.message = 'wrong user';
-        return statusMessage;
-      }
-    } else {
-      // create user
-      newEntity = new UserEntity();
-      newEntity.isActive = true;
-      newEntity.role = UserRole.user;
+    if (entity.id !== userIdFromToken) {
+      statusMessage.message = 'wrong userId';
+      return statusMessage;
     }
-    Object.assign(newEntity, entity);
 
-    newEntity.password = await getPassWordHash(entity.password);
+    delete entity.createdOn;
+    delete entity.updatedOn;
+    delete entity.isActive;
+    delete entity.role;
+    delete entity.password;
+    delete entity.login;
 
-    const resultEntity = await this.repository.save(newEntity);
+    const oldEntity = await this.repository.findOne(userIdFromToken);
+
+    Object.assign(oldEntity, entity);
+
+    const resultEntity = await this.repository.save(oldEntity);
     statusMessage.ok = true;
     statusMessage.resultId = resultEntity.id;
 

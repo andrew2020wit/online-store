@@ -34,7 +34,6 @@ const appRoutes: Routes = [
   {
     path: 'edit-user-profile',
     component: EditUserProfilePageComponent,
-    canActivate: [AuthGuard],
   },
 
   { path: '**', component: NotFoundPageComponent },
