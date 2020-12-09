@@ -1,3 +1,18 @@
 <div class="app-form-container">
-  <app-phone-input (onChanged)="changePhone($event)"></app-phone-input>
+  <!-- userPhone -->
+  <app-phone-input
+    key="userPhone"
+    (onChanged)="changeStringEvent($event)"
+  ></app-phone-input>
+  <br />
+  <!-- userPassWord -->
+  <app-w-password
+    key="userPassWord"
+    (onChanged)="changeStringEvent($event)"
+  ></app-w-password>
+  <br />
+  <!-- Send -->
+  <button mat-button color="primary" [disabled]="!formValid" (click)="send()">
+    Send
+  </button>
 </div>

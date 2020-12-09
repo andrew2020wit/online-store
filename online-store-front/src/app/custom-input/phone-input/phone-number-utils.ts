@@ -1,8 +1,3 @@
-export class OutputPhoneNumberEvent {
-  value: string;
-  isValid: boolean;
-}
-
 export const patternPhoneNumber = /^(\+?[0-9]-?){12}$/;
 
 export function getFormatPhoneNumber(str) {

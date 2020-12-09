@@ -1,9 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {
-  getFormatPhoneNumber,
-  OutputPhoneNumberEvent,
-  patternPhoneNumber,
-} from './phone-number-utils';
+import { CustomStringInputEvent } from '../custom-input.module';
+import { getFormatPhoneNumber, patternPhoneNumber } from './phone-number-utils';
 
 @Component({
   selector: 'app-phone-input',
@@ -11,12 +8,14 @@ import {
   styleUrls: ['./phone-input.component.scss'],
 })
 export class PhoneInputComponent implements OnInit {
+  @Input() key = '';
   @Input() initValue = '';
-  @Output() onChanged = new EventEmitter<OutputPhoneNumberEvent>();
+  @Output() onChanged = new EventEmitter<CustomStringInputEvent>();
+  @Input() label = 'Phone, like +38-099-123-1234';
+
   value = '';
   isValid = false;
 
-  label = 'Phone, like +38-099-123-1234';
   patternPhoneNumber = patternPhoneNumber;
 
   formValue = '+38-0';
@@ -40,7 +39,11 @@ export class PhoneInputComponent implements OnInit {
       console.log('this.value', this.value);
       this.formValue = getFormatPhoneNumber(this.value);
     }
-    this.onChanged.emit({ value: this.value, isValid: this.isValid });
+    this.onChanged.emit({
+      value: this.value,
+      isValid: this.isValid,
+      key: this.key,
+    });
   }
   isValidCheck(str) {
     this.isValid = this.patternPhoneNumber.test(str);
