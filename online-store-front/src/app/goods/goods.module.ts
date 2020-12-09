@@ -1,20 +1,25 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ExternalShareModule } from '../share/external-share.module';
+import { InternalShareModule } from '../share/internal-share.module';
+import { MaterialShareModule } from '../share/material-share.module';
 import { OrderModule } from './../order/order.module';
-import { ShareModule } from './../share.module';
 import { GoodsCardComponent } from './goods-card/goods-card.component';
 import { GoodsListComponent } from './goods-list/goods-list.component';
 import { GoodsPageComponent } from './goods-page/goods-page.component';
 import { GoodsViewComponent } from './goods-view/goods-view.component';
 
+const exportModules = [GoodsListComponent, GoodsCardComponent];
+
 @NgModule({
-  declarations: [
-    GoodsListComponent,
-    GoodsCardComponent,
-    GoodsPageComponent,
-    GoodsViewComponent,
+  declarations: [...exportModules, GoodsPageComponent, GoodsViewComponent],
+  exports: [...exportModules],
+  imports: [
+    CommonModule,
+    MaterialShareModule,
+    ExternalShareModule,
+    InternalShareModule,
+    OrderModule,
   ],
-  exports: [GoodsListComponent, GoodsCardComponent],
-  imports: [CommonModule, ShareModule, OrderModule],
 })
 export class GoodsModule {}

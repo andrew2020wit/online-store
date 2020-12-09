@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth.service';
-import { UserEntity } from './../../user.entity';
-import { formFieldsUserRegisterForm } from './formFields.const';
+import { CreateUserDto } from '../../dto/create-user.dto';
+import { MustMatch } from '../validators/must-match.validator';
 
 @Component({
   selector: 'app-user-register-form',
@@ -11,26 +11,48 @@ import { formFieldsUserRegisterForm } from './formFields.const';
   styleUrls: ['./user-register-form.component.scss'],
 })
 export class UserRegisterFormComponent implements OnInit {
-  form = new FormGroup({});
-  model = new UserEntity();
-  fields = formFieldsUserRegisterForm;
+  phoneForm = '+380';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  formGroup: FormGroup;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
+    this.formGroup = this.formBuilder.group(
+      {
+        login: ['', [Validators.required, Validators.minLength(2)]],
+        fullName: ['', [Validators.required]],
+        password: ['', [Validators.required]],
+        confirmPassword: ['', [Validators.required]],
+      },
+      {
+        validator: MustMatch('password', 'confirmPassword'),
+      }
+    );
+  }
 
   ngOnInit(): void {}
 
+  get f() {
+    return this.formGroup.controls;
+  }
+
   registerUser() {
-    console.log(this.model);
-    const login = this.model.login;
-    const password = this.model.password;
-    this.authService.createUser$(this.model).subscribe((message) => {
-      console.log('createUser: ', message);
-      if (message.ok) {
-        this.authService.getToken({
-          login,
-          password,
-        });
-      }
+    const newUser = new CreateUserDto();
+    newUser.login = this.formGroup.get('login').value;
+    newUser.password = this.formGroup.get('password').value;
+    newUser.fullName = this.formGroup.get('fullName').value;
+    this.authService.createUser$(newUser).subscribe((m) => {
+      console.log('statusMessage:', m);
     });
+  }
+  async continue() {
+    await this.authService.getToken({
+      login: this.formGroup.get('login').value,
+      password: this.formGroup.get('password').value,
+    });
+    this.router.navigate(['']);
   }
 }

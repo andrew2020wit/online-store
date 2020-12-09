@@ -1,9 +1,7 @@
-// imports/exports MaterialModules
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { LayoutModule } from '@angular/cdk/layout';
-import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -28,26 +26,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormlyModule } from '@ngx-formly/core';
-import { FormlyMaterialModule } from '@ngx-formly/material';
-import { FormlyMatDatepickerModule } from '@ngx-formly/material/datepicker';
-import { AppRoutingModule } from './app-routing.module';
-import { UtcToLocalTimePipe } from './utils/utc-to-localtime.pipe';
 
-const customModules = [
-  AppRoutingModule,
-  FormlyMaterialModule,
-  FormlyMatDatepickerModule,
-];
-const angularModules = [
-  BrowserAnimationsModule,
-  HttpClientModule,
-  ReactiveFormsModule,
-  BrowserModule,
-  FormsModule,
-];
 const materialModules = [
   DragDropModule,
   LayoutModule,
@@ -79,28 +58,8 @@ const materialModules = [
 ];
 
 @NgModule({
-  imports: [
-    ...materialModules,
-    ...angularModules,
-    ...customModules,
-    FormlyModule.forRoot({
-      extras: { lazyRender: true },
-      validationMessages: [
-        { name: 'required', message: 'This field is required!' },
-        { name: 'minlength', message: 'need more long' },
-        { name: 'maxlength', message: 'it is to long' },
-        { name: 'min', message: 'it must be bigger' },
-        { name: 'max', message: 'it is to bigger' },
-      ],
-    }),
-  ],
-  exports: [
-    ...materialModules,
-    ...angularModules,
-    ...customModules,
-    UtcToLocalTimePipe,
-    FormlyModule,
-  ],
-  declarations: [UtcToLocalTimePipe],
+  declarations: [],
+  imports: [CommonModule, ...materialModules],
+  exports: [...materialModules],
 })
-export class ShareModule {}
+export class MaterialShareModule {}

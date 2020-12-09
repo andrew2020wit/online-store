@@ -12,20 +12,29 @@ const phoneValidator = {
 };
 
 const emailValidator = {
-  expression: (c) => /\S+@\S+\.\S+/.test(c.value),
+  expression: (c) => {
+    if (!c.value) {
+      return true;
+    } else {
+      return /\S+@\S+\.\S+/.test(c.value);
+    }
+  },
   message: 'email must be like xx@rr.rr',
 };
 
 export const formFieldsUserRegisterForm: FormlyFieldConfig[] = [
   {
-    key: 'login',
+    key: 'phone',
     type: 'input',
     templateOptions: {
-      label: 'login',
-      placeholder: 'login (min 3 symbol)',
+      label: 'phone',
+      placeholder: 'phone',
       required: true,
-      minLength: 3,
-      maxLength: 100,
+      minLength: 9,
+      maxLength: 20,
+    },
+    validators: {
+      phone: phoneValidator,
     },
   },
   {
@@ -63,32 +72,16 @@ export const formFieldsUserRegisterForm: FormlyFieldConfig[] = [
       maxLength: 1000,
     },
   },
-  {
-    key: 'phone',
-    type: 'input',
-    templateOptions: {
-      label: 'phone',
-      addonLeft: {
-        icon: 'face',
-      },
-      placeholder: 'phone',
-      required: true,
-      minLength: 9,
-      maxLength: 20,
-    },
-    validators: {
-      phone: phoneValidator,
-    },
-  },
+
   {
     key: 'email',
     type: 'input',
     templateOptions: {
       label: 'email',
       placeholder: 'email',
-      required: true,
+      required: false,
       minLength: 3,
-      maxLength: 1000,
+      maxLength: 100,
     },
     validators: {
       phone: emailValidator,
