@@ -15,6 +15,9 @@ export class UserRegisterFormComponent implements OnInit {
   userPhoneValid = false;
   userPassWord = '';
   userPassWordValid = false;
+  userFullName = '';
+  userFullNameValid = false;
+
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {}
@@ -27,7 +30,8 @@ export class UserRegisterFormComponent implements OnInit {
   }
 
   formValidCheck() {
-    this.formValid = this.userPassWordValid && this.userPhoneValid;
+    this.formValid =
+      this.userPassWordValid && this.userPhoneValid && this.userFullNameValid;
   }
 
   send() {}

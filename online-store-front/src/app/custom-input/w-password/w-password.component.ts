@@ -8,8 +8,8 @@ import { CustomStringInputEvent } from '../custom-input.module';
 })
 export class WPasswordComponent implements OnInit {
   @Input() key = '';
-  @Input() min = 2;
-  @Input() defaultLabel = `password, min ${this.min} symbol`;
+  @Input() minlength = 2;
+  @Input() defaultLabel = `password, min ${this.minlength} symbol`;
   @Output() onChanged = new EventEmitter<CustomStringInputEvent>();
   value = '';
 
@@ -28,7 +28,7 @@ export class WPasswordComponent implements OnInit {
   ngOnInit(): void {}
 
   onChange(event) {
-    if (this.formValue.length < this.min) {
+    if (this.formValue.length < this.minlength) {
       this.label = 'password to short!';
       this.formValue = '';
     }
@@ -36,7 +36,7 @@ export class WPasswordComponent implements OnInit {
   }
 
   onChange2(event) {
-    if (this.formValue.length < this.min) {
+    if (this.formValue.length < this.minlength) {
       this.formValue2 = '';
       this.label2 = 'password to short!';
     } else if (this.formValue !== this.formValue2) {
@@ -49,7 +49,8 @@ export class WPasswordComponent implements OnInit {
 
   isValidCheck() {
     this.isValid =
-      this.formValue == this.formValue2 && this.formValue.length >= this.min;
+      this.formValue == this.formValue2 &&
+      this.formValue.length >= this.minlength;
 
     if (this.isValid) {
       this.value = this.formValue;

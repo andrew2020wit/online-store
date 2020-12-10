@@ -11,6 +11,15 @@
     (onChanged)="changeStringEvent($event)"
   ></app-w-password>
   <br />
+  <!-- FullName -->
+  <app-text-input
+    key="userFullName"
+    label="FullName"
+    isRequired="true"
+    minlength="3"
+    (onChanged)="changeStringEvent($event)"
+  ></app-text-input>
+  <br />
   <!-- Send -->
   <button mat-button color="primary" [disabled]="!formValid" (click)="send()">
     Send
