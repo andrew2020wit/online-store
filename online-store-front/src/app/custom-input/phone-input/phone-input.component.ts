@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { CustomStringInputEvent } from '../custom-input.module';
+import {
+  CustomStringInputEvent,
+  CustomStringInputModel,
+} from '../model/custom-string-input.model';
 import { getFormatPhoneNumber, patternPhoneNumber } from './phone-number-utils';
 
 @Component({
@@ -8,13 +11,14 @@ import { getFormatPhoneNumber, patternPhoneNumber } from './phone-number-utils';
   styleUrls: ['./phone-input.component.scss'],
 })
 export class PhoneInputComponent implements OnInit {
-  @Input() key = '';
-  @Input() initValue = '';
+  @Input() init: CustomStringInputModel;
   @Output() onChanged = new EventEmitter<CustomStringInputEvent>();
-  @Input() label = 'Phone, like +38-099-123-1234';
+
+  label = 'Phone, like +38-099-123-1234';
 
   value = '';
   isValid = false;
+  isChanged = false;
 
   patternPhoneNumber = patternPhoneNumber;
 
@@ -23,8 +27,8 @@ export class PhoneInputComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    if (this.initValue) {
-      this.setValue(this.initValue);
+    if (this.init.initValue) {
+      this.setValue(this.init.initValue);
     }
   }
 
@@ -36,17 +40,20 @@ export class PhoneInputComponent implements OnInit {
     this.isValidCheck(value);
     if (this.isValid) {
       this.value = value.replace(/\D/g, '');
-      console.log('this.value', this.value);
+      //  console.log('this.value', this.value);
       this.formValue = getFormatPhoneNumber(this.value);
     }
+    this.isChanged = this.value != this.init.initValue;
     this.onChanged.emit({
       value: this.value,
       isValid: this.isValid,
-      key: this.key,
+      key: this.init.key,
+      isChanged: this.isChanged,
     });
   }
+
   isValidCheck(str) {
     this.isValid = this.patternPhoneNumber.test(str);
-    console.log('this.isValid', this.isValid);
+    //  console.log('this.isValid', this.isValid);
   }
 }

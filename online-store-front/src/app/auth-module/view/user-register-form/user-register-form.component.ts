@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CustomStringInputEvent } from '../../../custom-input/custom-input.module';
+import {
+  CustomStringInputEvent,
+  CustomStringInputModel,
+} from '../../../custom-input/model/custom-string-input.model';
 import { AuthService } from '../../auth.service';
 import { GeneralService } from './../../../app-common/general.service';
 import { UserEntity } from './../../user.entity';
@@ -12,12 +15,11 @@ import { UserEntity } from './../../user.entity';
 export class UserRegisterFormComponent implements OnInit {
   formValid = false;
 
-  userPhone = '';
-  userPhoneValid = false;
-  userPassWord = '';
-  userPassWordValid = false;
-  userFullName = '';
-  userFullNameValid = false;
+  formFields = {
+    phone: new CustomStringInputModel('phone'),
+    fullName: new CustomStringInputModel('fullName'),
+    password: new CustomStringInputModel('password'),
+  };
 
   constructor(
     private authService: AuthService,
@@ -27,15 +29,23 @@ export class UserRegisterFormComponent implements OnInit {
   ngOnInit(): void {}
 
   changeStringEvent(customStringInputEvent: CustomStringInputEvent) {
-    console.log('customStringInputEvent', customStringInputEvent);
-    this[customStringInputEvent.key] = customStringInputEvent.value;
-    this[customStringInputEvent.key + 'Valid'] = customStringInputEvent.isValid;
+    // console.log('customStringInputEvent', customStringInputEvent);
+    this.formFields[customStringInputEvent.key].value =
+      customStringInputEvent.value;
+    this.formFields[customStringInputEvent.key].isValid =
+      customStringInputEvent.isValid;
+    this.formFields[customStringInputEvent.key].isChanged =
+      customStringInputEvent.isChanged;
     this.formValidCheck();
+    console.log('formFields', this.formFields);
   }
 
   formValidCheck() {
-    this.formValid =
-      this.userPassWordValid && this.userPhoneValid && this.userFullNameValid;
+    let isValid = true;
+    for (let x in this.formFields) {
+      isValid = isValid && this.formFields[x].isValid;
+    }
+    this.formValid = isValid;
   }
 
   send() {
@@ -44,11 +54,13 @@ export class UserRegisterFormComponent implements OnInit {
     }
     this.generalservice.isLoading$.next(true);
     const newUser: UserEntity = {
-      login: this.userPhone,
-      phone: this.userPhone,
-      fullName: this.userFullName,
-      password: this.userPassWord,
+      login: this.formFields.phone.value,
+      phone: this.formFields.phone.value,
+      fullName: this.formFields.fullName.value,
+      password: this.formFields.password.value,
     };
+    console.log('newUser', newUser);
+
     this.authService.createUser$(newUser).subscribe((message) => {
       console.log('mes', message);
 

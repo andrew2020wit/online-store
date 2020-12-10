@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { CustomStringInputEvent } from '../custom-input.module';
+import {
+  CustomStringInputEvent,
+  CustomStringInputModel,
+} from './../model/custom-string-input.model';
 
 @Component({
   selector: 'app-w-password',
@@ -7,25 +10,29 @@ import { CustomStringInputEvent } from '../custom-input.module';
   styleUrls: ['./w-password.component.scss'],
 })
 export class WPasswordComponent implements OnInit {
-  @Input() key = '';
-  @Input() minlength = 2;
-  @Input() defaultLabel = `password, min ${this.minlength} symbol`;
+  @Input() init: CustomStringInputModel;
   @Output() onChanged = new EventEmitter<CustomStringInputEvent>();
-  value = '';
 
-  label = this.defaultLabel;
-  placeholder = this.defaultLabel;
+  minlength = 2;
+
+  value = '';
+  label = '';
   formValue = '';
 
   label2 = 'confirm password';
-  placeholder2 = this.defaultLabel;
   formValue2 = '';
-
   isValid = false;
+  isChanged = false;
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.label = this.init.label + ` min ${this.minlength} symbols`;
+    if (this.init.initValue) {
+      this.value = this.formValue = this.formValue2 = this.init.initValue;
+      this.isValidCheck();
+    }
+  }
 
   onChange(event) {
     if (this.formValue.length < this.minlength) {
@@ -54,21 +61,24 @@ export class WPasswordComponent implements OnInit {
 
     if (this.isValid) {
       this.value = this.formValue;
-      this.label = this.defaultLabel;
-      this.label2 = this.defaultLabel;
+      this.label = this.init.label;
+      this.label2 = this.init.label;
     } else {
       this.value = '';
     }
 
-    console.log('{ value: this.value, isValid: this.isValid }', {
-      value: this.value,
-      isValid: this.isValid,
-    });
+    // console.log('{ value: this.value, isValid: this.isValid }', {
+    //   value: this.value,
+    //   isValid: this.isValid,
+    // });
+
+    this.isChanged = this.value != this.init.initValue;
 
     this.onChanged.emit({
       value: this.value,
       isValid: this.isValid,
-      key: this.key,
+      key: this.init.key,
+      isChanged: this.isChanged,
     });
   }
 }

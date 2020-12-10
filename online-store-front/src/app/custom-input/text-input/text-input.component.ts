@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { CustomStringInputEvent } from '../custom-input.module';
+import {
+  CustomStringInputEvent,
+  CustomStringInputModel,
+} from '../model/custom-string-input.model';
 
 @Component({
   selector: 'app-text-input',
@@ -7,25 +10,26 @@ import { CustomStringInputEvent } from '../custom-input.module';
   styleUrls: ['./text-input.component.scss'],
 })
 export class TextInputComponent implements OnInit {
-  @Input() key = '';
-  @Input() initValue = '';
-  @Input() minlength = 2;
-  @Input() label = 'Text';
-  @Input() isRequired = false;
+  @Input() init: CustomStringInputModel;
+
   @Output() onChanged = new EventEmitter<CustomStringInputEvent>();
 
+  minlength = 2;
+
+  label = '';
+
   value = '';
+
   isValid = false;
-  placeholder = '';
+  isChanged = false;
 
   constructor() {}
 
   ngOnInit(): void {
-    if (this.minlength) {
-      this.label = this.label + ` min ${this.minlength} symbols`;
-    }
-    if (this.initValue) {
-      this.value = this.initValue;
+    this.label = this.init.label + ` min ${this.minlength} symbols`;
+
+    if (this.init.initValue) {
+      this.value = this.init.initValue;
       this.isValidCheck();
     }
   }
@@ -37,10 +41,12 @@ export class TextInputComponent implements OnInit {
 
   isValidCheck() {
     this.isValid = this.value.length >= this.minlength;
+    this.isChanged = this.value != this.init.initValue;
     this.onChanged.emit({
       value: this.value,
       isValid: this.isValid,
-      key: this.key,
+      isChanged: this.isChanged,
+      key: this.init.key,
     });
   }
 }

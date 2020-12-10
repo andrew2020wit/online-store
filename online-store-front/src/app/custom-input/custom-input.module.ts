@@ -12,12 +12,6 @@ const exportModule = [
   WPasswordComponent,
 ];
 
-export class CustomStringInputEvent {
-  key: string;
-  value: string;
-  isValid: boolean;
-}
-
 @NgModule({
   declarations: [...exportModule],
   imports: [CommonModule, MaterialShareModule, ExternalShareModule],

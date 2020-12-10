@@ -4,10 +4,10 @@
     matInput
     type="text"
     [(ngModel)]="value"
-    [placeholder]="placeholder"
+    [placeholder]="label"
     (change)="onChange($event)"
     [minlength]="minlength"
     maxlength="50"
-    [required]="isRequired"
+    [required]="init.isRequired"
   />
 </mat-form-field>
