@@ -83,11 +83,11 @@ export class UserService {
   }
 
   async create(entity: UserEntity): Promise<StatusMessageDto> {
-    const statusMessage = new StatusMessageDto('UserService.createOrEdit');
+    const statusMessage = new StatusMessageDto('UserService.create');
 
     const sameLogin = await this.repository.findOne({ login: entity.login });
 
-    if (!sameLogin) {
+    if (sameLogin) {
       statusMessage.message = 'login already exist';
       return statusMessage;
     }
@@ -111,7 +111,7 @@ export class UserService {
     entity: UserEntity,
     userIdFromToken: string,
   ): Promise<StatusMessageDto> {
-    const statusMessage = new StatusMessageDto('UserService.createOrEdit');
+    const statusMessage = new StatusMessageDto('UserService.edit');
 
     if (entity.id !== userIdFromToken) {
       statusMessage.message = 'wrong userId';
