@@ -1,17 +1,21 @@
 <div class="app-form-container">
-  <!-- userPhone -->
-  <app-phone-input
-    [init]="formFields.phone"
-    (onChanged)="changeStringEvent($event)"
-  ></app-phone-input>
-  <br />
   <br />
   <!-- FullName -->
   <app-text-input
-    [init]="formFields.fullName"
+    [key]="formFields.fullName.key"
+    [label]="formFields.fullName.key"
+    [initValue]="formFields.fullName.initValue"
     (onChanged)="changeStringEvent($event)"
   ></app-text-input>
   <br />
+  <!-- gender -->
+  <app-enum-input
+    [key]="formFields.gender.key"
+    [label]="formFields.gender.key"
+    [values]="formFields.gender.values"
+    [initValue]="formFields.gender.initValue"
+    (onChanged)="changeStringEvent($event)"
+  ></app-enum-input>
   <!-- Send -->
   <button mat-button color="primary" [disabled]="!formValid" (click)="send()">
     Send

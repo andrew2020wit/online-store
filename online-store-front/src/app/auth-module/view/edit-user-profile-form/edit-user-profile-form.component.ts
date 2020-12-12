@@ -5,8 +5,9 @@ import {
   CustomStringInputEvent,
   CustomStringInputModel,
 } from '../../../custom-input/model/custom-string-input.model';
+import { EnumInputModel } from '../../../custom-input/model/enum-input.model';
 import { AuthService } from '../../auth.service';
-import { UserEntity } from '../../user.entity';
+import { UserEntity, UserGender } from '../../user.entity';
 
 @Component({
   selector: 'app-edit-user-profile-form',
@@ -17,8 +18,8 @@ export class EditUserProfileFormComponent implements OnInit {
   userId: string;
 
   formFields = {
-    phone: new CustomStringInputModel('phone'),
     fullName: new CustomStringInputModel('fullName'),
+    gender: new EnumInputModel('gender'),
   };
 
   formValid = false;
@@ -28,16 +29,20 @@ export class EditUserProfileFormComponent implements OnInit {
     private router: Router,
     private generalservice: GeneralService
   ) {
+    for (let key in UserGender) {
+      this.formFields.gender.values.push({ value: key, viewValue: key });
+    }
+
     this.userId = this.authService.appUser.id;
     this.generalservice.isLoading$.next(true);
     this.authService.getUserEntity$(this.userId).subscribe((user) => {
-      console.log('user', user);
+      //   console.log('user', user);
       for (let x in this.formFields) {
         const obj = this.formFields[x];
         obj.initValue = user[x];
         this.formFields[x] = obj;
       }
-      console.log('formFields', this.formFields);
+      //  console.log('formFields', this.formFields);
 
       this.generalservice.isLoading$.next(false);
     });
@@ -57,9 +62,11 @@ export class EditUserProfileFormComponent implements OnInit {
   }
 
   formValidCheck() {
-    let isValid = true;
-    for (let x in this.formFields) {
-      isValid = isValid && this.formFields[x].isValid;
+    let isValid = false;
+    for (let key in this.formFields) {
+      isValid =
+        isValid ||
+        (this.formFields[key].isValid && this.formFields[key].isChanged);
     }
     this.formValid = isValid;
   }
@@ -69,24 +76,23 @@ export class EditUserProfileFormComponent implements OnInit {
       return;
     }
     this.generalservice.isLoading$.next(true);
+
     const entity: UserEntity = {
-      login: this.formFields.phone.value,
-      phone: this.formFields.phone.value,
+      id: this.userId,
       fullName: this.formFields.fullName.value,
+      gender: this.formFields.gender.value as UserGender,
     };
-    console.log('newUser', entity);
+    // console.log('newUser', entity);
 
     this.authService.editUser$(entity).subscribe((message) => {
-      console.log('mes', message);
+      //  console.log('mes', message);
 
       if (!message.ok) {
         alert(message.message);
         console.error(message.message);
       } else {
-        this.authService.getToken({
-          login: entity.login,
-          password: entity.password,
-        });
+        alert('Chenged!');
+        location.reload;
       }
       this.generalservice.isLoading$.next(false);
     });

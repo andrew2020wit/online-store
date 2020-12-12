@@ -1,15 +1,5 @@
-import {
-  Component,
-  DoCheck,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
-import {
-  CustomStringInputEvent,
-  CustomStringInputModel,
-} from '../model/custom-string-input.model';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { CustomStringInputEvent } from '../model/custom-string-input.model';
 import { getFormatPhoneNumber, patternPhoneNumber } from './phone-number-utils';
 
 @Component({
@@ -17,11 +7,23 @@ import { getFormatPhoneNumber, patternPhoneNumber } from './phone-number-utils';
   templateUrl: './phone-input.component.html',
   styleUrls: ['./phone-input.component.scss'],
 })
-export class PhoneInputComponent implements OnInit, DoCheck {
-  @Input() init: CustomStringInputModel;
-  @Output() onChanged = new EventEmitter<CustomStringInputEvent>();
+export class PhoneInputComponent implements OnInit {
+  @Input() isRequired = false;
+  @Input() label = 'Phone, like +38-099-123-1234';
+  @Input() key: string;
+  _initValue = '';
+  @Input()
+  set initValue(str: string) {
+    if (str) {
+      this._initValue = str;
+      this.value = str;
 
-  label = 'Phone, like +38-099-123-1234';
+      if (this._initValue) {
+        this.setValue(this._initValue);
+      }
+    }
+  }
+  @Output() onChanged = new EventEmitter<CustomStringInputEvent>();
 
   value = '';
   isValid = false;
@@ -35,12 +37,6 @@ export class PhoneInputComponent implements OnInit, DoCheck {
 
   ngOnInit(): void {}
 
-  ngDoCheck() {
-    if (this.init.initValue) {
-      this.setValue(this.init.initValue);
-    }
-  }
-
   onChange(event) {
     this.setValue(event.target.value);
   }
@@ -52,11 +48,11 @@ export class PhoneInputComponent implements OnInit, DoCheck {
       //  console.log('this.value', this.value);
       this.formValue = getFormatPhoneNumber(this.value);
     }
-    this.isChanged = this.value != this.init.initValue;
+    this.isChanged = this.value != this._initValue;
     this.onChanged.emit({
       value: this.value,
       isValid: this.isValid,
-      key: this.init.key,
+      key: this.key,
       isChanged: this.isChanged,
     });
   }

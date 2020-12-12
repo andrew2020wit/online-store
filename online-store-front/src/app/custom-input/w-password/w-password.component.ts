@@ -1,8 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {
-  CustomStringInputEvent,
-  CustomStringInputModel,
-} from './../model/custom-string-input.model';
+import { CustomStringInputEvent } from './../model/custom-string-input.model';
 
 @Component({
   selector: 'app-w-password',
@@ -10,16 +7,19 @@ import {
   styleUrls: ['./w-password.component.scss'],
 })
 export class WPasswordComponent implements OnInit {
-  @Input() init: CustomStringInputModel; // init value will be ignored
+  @Input() label = 'Password';
+  @Input() key: string;
+
   @Output() onChanged = new EventEmitter<CustomStringInputEvent>();
 
   minlength = 2;
 
   value = '';
-  label = '';
   formValue = '';
 
+  label1 = 'password';
   label2 = 'confirm password';
+  label2def = 'confirm password';
   formValue2 = '';
   isValid = false;
   isChanged = false;
@@ -27,54 +27,59 @@ export class WPasswordComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.label = this.init.label + ` min ${this.minlength} symbols`;
+    this.label = this.label + ` min ${this.minlength} symbols`;
   }
 
   onChange(event) {
-    if (this.formValue.length < this.minlength) {
-      this.label = 'password to short!';
-      this.formValue = '';
-    }
+    this.checkField1();
     this.isValidCheck();
   }
 
   onChange2(event) {
-    if (this.formValue.length < this.minlength) {
-      this.formValue2 = '';
-      this.label2 = 'password to short!';
-    } else if (this.formValue !== this.formValue2) {
-      this.formValue2 = '';
-      this.label2 = 'passwords not equal!';
-    }
-
+    this.checkField2();
     this.isValidCheck();
   }
 
   isValidCheck() {
-    this.isValid =
-      this.formValue == this.formValue2 &&
-      this.formValue.length >= this.minlength;
+    this.isValid = this.checkField1() && this.checkField2();
 
     if (this.isValid) {
       this.value = this.formValue;
-      this.label = this.init.label;
-      this.label2 = this.init.label;
     } else {
       this.value = '';
     }
 
-    // console.log('{ value: this.value, isValid: this.isValid }', {
-    //   value: this.value,
-    //   isValid: this.isValid,
-    // });
-
-    this.isChanged = this.value != this.init.initValue;
+    this.isChanged = !!this.value;
 
     this.onChanged.emit({
       value: this.value,
       isValid: this.isValid,
-      key: this.init.key,
+      key: this.key,
       isChanged: this.isChanged,
     });
+  }
+
+  checkField1() {
+    if (this.formValue.length < this.minlength) {
+      this.label1 = 'password to short!';
+      this.formValue = '';
+      this.formValue2 = '';
+      this.checkField2();
+      return false;
+    } else {
+      this.label1 = this.label;
+      return true;
+    }
+  }
+
+  checkField2() {
+    if (this.formValue !== this.formValue2) {
+      this.formValue2 = '';
+      this.label2 = 'passwords not equal!';
+      return false;
+    } else {
+      this.label2 = this.label2def;
+      return true;
+    }
   }
 }

@@ -1,19 +1,20 @@
 <div class="app-form-container">
   <!-- userPhone -->
   <app-phone-input
-    [init]="formFields.phone"
+    [key]="formFields.phone.key"
     (onChanged)="changeStringEvent($event)"
   ></app-phone-input>
   <br />
   <!-- userPassWord -->
   <app-w-password
-    [init]="formFields.password"
+    [key]="formFields.password.key"
     (onChanged)="changeStringEvent($event)"
   ></app-w-password>
   <br />
   <!-- FullName -->
   <app-text-input
-    [init]="formFields.fullName"
+    [key]="formFields.fullName.key"
+    [label]="formFields.fullName.key"
     (onChanged)="changeStringEvent($event)"
   ></app-text-input>
   <br />

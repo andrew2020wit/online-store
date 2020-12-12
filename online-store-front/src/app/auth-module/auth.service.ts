@@ -100,10 +100,10 @@ export class AuthService {
     );
   }
 
-  editUser$(editUser: UserEntity) {
+  editUser$(entity: UserEntity) {
     return this.http.post<StatusMessageDto>(
-      baseApiUrl + '/api/auth/edit-user',
-      editUser
+      baseApiUrl + '/api/user/edit-user',
+      entity
     );
   }
 
