@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  DoCheck,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   CustomStringInputEvent,
   CustomStringInputModel,
@@ -9,7 +16,7 @@ import {
   templateUrl: './text-input.component.html',
   styleUrls: ['./text-input.component.scss'],
 })
-export class TextInputComponent implements OnInit {
+export class TextInputComponent implements OnInit, DoCheck {
   @Input() init: CustomStringInputModel;
 
   @Output() onChanged = new EventEmitter<CustomStringInputEvent>();
@@ -27,7 +34,8 @@ export class TextInputComponent implements OnInit {
 
   ngOnInit(): void {
     this.label = this.init.label + ` min ${this.minlength} symbols`;
-
+  }
+  ngDoCheck() {
     if (this.init.initValue) {
       this.value = this.init.initValue;
       this.isValidCheck();
@@ -36,7 +44,6 @@ export class TextInputComponent implements OnInit {
 
   onChange(event) {
     this.isValidCheck();
-    console.log('onChange');
   }
 
   isValidCheck() {

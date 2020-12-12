@@ -6,7 +6,6 @@ import { BehaviorSubject } from 'rxjs';
 import { baseApiUrl } from '../../environments/environment';
 import { StatusMessageDto } from '../global-interface/dto/status-message.dto';
 import { GeneralService } from './../app-common/general.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
 import { JWTokenDTO } from './dto/token-object.dto';
 import { UserEntity } from './user.entity';
@@ -101,7 +100,7 @@ export class AuthService {
     );
   }
 
-  editUser$(editUser: CreateUserDto) {
+  editUser$(editUser: UserEntity) {
     return this.http.post<StatusMessageDto>(
       baseApiUrl + '/api/auth/edit-user',
       editUser

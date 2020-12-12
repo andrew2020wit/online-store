@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  DoCheck,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   CustomStringInputEvent,
   CustomStringInputModel,
@@ -10,7 +17,7 @@ import { getFormatPhoneNumber, patternPhoneNumber } from './phone-number-utils';
   templateUrl: './phone-input.component.html',
   styleUrls: ['./phone-input.component.scss'],
 })
-export class PhoneInputComponent implements OnInit {
+export class PhoneInputComponent implements OnInit, DoCheck {
   @Input() init: CustomStringInputModel;
   @Output() onChanged = new EventEmitter<CustomStringInputEvent>();
 
@@ -26,7 +33,9 @@ export class PhoneInputComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  ngDoCheck() {
     if (this.init.initValue) {
       this.setValue(this.init.initValue);
     }

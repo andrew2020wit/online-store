@@ -10,7 +10,7 @@ import {
   styleUrls: ['./w-password.component.scss'],
 })
 export class WPasswordComponent implements OnInit {
-  @Input() init: CustomStringInputModel;
+  @Input() init: CustomStringInputModel; // init value will be ignored
   @Output() onChanged = new EventEmitter<CustomStringInputEvent>();
 
   minlength = 2;
@@ -28,10 +28,6 @@ export class WPasswordComponent implements OnInit {
 
   ngOnInit(): void {
     this.label = this.init.label + ` min ${this.minlength} symbols`;
-    if (this.init.initValue) {
-      this.value = this.formValue = this.formValue2 = this.init.initValue;
-      this.isValidCheck();
-    }
   }
 
   onChange(event) {
