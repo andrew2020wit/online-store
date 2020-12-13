@@ -19,12 +19,13 @@
     <mat-label>email</mat-label>
     <input
       title="email"
-      (change)="onChanged($event)"
+      (change)="emailChange($event)"
       matInput
+      [pattern]="emailPattern"
       type="text"
-      minlength="3"
       [(ngModel)]="value['email']"
     />
+    <mat-error>{{ validationMessages["email"] }}</mat-error>
   </mat-form-field>
   <!-- language -->
   <br />
@@ -35,7 +36,6 @@
       title="language"
       (change)="onChanged($event)"
       type="text"
-      minlength="3"
       [(ngModel)]="value['language']"
     />
   </mat-form-field>

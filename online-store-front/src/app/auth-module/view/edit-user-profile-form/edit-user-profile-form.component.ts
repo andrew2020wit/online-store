@@ -3,6 +3,10 @@ import { Router } from '@angular/router';
 import { GeneralService } from '../../../app-common/general.service';
 import { AuthService } from '../../auth.service';
 import { UserEntity } from '../../user.entity';
+import {
+  emailPattern,
+  emailPatternF,
+} from './../../../app-common/validators/email.validator';
 
 @Component({
   selector: 'app-edit-user-profile-form',
@@ -25,6 +29,8 @@ export class EditUserProfileFormComponent implements OnInit {
   validationMessages = {};
 
   isChanged = false;
+
+  emailPattern = emailPattern;
 
   constructor(
     private authService: AuthService,
@@ -71,6 +77,20 @@ export class EditUserProfileFormComponent implements OnInit {
   dateChange(event) {
     console.log('dateChange', event);
     this.resultValue['birthday'] = event.value;
+    this.changeCheck();
+  }
+
+  emailChange(event) {
+    const key = 'email';
+    const target = event.target;
+    console.log('email', event);
+    if (emailPatternF(target.value)) {
+      this.resultValue[key] = target.value;
+      this.validationMessages[key] = '';
+    } else {
+      this.resultValue[key] = this.defaultValue[key];
+      this.validationMessages[key] = target.validationMessage;
+    }
     this.changeCheck();
   }
 
