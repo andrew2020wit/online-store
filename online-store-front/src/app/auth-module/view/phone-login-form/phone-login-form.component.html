@@ -1,0 +1,19 @@
+<div class="app-form-container">
+  <p>Welcome!</p>
+  <!-- userPhone -->
+  <app-phone-input
+    [key]="formFields.phone.key"
+    (onChanged)="changeStringEvent($event)"
+  ></app-phone-input>
+  <br />
+  <!-- userPassWord -->
+  <app-single-password
+    [key]="formFields.password.key"
+    (onChanged)="changeStringEvent($event)"
+  ></app-single-password>
+  <br />
+  <!-- Send -->
+  <button mat-button color="primary" [disabled]="!formValid" (click)="login()">
+    Login
+  </button>
+</div>

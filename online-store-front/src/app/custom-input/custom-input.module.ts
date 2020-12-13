@@ -4,6 +4,7 @@ import { ExternalShareModule } from './../share/external-share.module';
 import { MaterialShareModule } from './../share/material-share.module';
 import { EnumInputComponent } from './enum-input/enum-input.component';
 import { PhoneInputComponent } from './phone-input/phone-input.component';
+import { SinglePasswordComponent } from './single-password/single-password.component';
 import { TextInputComponent } from './text-input/text-input.component';
 import { WPasswordComponent } from './w-password/w-password.component';
 
@@ -12,6 +13,7 @@ const exportModule = [
   TextInputComponent,
   WPasswordComponent,
   EnumInputComponent,
+  SinglePasswordComponent,
 ];
 
 @NgModule({
