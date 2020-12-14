@@ -49,9 +49,9 @@ export class GoodsListComponent implements OnInit {
 
   ngAfterViewInit(): void {
     this.intersectionObserver.observe(
-      document.getElementById('IntersectionTarget')
+      document.getElementById('goodsListIntersectionTarget')
     );
-    this.filterInput = document.querySelector('#filterInput');
+    this.filterInput = document.querySelector('#goodsListFilterInput');
     this.filterInputKeyUp = fromEvent(this.filterInput, 'keyup') as Observable<
       Event
     >;
