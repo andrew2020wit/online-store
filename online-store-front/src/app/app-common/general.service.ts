@@ -8,5 +8,7 @@ export class GeneralService {
   isLoading$ = new BehaviorSubject<boolean>(false);
   errorMessage$ = new BehaviorSubject<string>('');
   snackBarMessages = new BehaviorSubject<string>('');
+  isFooterIntersected$ = new BehaviorSubject<boolean>(true);
+
   constructor() {}
 }

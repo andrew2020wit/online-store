@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { GeneralService } from './app-common/general.service';
@@ -12,7 +12,7 @@ import { CustomSnackBarComponent } from './view/custom-snack-bar/custom-snack-ba
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   links = menuList;
   isLoading = false;
   errorMessage = '';
@@ -20,6 +20,8 @@ export class AppComponent implements OnInit {
   itemCount = 0;
   orderSum = 0;
   userNameForWelcome = '';
+
+  private intersectionObserver: IntersectionObserver;
 
   constructor(
     private authService: AuthService,
@@ -49,9 +51,26 @@ export class AppComponent implements OnInit {
         });
       }
     });
+
+    this.intersectionObserver = new IntersectionObserver(
+      (entries) => {
+        this.generalService.isFooterIntersected$.next(
+          entries[0].isIntersecting
+        );
+      },
+      { rootMargin: '0px 0px 1000px 0px' }
+    );
   }
   ngOnInit(): void {
     this.authService.loginFrameOpened$.next(false);
+  }
+
+  ngAfterViewInit(): void {
+    this.intersectionObserver.observe(document.getElementById('footerId'));
+  }
+
+  ngOnDestroy() {
+    this.intersectionObserver.disconnect();
   }
 
   toHome() {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { fromEvent, Observable } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { GeneralService } from './../../app-common/general.service';
 import { GoodsEntity } from './../goods.entity';
 import { GoodsService } from './../goods.service';
 
@@ -17,13 +18,10 @@ class InfiniteScrollStatus {
   styleUrls: ['./goods-list.component.scss'],
 })
 export class GoodsListComponent implements OnInit {
-  private intersectionObserver: IntersectionObserver;
-  infiniteScrollStatus: InfiniteScrollStatus = {
-    isIntersecting: true,
-    dataFinished: false,
-    errorLoading: false,
-    isLoading: false,
-  };
+  isFooterIntersected = true;
+  queryDataFinished = false;
+  errorLoading = false;
+  isLoading = false;
 
   entitys: GoodsEntity[] = [];
 
@@ -35,22 +33,24 @@ export class GoodsListComponent implements OnInit {
   filterInput: Element;
   filterInputKeyUp: Observable<Event>;
 
-  constructor(private entityService: GoodsService) {
-    this.intersectionObserver = new IntersectionObserver(
-      (entries) => {
-        this.infiniteScrollStatus.isIntersecting = entries[0].isIntersecting;
-      },
-      { rootMargin: '0px 0px 1000px 0px' }
-    );
-    this.autoLoader();
+  constructor(
+    private entityService: GoodsService,
+    private generalService: GeneralService
+  ) {}
+
+  ngOnInit() {
+    this.getEntity();
   }
 
-  ngOnInit() {}
-
   ngAfterViewInit(): void {
-    this.intersectionObserver.observe(
-      document.getElementById('goodsListIntersectionTarget')
+    this.generalService.isFooterIntersected$.subscribe(
+      (isFooterIntersected) => {
+        console.log('generalService.isFooterIntersected$', isFooterIntersected);
+        this.isFooterIntersected = isFooterIntersected;
+        this.getNextChunk();
+      }
     );
+
     this.filterInput = document.querySelector('#goodsListFilterInput');
     this.filterInputKeyUp = fromEvent(this.filterInput, 'keyup') as Observable<
       Event
@@ -61,54 +61,64 @@ export class GoodsListComponent implements OnInit {
   }
 
   titleFilterReLoad() {
-    this.restartLoader();
+    this.restartEntityLoad();
   }
 
-  ngOnDestroy() {
-    this.intersectionObserver.disconnect();
+  ngOnDestroy() {}
+
+  restartEntityLoad() {
+    this.entitys = [];
+    this.queryDataFinished = false;
+    this.errorLoading = false;
+    this.isLoading = false;
+    this.createOnCursor = new Date();
+    this.getEntity();
   }
 
-  autoLoader() {
+  getNextChunk() {
+    console.log(
+      'getNextChunk',
+      this.queryDataFinished,
+      this.errorLoading,
+      this.isLoading,
+      !this.isFooterIntersected
+    );
+
     if (
-      this.infiniteScrollStatus.dataFinished ||
-      this.infiniteScrollStatus.errorLoading
+      this.queryDataFinished ||
+      this.errorLoading ||
+      this.isLoading ||
+      !this.isFooterIntersected
     ) {
       return;
-    }
-    if (
-      !this.infiniteScrollStatus.isLoading &&
-      this.infiniteScrollStatus.isIntersecting
-    ) {
+    } else {
       this.getEntity();
     }
-    setTimeout(() => {
-      this.autoLoader();
-    }, 200);
-  }
-
-  restartLoader() {
-    this.entitys = [];
-    this.infiniteScrollStatus.dataFinished = false;
-    this.infiniteScrollStatus.errorLoading = false;
-    this.infiniteScrollStatus.isLoading = false;
-    this.createOnCursor = new Date();
-    this.autoLoader();
   }
 
   getEntity() {
-    this.infiniteScrollStatus.isLoading = true;
+    console.log('getEntity');
+
+    this.isLoading = true;
     this.entityService
       .queryEntitys(this.take, this.createOnCursor, this.pattern)
-      .subscribe((entitys) => {
-        const length = entitys.length;
-        if (length < this.take) {
-          this.infiniteScrollStatus.dataFinished = true;
+      .subscribe(
+        (entitys) => {
+          const length = entitys.length;
+          if (length < this.take) {
+            this.queryDataFinished = true;
+          }
+          if (length > 0) {
+            this.createOnCursor = entitys[length - 1].createdOn;
+          }
+          this.entitys.push(...entitys);
+          this.isLoading = false;
+          this.getNextChunk();
+        },
+        (err) => {
+          console.error(err);
+          this.errorLoading = true;
         }
-        if (length > 0) {
-          this.createOnCursor = entitys[length - 1].createdOn;
-        }
-        this.entitys.push(...entitys);
-        this.infiniteScrollStatus.isLoading = false;
-      });
+      );
   }
 }
