@@ -91,18 +91,18 @@ export class ArticlesListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getNextChunk() {
-    console.log(
-      '==== Not getNextChunk: ',
-      this.queryDataFinished ||
-        this.queryDataFinished ||
-        this.errorLoading ||
-        this.isLoading ||
-        !this.isFooterIntersected
-    );
-    console.log('this.queryDataFinished', this.queryDataFinished);
-    console.log('this.errorLoading', this.errorLoading);
-    console.log('this.isLoading', this.isLoading);
-    console.log('!this.isFooterIntersected', !this.isFooterIntersected);
+    // console.log(
+    //   '==== Not getNextChunk: ',
+    //   this.queryDataFinished ||
+    //     this.queryDataFinished ||
+    //     this.errorLoading ||
+    //     this.isLoading ||
+    //     !this.isFooterIntersected
+    // );
+    // console.log('this.queryDataFinished', this.queryDataFinished);
+    // console.log('this.errorLoading', this.errorLoading);
+    // console.log('this.isLoading', this.isLoading);
+    // console.log('!this.isFooterIntersected', !this.isFooterIntersected);
 
     if (
       this.queryDataFinished ||

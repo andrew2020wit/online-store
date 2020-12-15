@@ -1,6 +1,6 @@
 <mat-form-field>
   <mat-label>Title - Filter</mat-label>
-  <input id="filterInput" matInput type="text" [(ngModel)]="pattern" />
+  <input id="goodsListFilterInput" matInput type="text" [(ngModel)]="pattern" />
   <button
     mat-button
     *ngIf="pattern"
@@ -25,5 +25,3 @@
   smallPhotoUrl="{{ entity.smallPhotoUrl }}"
   id="{{ entity.id }}"
 ></app-goods-card>
-
-<div id="IntersectionTarget" style="height: 5px;"></div>

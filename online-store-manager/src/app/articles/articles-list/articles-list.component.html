@@ -1,6 +1,11 @@
 <mat-form-field>
   <mat-label>Title - Filter</mat-label>
-  <input id="filterInput" matInput type="text" [(ngModel)]="pattern" />
+  <input
+    id="filterInputArticlesList"
+    matInput
+    type="text"
+    [(ngModel)]="pattern"
+  />
   <button
     mat-button
     *ngIf="pattern"
@@ -17,5 +22,3 @@
   *ngFor="let entity of entitys"
   [entity]="entity"
 ></app-article-header-card>
-
-<div id="IntersectionTarget" style="height: 5px;"></div>

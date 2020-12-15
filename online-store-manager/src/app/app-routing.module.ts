@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { ArticleViewComponent } from './articles/article-view/article-view.component';
-import { ArticlesListComponent } from './articles/articles-list/articles-list.component';
+import { ArticlesPageComponent } from './articles/articles-page/articles-page.component';
 import { EditArticleComponent } from './articles/edit-article/edit-article.component';
 import { AuthAdminGuard } from './auth-module/guards/auth-admin.guard';
 import { AuthGuard } from './auth-module/guards/auth.guard';
@@ -16,9 +16,7 @@ import { GoodsViewComponent } from './goods/goods-view/goods-view.component';
 import { AboutComponent } from './view/pages/about/about.component';
 import { GoodsComponent } from './view/pages/goods/goods.component';
 import { HomePageComponent } from './view/pages/home-page/home-page.component';
-import { NewsComponent } from './view/pages/news/news.component';
 import { NotFoundPageComponent } from './view/pages/not-found-page/not-found-page.component';
-import { ReviewsComponent } from './view/pages/reviews/reviews.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomePageComponent },
@@ -39,14 +37,12 @@ const appRoutes: Routes = [
     component: GoodsEditComponent,
     canActivate: [AuthGuard],
   },
-  { path: 'news', component: NewsComponent },
-  { path: 'review', component: ReviewsComponent },
   { path: 'about', component: AboutComponent },
 
   { path: 'login-page', component: LoginPageComponent },
 
   { path: 'article-view/:id', component: ArticleViewComponent },
-  { path: 'article-list', component: ArticlesListComponent },
+  { path: 'article-list', component: ArticlesPageComponent },
   {
     path: 'edit-article/:id',
     component: EditArticleComponent,

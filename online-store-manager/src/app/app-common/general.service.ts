@@ -7,5 +7,6 @@ import { BehaviorSubject } from 'rxjs';
 export class GeneralService {
   isLoading$ = new BehaviorSubject<boolean>(false);
   errorMessage$ = new BehaviorSubject<string>('');
+  isFooterIntersected$ = new BehaviorSubject<boolean>(true);
   constructor() {}
 }
