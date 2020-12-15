@@ -1,16 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { fromEvent, Observable } from 'rxjs';
+import { fromEvent, Observable, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { GeneralService } from './../../app-common/general.service';
 import { GoodsEntity } from './../goods.entity';
 import { GoodsService } from './../goods.service';
-
-class InfiniteScrollStatus {
-  isIntersecting: boolean;
-  dataFinished: boolean;
-  errorLoading: boolean;
-  isLoading: boolean;
-}
 
 @Component({
   selector: 'app-goods-list',
@@ -19,6 +12,8 @@ class InfiniteScrollStatus {
 })
 export class GoodsListComponent implements OnInit {
   isFooterIntersected = true;
+  FooterIntersectedSubscription: Subscription;
+
   queryDataFinished = false;
   errorLoading = false;
   isLoading = false;
@@ -32,6 +27,7 @@ export class GoodsListComponent implements OnInit {
 
   filterInput: Element;
   filterInputKeyUp: Observable<Event>;
+  filterInputKeyUpSubscription: Subscription;
 
   constructor(
     private entityService: GoodsService,
@@ -39,23 +35,21 @@ export class GoodsListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getEntity();
-  }
-
-  ngAfterViewInit(): void {
-    this.generalService.isFooterIntersected$.subscribe(
+    this.FooterIntersectedSubscription = this.generalService.isFooterIntersected$.subscribe(
       (isFooterIntersected) => {
-        console.log('generalService.isFooterIntersected$', isFooterIntersected);
+        // console.log('generalService.isFooterIntersected$', isFooterIntersected);
         this.isFooterIntersected = isFooterIntersected;
         this.getNextChunk();
       }
     );
+  }
 
+  ngAfterViewInit(): void {
     this.filterInput = document.querySelector('#goodsListFilterInput');
     this.filterInputKeyUp = fromEvent(this.filterInput, 'keyup') as Observable<
       Event
     >;
-    this.filterInputKeyUp
+    this.filterInputKeyUpSubscription = this.filterInputKeyUp
       .pipe(debounceTime(1000))
       .subscribe(() => this.titleFilterReLoad());
   }
@@ -64,7 +58,10 @@ export class GoodsListComponent implements OnInit {
     this.restartEntityLoad();
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this.FooterIntersectedSubscription.unsubscribe();
+    this.filterInputKeyUpSubscription.unsubscribe();
+  }
 
   restartEntityLoad() {
     this.entitys = [];
@@ -76,13 +73,13 @@ export class GoodsListComponent implements OnInit {
   }
 
   getNextChunk() {
-    console.log(
-      'getNextChunk',
-      this.queryDataFinished,
-      this.errorLoading,
-      this.isLoading,
-      !this.isFooterIntersected
-    );
+    // console.log(
+    //   'getNextChunk',
+    //   this.queryDataFinished,
+    //   this.errorLoading,
+    //   this.isLoading,
+    //   !this.isFooterIntersected
+    // );
 
     if (
       this.queryDataFinished ||
@@ -97,7 +94,7 @@ export class GoodsListComponent implements OnInit {
   }
 
   getEntity() {
-    console.log('getEntity');
+    // console.log('getEntity');
 
     this.isLoading = true;
     this.entityService

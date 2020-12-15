@@ -7,16 +7,9 @@ import {
 } from '@angular/core';
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { QueryEntityDto } from '../../global-interface/dto/query-entity.dto';
+import { GeneralService } from '../../app-common/general.service';
 import { ArticleEntity, ArticleTypes } from './../article.entity';
 import { ArticlesService } from './../articles.service';
-class InfiniteScrollStatus {
-  isIntersecting: boolean;
-  dataFinished: boolean;
-  errorLoading: boolean;
-  isLoading: boolean;
-  intersectId: string;
-}
 
 @Component({
   selector: 'app-articles-list',
@@ -29,127 +22,128 @@ export class ArticlesListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   baseComponentId = 'ArticlesListComponent';
 
-  private intersectionObserver: IntersectionObserver;
-  infiniteScrollStatus: InfiniteScrollStatus = {
-    isIntersecting: true,
-    dataFinished: false,
-    errorLoading: false,
-    isLoading: false,
-    intersectId: '',
-  };
+  isFooterIntersected = true;
+  FooterIntersectedSubscription: Subscription;
+
+  queryDataFinished = false;
+  errorLoading = false;
+  isLoading = false;
 
   entitys: ArticleEntity[] = [];
 
-  queryEntityDto: QueryEntityDto = {
-    maxItemCount: 20,
-  };
+  take = 20;
+  pattern = '';
+  createOnCursor: Date = new Date();
+  entityType = '';
 
   labelFilterInput = '';
   filterInput: Element;
   filterInputKeyUp: Observable<Event>;
-  subscriptionFilterInputKeyUp: Subscription;
+  filterInputKeyUpSubscription: Subscription;
 
-  constructor(private entityService: ArticlesService) {
-    this.queryEntityDto.createdOnLessThan = new Date();
-  }
+  constructor(
+    private entityService: ArticlesService,
+    private generalService: GeneralService
+  ) {}
 
   ngOnInit() {
     this.labelFilterInput =
       'labelFilterInput-' + this.baseComponentId + this.componentId;
     console.log('this.labelFilterInput ', this.labelFilterInput);
 
-    this.infiniteScrollStatus.intersectId =
-      'intersectId' + this.baseComponentId + this.componentId;
+    this.entityType = this.articleType;
 
-    this.intersectionObserver = new IntersectionObserver(
-      (entries) => {
-        this.infiniteScrollStatus.isIntersecting = entries[0].isIntersecting;
-      },
-      { rootMargin: '0px 0px 1000px 0px' }
+    this.FooterIntersectedSubscription = this.generalService.isFooterIntersected$.subscribe(
+      (isFooterIntersected) => {
+        console.log('generalService.isFooterIntersected$', isFooterIntersected);
+        this.isFooterIntersected = isFooterIntersected;
+        this.getNextChunk();
+      }
     );
-
-    this.queryEntityDto.entityType = this.articleType;
-
-    this.autoLoader();
   }
 
   ngAfterViewInit(): void {
-    this.intersectionObserver.observe(
-      document.getElementById(this.infiniteScrollStatus.intersectId)
-    );
-
     this.filterInput = document.querySelector('#' + this.labelFilterInput);
     this.filterInputKeyUp = fromEvent(this.filterInput, 'keyup') as Observable<
       Event
     >;
-    this.subscriptionFilterInputKeyUp = this.filterInputKeyUp
+    this.filterInputKeyUpSubscription = this.filterInputKeyUp
       .pipe(debounceTime(1000))
       .subscribe(() => this.titleFilterReLoad());
   }
 
   titleFilterReLoad() {
-    this.restartLoader();
+    this.restartEntityLoad();
   }
 
   ngOnDestroy() {
-    this.intersectionObserver.disconnect();
-    this.subscriptionFilterInputKeyUp.unsubscribe();
+    this.FooterIntersectedSubscription.unsubscribe();
+    this.filterInputKeyUpSubscription.unsubscribe();
   }
 
-  autoLoader() {
+  restartEntityLoad() {
+    this.entitys = [];
+    this.queryDataFinished = false;
+    this.errorLoading = false;
+    this.isLoading = false;
+    this.createOnCursor = new Date();
+    this.getEntity();
+  }
+
+  getNextChunk() {
+    console.log(
+      '==== Not getNextChunk: ',
+      this.queryDataFinished ||
+        this.queryDataFinished ||
+        this.errorLoading ||
+        this.isLoading ||
+        !this.isFooterIntersected
+    );
+    console.log('this.queryDataFinished', this.queryDataFinished);
+    console.log('this.errorLoading', this.errorLoading);
+    console.log('this.isLoading', this.isLoading);
+    console.log('!this.isFooterIntersected', !this.isFooterIntersected);
+
     if (
-      this.infiniteScrollStatus.dataFinished ||
-      this.infiniteScrollStatus.errorLoading
+      this.queryDataFinished ||
+      this.errorLoading ||
+      this.isLoading ||
+      !this.isFooterIntersected
     ) {
       return;
-    }
-    if (
-      !this.infiniteScrollStatus.isLoading &&
-      this.infiniteScrollStatus.isIntersecting
-    ) {
-      console.log(
-        'this.infiniteScrollStatus.isIntersecting',
-        this.infiniteScrollStatus.isIntersecting
-      );
-
+    } else {
       this.getEntity();
-      console.log('fsdfsd');
     }
-    setTimeout(() => {
-      this.autoLoader();
-    }, 200);
-  }
-
-  restartLoader() {
-    this.entitys = [];
-    this.infiniteScrollStatus.dataFinished = false;
-    this.infiniteScrollStatus.errorLoading = false;
-    this.infiniteScrollStatus.isLoading = false;
-    this.queryEntityDto.createdOnLessThan = new Date();
-    this.autoLoader();
   }
 
   getEntity() {
-    this.infiniteScrollStatus.isLoading = true;
+    // console.log('getEntity');
 
-    console.log('this.queryEntityDto', this.queryEntityDto);
-
+    this.isLoading = true;
     this.entityService
-      .queryEntitys(this.queryEntityDto)
-      .subscribe((entitys) => {
-        console.log('entitys', entitys);
-        console.log('this.infiniteScrollStatus', this.infiniteScrollStatus);
-        //console.log('entitys', entitys);
-
-        const length = entitys.length;
-        if (length < this.queryEntityDto.maxItemCount) {
-          this.infiniteScrollStatus.dataFinished = true;
+      .queryEntitys({
+        maxItemCount: this.take,
+        createdOnLessThan: this.createOnCursor,
+        pattern: this.pattern,
+        entityType: this.articleType,
+      })
+      .subscribe(
+        (entitys) => {
+          const length = entitys.length;
+          if (length < this.take) {
+            this.queryDataFinished = true;
+          }
+          if (length > 0) {
+            this.createOnCursor = entitys[length - 1].createdOn;
+          }
+          this.entitys.push(...entitys);
+          this.isLoading = false;
+          this.getNextChunk();
+        },
+        (err) => {
+          console.error(err);
+          this.errorLoading = true;
         }
-        if (length > 0) {
-          this.queryEntityDto.createdOnLessThan = entitys[length - 1].createdOn;
-        }
-        this.entitys.push(...entitys);
-        this.infiniteScrollStatus.isLoading = false;
-      });
+      );
   }
 }
