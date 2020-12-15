@@ -7,14 +7,11 @@ import { GoodsEditComponent } from './goods-edit/goods-edit.component';
 import { GoodsListComponent } from './goods-list/goods-list.component';
 import { GoodsViewComponent } from './goods-view/goods-view.component';
 
+const exportModules = [GoodsListComponent, GoodsCardComponent];
+
 @NgModule({
-  declarations: [
-    GoodsListComponent,
-    GoodsCardComponent,
-    GoodsViewComponent,
-    GoodsEditComponent,
-  ],
-  exports: [GoodsListComponent, GoodsCardComponent],
+  declarations: [...exportModules, GoodsViewComponent, GoodsEditComponent],
+  exports: exportModules,
   imports: [CommonModule, ShareModule, UploadModule],
 })
 export class GoodsModule {}

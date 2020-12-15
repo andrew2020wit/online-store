@@ -12,16 +12,16 @@ import { ServerTestToolsComponent } from './auth-module/view/server-test-tools/s
 import { UserProfileComponent } from './auth-module/view/user-profile/user-profile.component';
 import { UserRegisterFormComponent } from './auth-module/view/user-register-form/user-register-form.component';
 import { GoodsEditComponent } from './goods/goods-edit/goods-edit.component';
+import { GoodsListComponent } from './goods/goods-list/goods-list.component';
 import { GoodsViewComponent } from './goods/goods-view/goods-view.component';
 import { AboutComponent } from './view/pages/about/about.component';
-import { GoodsComponent } from './view/pages/goods/goods.component';
 import { HomePageComponent } from './view/pages/home-page/home-page.component';
 import { NotFoundPageComponent } from './view/pages/not-found-page/not-found-page.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomePageComponent },
 
-  { path: 'goods', component: GoodsComponent, canActivate: [AuthGuard] },
+  { path: 'goods', component: GoodsListComponent, canActivate: [AuthGuard] },
   {
     path: 'goods-details-view/:id',
     component: GoodsViewComponent,
