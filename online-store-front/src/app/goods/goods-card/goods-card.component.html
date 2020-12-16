@@ -1,21 +1,16 @@
-<button style="padding: 0; margin: 0.1rem; cursor: pointer;" (click)="go()">
-  <mat-card
-    style="
-      margin: 0.1rem;
-      border: 1px solid black;
-      height: 300px;
-      width: 350px;
-    "
-  >
-    <mat-card-header>
-      <mat-card-title> {{ name }} </mat-card-title>
+<div (click)="go()" class="entity-card-whole">
+  <mat-card>
+    <img
+      mat-card-image
+      [src]="photoUrl"
+      alt="goods photo"
+      class="content-card-image"
+    />
+    <mat-card-content class="content-card-content">
       <span *ngIf="price">
-        Price: <strong style="font-size: large;"> ${{ price }} </strong></span
+        <strong style="font-size: large;"> ${{ price }} </strong></span
       >
-    </mat-card-header>
-    <img mat-card-image [src]="photoUrl" alt="goods photo" />
-    <mat-card-content>
-      <div>{{ description }}</div>
+      <strong> {{ name }} </strong>
     </mat-card-content>
   </mat-card>
-</button>
+</div>

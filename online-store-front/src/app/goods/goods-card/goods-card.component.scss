@@ -1,0 +1,20 @@
+.entity-card-whole {
+  display: flex;
+  float: left;
+  padding: 0.1rem;
+  margin: 0.2rem;
+  cursor: pointer;
+
+  height: 150px;
+
+  width: 200px;
+}
+.entity-card-whole:hover {
+}
+
+.content-card-image {
+  height: 100px;
+}
+
+.content-card-content {
+}
