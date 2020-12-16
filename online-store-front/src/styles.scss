@@ -93,3 +93,11 @@ $maxFormWidth: 800px;
   max-width: $maxFormWidth;
   margin: auto;
 }
+
+.entities-flex-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  align-content: flex-start;
+}

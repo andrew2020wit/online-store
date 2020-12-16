@@ -1,20 +1,14 @@
-.entity-card-whole {
-  display: flex;
-  float: left;
-  padding: 0.1rem;
-  margin: 0.2rem;
+mat-card {
+  margin: 0.5rem;
   cursor: pointer;
-
   height: 150px;
-
   width: 200px;
 }
-.entity-card-whole:hover {
+
+mat-card:hover {
+  background-color: bisque;
 }
 
 .content-card-image {
   height: 100px;
-}
-
-.content-card-content {
 }

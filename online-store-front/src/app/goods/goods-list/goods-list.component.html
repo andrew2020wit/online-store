@@ -15,13 +15,15 @@
 
 <br />
 
-<app-goods-card
-  *ngFor="let entity of entitys"
-  name="{{ entity.name }}"
-  description="{{ entity.description }}"
-  createdOn="{{ entity.createdOn }}"
-  updatedOn="{{ entity.updatedOn }}"
-  price="{{ entity.price }}"
-  smallPhotoUrl="{{ entity.smallPhotoUrl }}"
-  id="{{ entity.id }}"
-></app-goods-card>
+<div class="entities-flex-grid">
+  <app-goods-card
+    *ngFor="let entity of entitys"
+    name="{{ entity.name }}"
+    description="{{ entity.description }}"
+    createdOn="{{ entity.createdOn }}"
+    updatedOn="{{ entity.updatedOn }}"
+    price="{{ entity.price }}"
+    smallPhotoUrl="{{ entity.smallPhotoUrl }}"
+    id="{{ entity.id }}"
+  ></app-goods-card>
+</div>

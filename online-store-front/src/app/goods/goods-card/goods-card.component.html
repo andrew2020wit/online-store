@@ -1,16 +1,14 @@
-<div (click)="go()" class="entity-card-whole">
-  <mat-card>
-    <img
-      mat-card-image
-      [src]="photoUrl"
-      alt="goods photo"
-      class="content-card-image"
-    />
-    <mat-card-content class="content-card-content">
-      <span *ngIf="price">
-        <strong style="font-size: large;"> ${{ price }} </strong></span
-      >
-      <strong> {{ name }} </strong>
-    </mat-card-content>
-  </mat-card>
-</div>
+<mat-card (click)="go()">
+  <img
+    mat-card-image
+    [src]="photoUrl"
+    alt="goods photo"
+    class="content-card-image"
+  />
+  <mat-card-content>
+    <span *ngIf="price">
+      <strong style="font-size: large;"> ${{ price }} </strong></span
+    >
+    <strong> {{ name }} </strong>
+  </mat-card-content>
+</mat-card>
