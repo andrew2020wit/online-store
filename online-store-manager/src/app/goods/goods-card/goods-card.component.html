@@ -10,7 +10,7 @@
     <mat-card-header>
       <mat-card-title> {{ name }} </mat-card-title>
       <span *ngIf="price">
-        Price: <strong style="font-size: large;"> ${{ price }} </strong></span
+        <app-price-span> {{ price }}</app-price-span></span
       >
     </mat-card-header>
     <img
