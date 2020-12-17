@@ -19,14 +19,14 @@ export class ArticleEntity {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 
-  @Column('varchar', { length: 128, nullable: false })
+  @Column('varchar', { length: 512, nullable: false })
   title?: string;
 
   @Column('varchar', { length: 128, nullable: true, default: 'article' })
   articleType?: ArticleTypes;
 
   @Column('varchar', {
-    length: 512,
+    length: 2000,
     nullable: false,
     default: '',
   })

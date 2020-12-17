@@ -6,6 +6,7 @@ import { StatusMessageDto } from 'src/global-interface/status-message.dto';
 import { UserEntity, UserRole } from 'src/user/user.entity';
 import { getConnection, Repository } from 'typeorm';
 import { UserService } from './../../user/user.service';
+import { lorem10, lorem200, lorem50 } from './lorem-test-const';
 
 @Injectable()
 export class InitTestDataService {
@@ -41,16 +42,12 @@ export class InitTestDataService {
       for (let m = 1; m <= 200; m++) {
         const newArt = new ArticleEntity();
         newArt.author = author;
-        newArt.title = 'News N' + m + ' from: ' + author.fullName;
+        newArt.title =
+          'News N' + m + ' ' + lorem50 + ' from: ' + author.fullName;
         newArt.articleType = ArticleTypes.news;
-        newArt.description =
-          'description N' +
-          m +
-          'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam, vel!';
-        newArt.text =
-          'text N' +
-          m +
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis fuga ducimus voluptate incidunt ad vel alias? Expedita voluptatem iste rerum numquam voluptas repudiandae neque repellendus, veniam natus quia error quod eaque deserunt officia. Unde fuga repellendus doloribus quasi, doloremque iusto.';
+        newArt.description = 'description N' + m + ' ' + lorem200;
+
+        newArt.text = 'text N' + m + ' ' + lorem200;
 
         await connection.manager.save(newArt);
       }
@@ -59,14 +56,8 @@ export class InitTestDataService {
         newArt.author = author;
         newArt.title = 'Review N' + m + ' from: ' + author.fullName;
         newArt.articleType = ArticleTypes.review;
-        newArt.description =
-          'description N' +
-          m +
-          'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam, vel!';
-        newArt.text =
-          'text N' +
-          m +
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis fuga ducimus voluptate incidunt ad vel alias? Expedita voluptatem iste rerum numquam voluptas repudiandae neque repellendus, veniam natus quia error quod eaque deserunt officia. Unde fuga repellendus doloribus quasi, doloremque iusto.';
+        newArt.description = 'description N' + m + ' ' + lorem10;
+        newArt.text = 'text N' + m + ' ' + lorem200;
 
         await connection.manager.save(newArt);
       }

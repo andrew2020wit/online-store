@@ -11,13 +11,13 @@ export class GoodsEntity {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 
-  @Column('varchar', { length: 128, nullable: false })
+  @Column('varchar', { length: 512, nullable: false })
   name: string;
 
-  @Column('varchar', { length: 128, nullable: false, default: '' })
+  @Column('varchar', { length: 512, nullable: false, default: '' })
   smallPhotoUrl?: string;
 
-  @Column('varchar', { length: 128, nullable: false, default: '' })
+  @Column('varchar', { length: 512, nullable: false, default: '' })
   bigPhotoUrl?: string;
 
   @Column({ nullable: true, default: null })
@@ -33,7 +33,7 @@ export class GoodsEntity {
   stockCount?: number;
 
   @Column('varchar', {
-    length: 512,
+    length: 2000,
     nullable: false,
     default: '',
   })
