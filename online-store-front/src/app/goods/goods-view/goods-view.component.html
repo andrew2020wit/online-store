@@ -8,8 +8,8 @@
   <img [src]="entity.bigPhotoUrl" style="float: left; margin: 0.5rem;" />
   <span *ngIf="entity.price">
     Price:
-    <strong style="font-size: large;"> ${{ entity.price }} </strong></span
-  >
+    <app-price-span>{{ entity.price }}</app-price-span>
+  </span>
 
   <div>{{ entity.description }}</div>
   <span>updated: {{ entity.updatedOn | utcToLocalTime | date: "short" }}</span>

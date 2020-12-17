@@ -7,8 +7,8 @@
   />
   <mat-card-content>
     <span *ngIf="price">
-      <strong style="font-size: large;"> ${{ price }} </strong></span
-    >
-    <strong> {{ name }} </strong>
+      <app-price-span>{{ price }}</app-price-span>
+      <strong> {{ name }} </strong>
+    </span>
   </mat-card-content>
 </mat-card>
