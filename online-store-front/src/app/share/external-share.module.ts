@@ -7,7 +7,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
 import { FormlyMatDatepickerModule } from '@ngx-formly/material/datepicker';
-import { UtcToLocalTimePipe } from '../utils/utc-to-localtime.pipe';
 
 const externalModules = [
   FormlyMaterialModule,
@@ -33,7 +32,7 @@ const externalModules = [
       ],
     }),
   ],
-  exports: [...externalModules, UtcToLocalTimePipe, FormlyModule],
-  declarations: [UtcToLocalTimePipe],
+  exports: [...externalModules, FormlyModule],
+  declarations: [],
 })
 export class ExternalShareModule {}
