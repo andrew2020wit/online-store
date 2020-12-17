@@ -19,13 +19,22 @@ export class GoodsCardComponent implements OnInit {
 
   photoUrl = baseApiUrl + smallNoPhotoUrlGlob;
 
+  shortTitle = '';
+  maxTitleLength = 20;
+
   constructor(private router: Router) {
     if (this.smallPhotoUrl !== '') {
       this.photoUrl = this.smallPhotoUrl;
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.name.length <= this.maxTitleLength) {
+      this.shortTitle = this.name;
+    } else {
+      this.shortTitle = this.name.slice(0, this.maxTitleLength) + '...';
+    }
+  }
 
   go() {
     this.router.navigate(['/goods-details-view', this.id]);
