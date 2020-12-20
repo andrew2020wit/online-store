@@ -4,7 +4,7 @@
   "description": "Nest-Angular TestProject",
   "author": "andrew2020wit",
   "private": true,
-  "license": "proprietary",
+  "license": "",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",

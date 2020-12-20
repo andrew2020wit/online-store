@@ -1,7 +1,7 @@
 {
   "name": "online-store-front",
   "author": "andrew2020wit",
-  "license": "proprietary",
+  "license": "",
   "version": "0.0.1",
   "scripts": {
     "ng": "ng",

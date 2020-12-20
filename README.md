@@ -1,6 +1,6 @@
 # OnlineStore, Angular/Nestjs application
 
-project in development...
+training project
 
 ## Components
 
@@ -32,8 +32,6 @@ create/edit
 3. edit price/goods
 
 ## "author": "andrew2020wit"
-
-## "license": "proprietary"
 
 ## Based on my "Blog"-project
 
